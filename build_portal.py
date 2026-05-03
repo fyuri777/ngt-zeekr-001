@@ -35,8 +35,8 @@ TAXONOMY = [
              "extras": [{"title": "Чеклист предпокупочного осмотра", "slug": "buying-used-checklist"}]},
             {"id": "1.5", "title": "Первый запуск и активация", "slug": None},
             {"id": "1.6", "title": "Мастер-аккаунт и Family Account", "slug": "master-account"},
-            {"id": "1.7", "title": "Китайский номер и eSIM (WeChat/eSender)", "slug": None},
-            {"id": "1.8", "title": "SIM-карта в машине (телематика)", "slug": None},
+            {"id": "1.7", "title": "Китайский номер и eSIM (WeChat/eSender)", "slug": "chinese-number"},
+            {"id": "1.8", "title": "SIM-карта в машине (телематика)", "slug": "car-sim"},
             {"id": "1.9", "title": "Ключи: NFC, телефон, физический", "slug": None},
         ],
     },
@@ -46,7 +46,7 @@ TAXONOMY = [
         "priority": "HIGH",
         "items": [
             {"id": "2.1", "title": "Типы зарядки и разъёмы (AC/DC, GBT, CCS2)", "slug": None},
-            {"id": "2.2", "title": "Зарядка дома — кабели, розетки, монтаж", "slug": None},
+            {"id": "2.2", "title": "Зарядка дома — кабели, розетки, монтаж", "slug": "home-charging"},
             {"id": "2.3", "title": "Публичные сети в России (Punkt E и др.)", "slug": None},
             {"id": "2.4", "title": "DC-зарядка — макс. скорость, дорест vs рест", "slug": None},
             {"id": "2.5", "title": "Зимняя зарядка — прогрев батареи, китайское время", "slug": None},
@@ -311,6 +311,7 @@ CATEGORY_TITLES = {
     "tires-wheels": "Шины и диски",
     "ownership-accounts": "Аккаунты и владение",
     "buying-guide": "Покупка",
+    "charging": "Зарядка",
 }
 
 # Map known article slugs → category names from topics.yaml
@@ -319,6 +320,9 @@ SLUG_CATEGORY = {
     "doors": "doors-access",
     "tire-pressure": "tires-wheels",
     "master-account": "ownership-accounts",
+    "chinese-number": "ownership-accounts",
+    "car-sim": "ownership-accounts",
+    "home-charging": "charging",
     "buying-used": "buying-guide",
     "buying-used-checklist": "buying-guide",
 }

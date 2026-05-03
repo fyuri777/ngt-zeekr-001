@@ -280,7 +280,7 @@ def gather_topic(conn: sqlite3.Connection, slug: str, spec: dict) -> dict:
         129585 «Шины и диски») are narrow enough that we accept ALL their messages.
       - Length filter: 40 <= len(text) <= 2000 (drops "ок", "спс", and link spam).
     """
-    BROAD_TOPIC_IDS = {129577, 489048, 730610, 129581}
+    BROAD_TOPIC_IDS = {129577, 489048, 730610, 129581, 180635}
 
     topic_ids: list[int] = list(spec["topic_ids"])
     keywords: list[str] = list(spec["keywords"])
@@ -559,81 +559,70 @@ def _extract_parallel(
     cache_dir: Path,
     slug: str,
 ) -> tuple[bool, str]:
-    """Run pending extract batches via `claude-batch batch` (parallel mode).
+    """Run pending extract batches in parallel via ThreadPoolExecutor.
 
-    `pending` is a list of (idx, prompt) tuples for batches that need processing
-    (not cache-hits). Writes per-batch JSON into cache_dir / 02_batches /
-    <idx:03d>.json. Returns (success, error_message). On failure the caller
-    should fall back to the sequential loop.
+    Each worker invokes `claude-batch -p ...` in drop-in mode (which is
+    reliable, unlike the `claude-batch batch` mode that flakes on the
+    token-lifetime gate when run on multi-prompt fan-outs). Writes per-batch
+    JSON into cache_dir / 02_batches / <idx:03d>.json.
+
+    Returns (success, error_message). On failure the caller should fall
+    back to the sequential loop.
     """
-    import shutil
+    import concurrent.futures
     import subprocess
 
     if not pending:
         return True, ""
 
-    prompts_dir = cache_dir / "02_prompts"
-    output_dir = cache_dir / "02_results"
-    # Wipe stale prompts / results so claude-batch's idempotent skip doesn't
-    # confuse stale runs with the current one.
-    if prompts_dir.exists():
-        shutil.rmtree(prompts_dir)
-    if output_dir.exists():
-        shutil.rmtree(output_dir)
-    prompts_dir.mkdir(parents=True, exist_ok=True)
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    for idx, prompt in pending:
-        (prompts_dir / f"{idx:03d}.txt").write_text(prompt, encoding="utf-8")
+    batches_dir = cache_dir / "02_batches"
+    batches_dir.mkdir(parents=True, exist_ok=True)
 
     env = os.environ.copy()
     env.pop("CLAUDECODE", None)
     env.pop("CLAUDE_CODE_ENTRYPOINT", None)
 
-    cmd = [
-        "claude-batch", "batch",
-        "-f", str(prompts_dir),
-        "-p", str(EXTRACT_PARALLEL),
-        "-m", "sonnet",
-        "-o", str(output_dir),
-    ]
-    print(f"  [extract] {slug}: launching claude-batch ({len(pending)} prompts, p={EXTRACT_PARALLEL})")
-    try:
-        result = subprocess.run(
-            cmd, env=env, capture_output=True, text=True,
-            timeout=60 * 60,  # 1h hard ceiling for the whole batch
-        )
-    except subprocess.TimeoutExpired as e:
-        return False, f"claude-batch timeout: {e}"
+    print(f"  [extract] {slug}: parallel pool size={EXTRACT_PARALLEL}, {len(pending)} batches")
 
-    if result.returncode != 0:
-        # Don't bail immediately — partial results may still be usable.
-        # We check per-prompt below.
-        print(f"  [warn] claude-batch returncode={result.returncode}, "
-              f"stderr={result.stderr[-300:]!r}")
+    def _one(idx: int, prompt: str) -> tuple[int, str | None]:
+        """Run one batch. Returns (idx, raw_output_or_None)."""
+        for attempt in range(3):
+            try:
+                r = subprocess.run(
+                    ["claude-batch", "-p", prompt, "--model", "sonnet"],
+                    env=env, capture_output=True, text=True, timeout=900,
+                )
+                if r.returncode == 0 and r.stdout.strip():
+                    return idx, r.stdout
+                err = f"rc={r.returncode}, stderr={r.stderr[:200]}"
+            except subprocess.TimeoutExpired as e:
+                err = f"timeout {e.timeout}s"
+            print(f"  [retry] extract batch {idx}: {err} (attempt {attempt + 1}/3)")
+            time.sleep(2 ** attempt)
+        return idx, None
 
-    batches_dir = cache_dir / "02_batches"
     missing: list[int] = []
-    for idx, _ in pending:
-        rfile = output_dir / f"result_{idx:03d}.json"
-        if not rfile.exists() or rfile.stat().st_size == 0:
-            missing.append(idx)
-            continue
-        raw = rfile.read_text(encoding="utf-8")
-        debug_path = batches_dir / f"{idx:03d}.raw.txt"
-        parsed = _extract_json(raw, debug_path)
-        if parsed is None:
-            parsed = {
-                "key_questions": [], "key_answers": [], "controversies": [],
-                "warnings": [], "specific_data": [],
-                "_parse_error": True,
-            }
-        (batches_dir / f"{idx:03d}.json").write_text(
-            json.dumps(parsed, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
+    with concurrent.futures.ThreadPoolExecutor(max_workers=EXTRACT_PARALLEL) as pool:
+        futures = [pool.submit(_one, idx, prompt) for idx, prompt in pending]
+        for fut in concurrent.futures.as_completed(futures):
+            idx, raw = fut.result()
+            if raw is None:
+                missing.append(idx)
+                continue
+            debug_path = batches_dir / f"{idx:03d}.raw.txt"
+            parsed = _extract_json(raw, debug_path)
+            if parsed is None:
+                parsed = {
+                    "key_questions": [], "key_answers": [], "controversies": [],
+                    "warnings": [], "specific_data": [],
+                    "_parse_error": True,
+                }
+            (batches_dir / f"{idx:03d}.json").write_text(
+                json.dumps(parsed, ensure_ascii=False, indent=2), encoding="utf-8"
+            )
 
     if missing:
-        return False, f"claude-batch missing {len(missing)}/{len(pending)} outputs: {missing[:5]}..."
+        return False, f"parallel extract missing {len(missing)}/{len(pending)}: {missing[:5]}..."
     return True, ""
 
 

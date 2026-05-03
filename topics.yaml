@@ -28,7 +28,7 @@ topics:
     ru_title: "Давление в шинах Zeekr 001"
     en_title: "Tire pressure for Zeekr 001"
     category: "tires-wheels"
-    topic_ids: [129577, 489048, 129585]
+    topic_ids: [129577, 489048, 129585, 180637]
     keywords: ["давлени", "TPMS", "ниппель", "колея", "колейн"]
     expected_themes:
       - "Correct pressure (dispel the 2.0 bar myth)"
@@ -41,7 +41,7 @@ topics:
     ru_title: "Мастер-аккаунт Zeekr 001 — что это, передача, ограничения"
     en_title: "Zeekr 001 Master Account — meaning, transfer, limitations"
     category: "ownership-accounts"
-    topic_ids: [129577, 489048, 129581, 730610]
+    topic_ids: [129577, 489048, 129581, 730610, 180635]
     keywords: ["мастер", "master", "esender", "есендер", "wechat", "вичат", "ма-аккаунт", "ма аккаунт", "мастераккаунт"]
     expected_themes:
       - "What MA/FA is technically (eSender + WeChat + RU SIM binding)"
@@ -52,11 +52,54 @@ topics:
       - "What to demand from seller when buying (eSender, WeChat, RU SIM ownership)"
     min_messages: 50
 
+  chinese-number:
+    ru_title: "Китайский номер и eSIM (WeChat / eSender)"
+    en_title: "Chinese phone number and eSIM"
+    category: "ownership-accounts"
+    topic_ids: [129577, 489048, 249392, 129581, 730610, 180635]
+    keywords: ["esender", "есендер", "китайский номер", "wechat", "вичат", "виртуальн номер", "виртуального номер", "+86", "esim", "е-сим"]
+    expected_themes:
+      - "Why a Chinese number is needed (MA binding, WeChat, OTA)"
+      - "eSender service — how to buy, monthly cost, renewal"
+      - "WeChat ownership: account binding, FaceID, verification"
+      - "Risks: number expiration, SMS code loss, WeChat blocks"
+      - "Alternatives: physical Chinese SIM, partner numbers, eSIM"
+    min_messages: 30
+
+  car-sim:
+    ru_title: "SIM-карта в машине (телематика)"
+    en_title: "Car SIM (telematics)"
+    category: "ownership-accounts"
+    topic_ids: [129577, 489048, 129581, 730610, 180635]
+    keywords: ["сим в маш", "симка в маш", "телематик", "потер связь", "потеря связи", "связь с серверам", "потерял сервер", "sos кнопк", "sos-кнопк", "кнопка sos", "симкарт", "sim в маш"]
+    expected_themes:
+      - "Where the car SIM lives, what carrier"
+      - "When/why server connection drops, how to restore"
+      - "Replacing the car SIM — risks of permanent loss"
+      - "SOS button reboot procedure (15 sec hold)"
+      - "Owner-installed SIM vs factory eSIM"
+    min_messages: 30
+
+  home-charging:
+    ru_title: "Домашняя зарядка — кабели, розетки, монтаж"
+    en_title: "Home charging — cables, outlets, installation"
+    category: "charging"
+    topic_ids: [129577, 489048, 129587]
+    keywords: ["домашн зарядк", "зарядк дома", "розетк", "шуко", "schuko", "автомат", "дифавтомат", "ноль", "заземл", "монтаж зарядк", "квартир зарядк", "паркинг", "сечение кабеля", "вилк cee", "промышленн розетк"]
+    expected_themes:
+      - "Cable cross-section requirements (1.5/2.5/4 mm² for what current)"
+      - "Outlet types: Schuko (16A), CEE (32A), industrial 3-phase"
+      - "Circuit breaker / RCD / RCBO sizing"
+      - "Building / parking lot permissions and costs"
+      - "Single vs three-phase port (and 20% charger loss)"
+      - "Original Zeekr granny cable vs aftermarket"
+    min_messages: 30
+
   buying-used:
     ru_title: "Покупка б/у Zeekr 001 — что проверять"
     en_title: "Buying a used Zeekr 001 — inspection checklist"
     category: "buying-guide"
-    topic_ids: [129577, 489048, 129593]
+    topic_ids: [129577, 489048, 129593, 180656]
     keywords: ["б/у", "с пробегом", "вторичк", "перепрод", "чек-лист", "чеклист"]
     expected_themes:
       - "Pre-inspection checklist (body, paint, panorama, doors, lights)"
