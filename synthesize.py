@@ -26,7 +26,13 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from prompts import COMPOSE_PROMPT, EXTRACT_PROMPT, MERGE_PROMPT
+from prompts import (
+    COMPOSE_PROMPT,
+    EXTRACT_PROMPT_PREFIX,
+    EXTRACT_PROMPT_SUFFIX_TEMPLATE,
+    MERGE_PROMPT_PREFIX,
+    MERGE_PROMPT_SUFFIX_TEMPLATE,
+)
 
 # -----------------------------------------------------------------------------
 # Paths and constants
@@ -59,8 +65,14 @@ PRICING = {
 }
 
 # Batch size in raw text characters. ~4 chars/token for Cyrillic on average,
-# so 25k chars ~= 6-8k input tokens — comfortably cheap and fast.
-BATCH_CHAR_BUDGET = 25_000
+# so 50k chars ~= 12-16k input tokens — Sonnet 4.6 has 1M context window, so
+# this is comfortably safe and roughly halves the batch count vs the old 25k.
+BATCH_CHAR_BUDGET = 50_000
+
+# Parallel concurrency for claude-batch native batch mode (extract stage only).
+# Empirically 5 keeps tmux/token pressure tame; raising it usually triggers
+# the claude-batch token-margin warnings and timeouts.
+EXTRACT_PARALLEL = 5
 
 RU_MONTHS = {
     1: "январь", 2: "февраль", 3: "март", 4: "апрель", 5: "май", 6: "июнь",
@@ -398,6 +410,17 @@ class CallStats:
     calls: int = 0
 
 
+@dataclass
+class TimingStats:
+    """Per-stage wall-clock for a single topic run. All values in seconds."""
+    gather: float = 0.0
+    extract: float = 0.0
+    extract_batches: int = 0   # batches actually processed (not cache-hits)
+    merge: float = 0.0
+    compose: float = 0.0
+    total: float = 0.0
+
+
 def _read_api_key() -> str:
     if not OPENROUTER_KEY_PATH.exists():
         sys.exit(f"OpenRouter key not found at {OPENROUTER_KEY_PATH}")
@@ -520,6 +543,100 @@ def _extract_json(raw: str, debug_path: Path) -> dict | None:
     return None
 
 
+def _build_extract_prompt(spec: dict, batch: list[dict]) -> str:
+    """PREFIX is identical across calls (cache-hit eligible). Only SUFFIX varies."""
+    suffix = EXTRACT_PROMPT_SUFFIX_TEMPLATE.format(
+        ru_title=spec["ru_title"],
+        expected_themes="\n".join(f"- {t}" for t in spec["expected_themes"]),
+        keywords=", ".join(spec["keywords"]),
+        batch_text=_format_batch_text(batch),
+    )
+    return EXTRACT_PROMPT_PREFIX + suffix
+
+
+def _extract_parallel(
+    pending: list[tuple[int, str]],
+    cache_dir: Path,
+    slug: str,
+) -> tuple[bool, str]:
+    """Run pending extract batches via `claude-batch batch` (parallel mode).
+
+    `pending` is a list of (idx, prompt) tuples for batches that need processing
+    (not cache-hits). Writes per-batch JSON into cache_dir / 02_batches /
+    <idx:03d>.json. Returns (success, error_message). On failure the caller
+    should fall back to the sequential loop.
+    """
+    import shutil
+    import subprocess
+
+    if not pending:
+        return True, ""
+
+    prompts_dir = cache_dir / "02_prompts"
+    output_dir = cache_dir / "02_results"
+    # Wipe stale prompts / results so claude-batch's idempotent skip doesn't
+    # confuse stale runs with the current one.
+    if prompts_dir.exists():
+        shutil.rmtree(prompts_dir)
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    prompts_dir.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    for idx, prompt in pending:
+        (prompts_dir / f"{idx:03d}.txt").write_text(prompt, encoding="utf-8")
+
+    env = os.environ.copy()
+    env.pop("CLAUDECODE", None)
+    env.pop("CLAUDE_CODE_ENTRYPOINT", None)
+
+    cmd = [
+        "claude-batch", "batch",
+        "-f", str(prompts_dir),
+        "-p", str(EXTRACT_PARALLEL),
+        "-m", "sonnet",
+        "-o", str(output_dir),
+    ]
+    print(f"  [extract] {slug}: launching claude-batch ({len(pending)} prompts, p={EXTRACT_PARALLEL})")
+    try:
+        result = subprocess.run(
+            cmd, env=env, capture_output=True, text=True,
+            timeout=60 * 60,  # 1h hard ceiling for the whole batch
+        )
+    except subprocess.TimeoutExpired as e:
+        return False, f"claude-batch timeout: {e}"
+
+    if result.returncode != 0:
+        # Don't bail immediately — partial results may still be usable.
+        # We check per-prompt below.
+        print(f"  [warn] claude-batch returncode={result.returncode}, "
+              f"stderr={result.stderr[-300:]!r}")
+
+    batches_dir = cache_dir / "02_batches"
+    missing: list[int] = []
+    for idx, _ in pending:
+        rfile = output_dir / f"result_{idx:03d}.json"
+        if not rfile.exists() or rfile.stat().st_size == 0:
+            missing.append(idx)
+            continue
+        raw = rfile.read_text(encoding="utf-8")
+        debug_path = batches_dir / f"{idx:03d}.raw.txt"
+        parsed = _extract_json(raw, debug_path)
+        if parsed is None:
+            parsed = {
+                "key_questions": [], "key_answers": [], "controversies": [],
+                "warnings": [], "specific_data": [],
+                "_parse_error": True,
+            }
+        (batches_dir / f"{idx:03d}.json").write_text(
+            json.dumps(parsed, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+
+    if missing:
+        return False, f"claude-batch missing {len(missing)}/{len(pending)} outputs: {missing[:5]}..."
+    return True, ""
+
+
 def stage_extract(
     slug: str,
     spec: dict,
@@ -527,52 +644,80 @@ def stage_extract(
     cache_dir: Path,
     stats: CallStats,
     rebuild: bool,
-) -> dict:
+) -> tuple[dict, int]:
+    """Run EXTRACT stage. Returns (aggregate, batches_processed_this_run).
+
+    batches_processed_this_run excludes cache-hits and is used to compute the
+    avg-seconds-per-batch metric in the per-stage timing line.
+    """
     batches_dir = cache_dir / "02_batches"
     batches_dir.mkdir(parents=True, exist_ok=True)
 
     batches = _build_batches(gather["threads"], BATCH_CHAR_BUDGET)
-    print(f"  [extract] {slug}: {len(batches)} batches")
+    print(f"  [extract] {slug}: {len(batches)} batches (char_budget={BATCH_CHAR_BUDGET})")
 
-    extract_results: list[dict] = []
+    # Identify which batches need fresh runs (preserve cache-skip behaviour).
+    pending: list[tuple[int, str]] = []
     for idx, batch in enumerate(batches):
         cache_path = batches_dir / f"{idx:03d}.json"
         if cache_path.exists() and not rebuild:
-            print(f"  [cached] extract batch {idx}")
-            extract_results.append(json.loads(cache_path.read_text(encoding="utf-8")))
             continue
+        prompt = _build_extract_prompt(spec, batch)
+        pending.append((idx, prompt))
 
-        batch_text = _format_batch_text(batch)
-        prompt = EXTRACT_PROMPT.format(
-            ru_title=spec["ru_title"],
-            expected_themes="\n".join(f"- {t}" for t in spec["expected_themes"]),
-            keywords=", ".join(spec["keywords"]),
-            batch_text=batch_text,
-        )
-        raw = openrouter_call(
-            prompt,
-            response_format_json=True,
-            max_tokens=4096,
-            stats=stats,
-            label=f"extract:{slug}:{idx}",
-        )
-        debug_path = batches_dir / f"{idx:03d}.raw.txt"
-        parsed = _extract_json(raw, debug_path)
-        if parsed is None:
-            # Save an empty stub so we don't loop forever; user can rerun with --rebuild
-            parsed = {
+    n_processed = len(pending)
+    cache_hits = len(batches) - n_processed
+    if cache_hits:
+        print(f"  [extract] {slug}: {cache_hits} cache-hit, {n_processed} to process")
+
+    if pending:
+        ok, err = _extract_parallel(pending, cache_dir, slug)
+        if not ok:
+            print(f"  [warn] parallel extract failed: {err}")
+            print(f"  [warn] falling back to sequential claude_call loop")
+            for idx, prompt in pending:
+                cache_path = batches_dir / f"{idx:03d}.json"
+                if cache_path.exists():  # parallel run produced this one already
+                    continue
+                raw = openrouter_call(
+                    prompt,
+                    response_format_json=True,
+                    max_tokens=4096,
+                    stats=stats,
+                    label=f"extract:{slug}:{idx}",
+                )
+                debug_path = batches_dir / f"{idx:03d}.raw.txt"
+                parsed = _extract_json(raw, debug_path)
+                if parsed is None:
+                    parsed = {
+                        "key_questions": [], "key_answers": [], "controversies": [],
+                        "warnings": [], "specific_data": [],
+                        "_parse_error": True,
+                    }
+                cache_path.write_text(
+                    json.dumps(parsed, ensure_ascii=False, indent=2),
+                    encoding="utf-8",
+                )
+
+    # Read all per-batch JSON back in order to build the aggregate.
+    extract_results: list[dict] = []
+    for idx in range(len(batches)):
+        cp = batches_dir / f"{idx:03d}.json"
+        if cp.exists():
+            extract_results.append(json.loads(cp.read_text(encoding="utf-8")))
+        else:
+            # Last-resort stub so downstream stages don't crash.
+            extract_results.append({
                 "key_questions": [], "key_answers": [], "controversies": [],
                 "warnings": [], "specific_data": [],
-                "_parse_error": True,
-            }
-        cache_path.write_text(json.dumps(parsed, ensure_ascii=False, indent=2), encoding="utf-8")
-        extract_results.append(parsed)
+                "_parse_error": True, "_missing": True,
+            })
 
     aggregate = {"batches": extract_results, "n_batches": len(batches)}
     (cache_dir / "02_extract.json").write_text(
         json.dumps(aggregate, ensure_ascii=False, indent=2), encoding="utf-8"
     )
-    return aggregate
+    return aggregate, n_processed
 
 
 # -----------------------------------------------------------------------------
@@ -592,11 +737,12 @@ def stage_merge(
         print(f"  [cached] merge {slug}")
         return json.loads(out_path.read_text(encoding="utf-8"))
 
-    prompt = MERGE_PROMPT.format(
+    suffix = MERGE_PROMPT_SUFFIX_TEMPLATE.format(
         ru_title=spec["ru_title"],
         expected_themes="\n".join(f"- {t}" for t in spec["expected_themes"]),
         batches_json=json.dumps(extract["batches"], ensure_ascii=False),
     )
+    prompt = MERGE_PROMPT_PREFIX + suffix
     raw = openrouter_call(
         prompt,
         response_format_json=True,
@@ -727,6 +873,7 @@ class TopicReport:
     cost_usd: float = 0.0
     words: int = 0
     skipped_reason: str | None = None
+    timing: TimingStats = field(default_factory=TimingStats)
 
 
 def run_topic(slug: str, spec: dict, rebuild: bool) -> TopicReport:
@@ -736,8 +883,12 @@ def run_topic(slug: str, spec: dict, rebuild: bool) -> TopicReport:
 
     stats = CallStats()
     report = TopicReport(slug=slug)
+    timing = report.timing
+
+    t_topic_start = time.monotonic()
 
     # Stage 1: GATHER
+    t0 = time.monotonic()
     gather_path = cache_dir / "01_gather.json"
     if gather_path.exists() and not rebuild:
         print(f"  [cached] gather {slug}")
@@ -746,6 +897,8 @@ def run_topic(slug: str, spec: dict, rebuild: bool) -> TopicReport:
         with open_db_ro(DB_PATH) as conn:
             gather = gather_topic(conn, slug, spec)
         gather_path.write_text(json.dumps(gather, ensure_ascii=False, indent=2), encoding="utf-8")
+    timing.gather = time.monotonic() - t0
+    print(f"  [gather]    {slug}: {timing.gather:.1f}s")
 
     g_stats = gather["stats"]
     report.messages = g_stats["total_messages"]
@@ -755,17 +908,36 @@ def run_topic(slug: str, spec: dict, rebuild: bool) -> TopicReport:
         msg = f"only {g_stats['total_messages']} messages (< min_messages={spec.get('min_messages')})"
         print(f"  [skip] {slug}: {msg}")
         report.skipped_reason = msg
+        timing.total = time.monotonic() - t_topic_start
         return report
 
     # Stage 2: EXTRACT
-    extract = stage_extract(slug, spec, gather, cache_dir, stats, rebuild)
+    t0 = time.monotonic()
+    extract, n_processed = stage_extract(slug, spec, gather, cache_dir, stats, rebuild)
+    timing.extract = time.monotonic() - t0
+    timing.extract_batches = n_processed
     report.batches = extract["n_batches"]
+    if n_processed:
+        avg = timing.extract / n_processed
+        print(f"  [extract]   {slug}: {n_processed} batches in {timing.extract:.1f}s "
+              f"(avg {avg:.1f}s/batch)")
+    else:
+        print(f"  [extract]   {slug}: {timing.extract:.1f}s (all cache-hits)")
 
     # Stage 3: MERGE
+    t0 = time.monotonic()
     merged = stage_merge(slug, spec, extract, cache_dir, stats, rebuild)
+    timing.merge = time.monotonic() - t0
+    print(f"  [merge]     {slug}: {timing.merge:.1f}s")
 
     # Stage 4: COMPOSE
+    t0 = time.monotonic()
     md = stage_compose(slug, spec, gather, merged, cache_dir, stats, rebuild)
+    timing.compose = time.monotonic() - t0
+    print(f"  [compose]   {slug}: {timing.compose:.1f}s")
+
+    timing.total = time.monotonic() - t_topic_start
+    print(f"  [total]     {slug}: {timing.total:.1f}s")
 
     report.cost_usd = stats.cost_usd
     report.words = len(md.split())
@@ -779,18 +951,29 @@ def run_topic(slug: str, spec: dict, rebuild: bool) -> TopicReport:
 
 def print_report(reports: list[TopicReport], wall_seconds: float):
     print("\n=== SUMMARY ===")
-    header = f"{'Topic':<20}{'Messages':>10}{'Threads':>10}{'Batches':>10}{'Cost($)':>10}{'Words':>10}"
+    header = (
+        f"{'Topic':<20}{'Messages':>10}{'Threads':>10}{'Batches':>10}"
+        f"{'Cost($)':>10}{'Words':>10}{'Time(s)':>10}"
+    )
     print(header)
     print("-" * len(header))
     total_cost = 0.0
+    total_time = 0.0
     for r in reports:
         if r.skipped_reason:
             print(f"{r.slug:<20}{'SKIPPED':>10}{r.skipped_reason}")
             continue
-        print(f"{r.slug:<20}{r.messages:>10}{r.threads:>10}{r.batches:>10}{r.cost_usd:>10.3f}{r.words:>10}")
+        print(
+            f"{r.slug:<20}{r.messages:>10}{r.threads:>10}{r.batches:>10}"
+            f"{r.cost_usd:>10.3f}{r.words:>10}{r.timing.total:>10.1f}"
+        )
         total_cost += r.cost_usd
+        total_time += r.timing.total
     print("-" * len(header))
-    print(f"{'TOTAL':<20}{'':>10}{'':>10}{'':>10}{total_cost:>10.3f}")
+    print(
+        f"{'TOTAL':<20}{'':>10}{'':>10}{'':>10}"
+        f"{total_cost:>10.3f}{'':>10}{total_time:>10.1f}"
+    )
     print(f"\nWall-clock: {wall_seconds:.1f}s")
 
 
