@@ -52,6 +52,57 @@ portal/<slug>.html + portal/index.html
 
 Cost: $0.00 (claude-batch uses Claude Code subscription).
 
+## Performance — after speedup v2 (2026-05-03)
+
+Implemented:
+- `claude_call()` now takes a `model=` keyword (default `sonnet`). The
+  internal extract loop reads `EXTRACT_MODEL` so we can swap Haiku/Sonnet
+  without further surgery.
+- `stage_merge` is bypassed for topics with `n_batches <= 3` and replaced
+  by `_python_merge()` (concat + first-100-char dedup, anchor heuristic).
+  Saves an LLM merge call (≈80–150s) on small topics. None of the
+  currently published 9 articles hit this path; expect savings on future
+  thin topics.
+- `claude-batch -p ... --output-format json` verified to return
+  `usage.cache_read_input_tokens` and `cache_creation_input_tokens` —
+  caching observability is achievable. Not wired into the pipeline yet
+  (see "future").
+
+A/B test verdict — Haiku for extract: **REVERTED**.
+
+| Topic | Sonnet facts | Haiku facts | Ratio | Parse errors | Parts lost |
+|---|---|---|---|---|---|
+| antifreeze | 222 | 94 | 0.42 | 3/7 batches | 3 (8891307621, 8896691417, 6608340523) |
+| doors | 447 | 164 | 0.37 | 6/12 batches | 0 |
+| tire-pressure | 86 | 131 | 1.52 | 0/5 batches | 0 |
+
+Failure mode: Haiku 4.5 frequently emits structurally invalid JSON on the
+RU extract prompt (closes objects with `]`, unescaped quotes inside
+strings). 3/7 → 6/12 parse errors discard whole batches of findings.
+Critical part numbers explicitly listed in the speedup brief
+(`8891307621`, `8896691417`) were lost on antifreeze. `EXTRACT_MODEL`
+left at `sonnet`.
+
+Validation rebuild on tire-pressure (Sonnet, with skip-merge code in
+place but n_batches=5 so still LLM merge):
+`297.4s wall-clock` (gather 49s, extract 52s, merge 100s, compose 96s).
+Article preserves both critical TPMS part numbers and the H2 sections
+"Спорные моменты" / "Предупреждения".
+
+### Future (not implemented)
+
+- **Anthropic API for explicit caching** (Step 5 in the brief). Would need
+  ~$5–10 for the remaining 40 articles via Batch API + cache_control on
+  the EXTRACT_PROMPT_PREFIX. User previously declined paid API; revisit if
+  Sonnet subscription throughput becomes a blocker.
+- **Cache hit rate logging.** `--output-format json` works through
+  claude-batch (verified — returns `cache_read_input_tokens`). Plumbing
+  it into `claude_call()` requires changing the response parser to read
+  `.result` from the JSON envelope; deferred since it's pure observability
+  with no current decision riding on it.
+- **Better extract model.** Sonnet 4.7 (not yet on subscription path) may
+  match Sonnet 4.6 quality at lower latency; rerun the A/B when available.
+
 ## Known limitations
 
 1. **Extract stage sequential** — biggest speedup target.

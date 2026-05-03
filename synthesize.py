@@ -434,8 +434,9 @@ def claude_call(
     max_tokens: int,             # noqa: ARG001  (kept for signature compat)
     stats: CallStats,
     label: str,
+    model: str = "sonnet",
 ) -> str:
-    """Call Claude Sonnet 4.6 via claude-batch (Claude Code session, no API cost).
+    """Call Claude via claude-batch (Claude Code session, no API cost).
 
     claude-batch wraps `claude -p` in a tmux-isolated session. We must unset
     CLAUDECODE / CLAUDE_CODE_ENTRYPOINT so the inner `claude` does not refuse
@@ -451,7 +452,7 @@ def claude_call(
     for attempt in range(3):
         try:
             result = subprocess.run(
-                ["claude-batch", "-p", prompt, "--model", "sonnet"],
+                ["claude-batch", "-p", prompt, "--model", model],
                 env=env,
                 capture_output=True,
                 text=True,
@@ -459,7 +460,7 @@ def claude_call(
             )
             if result.returncode == 0 and result.stdout.strip():
                 stats.calls += 1
-                stats.model_used = "claude-sonnet-4.6"
+                stats.model_used = f"claude-{model}"
                 return result.stdout
             last_err = f"rc={result.returncode}, stderr={result.stderr[:300]}"
             print(f"  [retry] {label}: {last_err} (attempt {attempt+1}/3)")
@@ -554,10 +555,21 @@ def _build_extract_prompt(spec: dict, batch: list[dict]) -> str:
     return EXTRACT_PROMPT_PREFIX + suffix
 
 
+# Extract stage model. Empirically Haiku 4.5 produces structurally
+# invalid JSON ~50% of the time on Russian-language extract prompts (closes
+# objects with `]`, drops trailing braces); A/B on antifreeze/doors/
+# tire-pressure showed 37-42% facts retained vs Sonnet baseline and lost
+# critical part numbers like 8891307621/8896691417 from antifreeze. Reverted
+# to sonnet 2026-05-03. Keep `model` parameter exposed in claude_call() for
+# future experiments (e.g. Sonnet 4.7, prompt-tuned Haiku).
+EXTRACT_MODEL = "sonnet"
+
+
 def _extract_parallel(
     pending: list[tuple[int, str]],
     cache_dir: Path,
     slug: str,
+    model: str = EXTRACT_MODEL,
 ) -> tuple[bool, str]:
     """Run pending extract batches in parallel via ThreadPoolExecutor.
 
@@ -582,14 +594,14 @@ def _extract_parallel(
     env.pop("CLAUDECODE", None)
     env.pop("CLAUDE_CODE_ENTRYPOINT", None)
 
-    print(f"  [extract] {slug}: parallel pool size={EXTRACT_PARALLEL}, {len(pending)} batches")
+    print(f"  [extract] {slug}: parallel pool size={EXTRACT_PARALLEL}, {len(pending)} batches, model={model}")
 
     def _one(idx: int, prompt: str) -> tuple[int, str | None]:
         """Run one batch. Returns (idx, raw_output_or_None)."""
         for attempt in range(3):
             try:
                 r = subprocess.run(
-                    ["claude-batch", "-p", prompt, "--model", "sonnet"],
+                    ["claude-batch", "-p", prompt, "--model", model],
                     env=env, capture_output=True, text=True, timeout=900,
                 )
                 if r.returncode == 0 and r.stdout.strip():
@@ -674,6 +686,7 @@ def stage_extract(
                     max_tokens=4096,
                     stats=stats,
                     label=f"extract:{slug}:{idx}",
+                    model=EXTRACT_MODEL,
                 )
                 debug_path = batches_dir / f"{idx:03d}.raw.txt"
                 parsed = _extract_json(raw, debug_path)
@@ -712,6 +725,62 @@ def stage_extract(
 # -----------------------------------------------------------------------------
 # Stage 3: MERGE
 # -----------------------------------------------------------------------------
+
+def _python_merge(extract: dict, gather: dict) -> dict:
+    """Concatenate per-batch extract findings without an LLM call.
+
+    Used when n_batches <= 3 — at that scale a Sonnet merge call is overkill,
+    typically saves 80-150s wall-clock. Dedup is intentionally simple: we
+    fold by the first 100 chars (case-folded, whitespace-collapsed) of the
+    item's primary text field so near-duplicates collapse but distinct facts
+    survive. The downstream COMPOSE prompt is robust to mild redundancy.
+    """
+    keys = ("key_questions", "key_answers", "controversies", "warnings", "specific_data")
+    merged: dict[str, list] = {k: [] for k in keys}
+    seen: dict[str, set[str]] = {k: set() for k in keys}
+
+    def _fingerprint(item: Any) -> str:
+        if isinstance(item, dict):
+            for field_name in ("question", "answer", "topic", "warning", "fact", "text", "title"):
+                v = item.get(field_name)
+                if isinstance(v, str) and v.strip():
+                    s = v
+                    break
+            else:
+                s = json.dumps(item, ensure_ascii=False, sort_keys=True)
+        else:
+            s = str(item)
+        s = " ".join(s.split()).casefold()[:100]
+        return s
+
+    for b in extract["batches"]:
+        for k in keys:
+            for item in b.get(k) or []:
+                fp = _fingerprint(item)
+                if fp in seen[k]:
+                    continue
+                seen[k].add(fp)
+                merged[k].append(item)
+
+    # Pick anchor: prefer first key_answer with anchor_msg_ids, else first thread message.
+    anchor = None
+    for ans in merged["key_answers"]:
+        if isinstance(ans, dict):
+            anchors = ans.get("anchor_msg_ids") or []
+            if anchors and isinstance(anchors[0], dict):
+                a = anchors[0]
+                if a.get("id") and a.get("channel"):
+                    anchor = {"msg_id": a["id"], "channel": a["channel"]}
+                    break
+    if anchor is None and gather["threads"]:
+        first_msgs = gather["threads"][0]["messages"]
+        if first_msgs:
+            anchor = {"msg_id": first_msgs[0]["id"], "channel": first_msgs[0]["channel_name"]}
+
+    merged["best_anchor"] = anchor
+    merged["_python_merge"] = True
+    return merged
+
 
 def stage_merge(
     slug: str,
@@ -913,11 +982,25 @@ def run_topic(slug: str, spec: dict, rebuild: bool) -> TopicReport:
     else:
         print(f"  [extract]   {slug}: {timing.extract:.1f}s (all cache-hits)")
 
-    # Stage 3: MERGE
+    # Stage 3: MERGE — skip LLM merge for small N (≤3 batches), use python-side concat.
     t0 = time.monotonic()
-    merged = stage_merge(slug, spec, extract, cache_dir, stats, rebuild)
-    timing.merge = time.monotonic() - t0
-    print(f"  [merge]     {slug}: {timing.merge:.1f}s")
+    merged_path = cache_dir / "03_merged.json"
+    n_batches = extract["n_batches"]
+    if n_batches <= 3 and (rebuild or not merged_path.exists()):
+        merged = _python_merge(extract, gather)
+        merged_path.write_text(
+            json.dumps(merged, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        timing.merge = time.monotonic() - t0
+        print(f"  [merge]     {slug}: {timing.merge:.1f}s (python-merge, n_batches={n_batches})")
+    elif n_batches <= 3 and merged_path.exists():
+        merged = json.loads(merged_path.read_text(encoding="utf-8"))
+        timing.merge = time.monotonic() - t0
+        print(f"  [merge]     {slug}: cached")
+    else:
+        merged = stage_merge(slug, spec, extract, cache_dir, stats, rebuild)
+        timing.merge = time.monotonic() - t0
+        print(f"  [merge]     {slug}: {timing.merge:.1f}s")
 
     # Stage 4: COMPOSE
     t0 = time.monotonic()
