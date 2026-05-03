@@ -135,7 +135,7 @@ COMPOSE_PROMPT = """Ты пишешь статью на русском для п
 
 ТРЕБОВАНИЯ К СТАТЬЕ:
 - Язык: русский.
-- Длина: 1200-2000 слов. Короткие абзацы — 2-4 предложения. Без воды.
+- Длина: 1500-2500 слов. Короткие абзацы — 2-4 предложения. Сохраняй конкретику: артикулы запчастей, цены, модели, версии прошивок — это ценность статьи.
 - Структура: 5-8 H2-секций (включая «Спорные моменты» и «Предупреждения», если они есть).
 - Data-first: конкретные числа, диапазоны, модели, цены, литражи. Никакой воды и общих фраз.
 - НЕ цитируй сообщения дословно. Синтезируй.
@@ -180,5 +180,5 @@ COMPOSE_PROMPT = """Ты пишешь статью на русском для п
 *Якорный пост: [t.me/{anchor_channel}/{anchor_msg_id}](https://t.me/{anchor_channel}/{anchor_msg_id})*
 
 ЖЁСТКИЕ ПРАВИЛА (повторяю для модели):
-Do NOT quote messages verbatim. Synthesize. Use specific numbers and ranges. Frame controversies as two camps. Use Russian throughout the article. Article length: 1200-2000 words. Short paragraphs (2-4 sentences). 5-8 H2 sections.
+Do NOT quote messages verbatim. Synthesize. PRESERVE specific facts: part numbers, prices, model names, firmware versions, exact temperatures/pressures — these are the article's value. Frame controversies as two camps. Use Russian throughout the article. Article length: 1500-2500 words. Short paragraphs (2-4 sentences). 5-8 H2 sections.
 """
