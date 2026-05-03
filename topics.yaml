@@ -1,0 +1,70 @@
+topics:
+  antifreeze:
+    ru_title: "Антифриз и охлаждение ВВБ"
+    en_title: "Coolant and HV battery cooling"
+    category: "battery-health"
+    topic_ids: [129577, 489048, 129579]
+    keywords: ["антифриз", "охлаждайк", "охлаждающ", "OAT", "G12", "диэлектрическ", "тосол", "контур охлажд"]
+    expected_themes:
+      - "Factory blue coolant controversy (corrosion risk)"
+      - "Replacement options (dielectric vs OAT vs G12)"
+      - "When/whether to replace"
+    min_messages: 30
+
+  doors:
+    ru_title: "Электронные двери и ручки Zeekr 001"
+    en_title: "Flush doors and electronic handles"
+    category: "doors-access"
+    topic_ids: [129577, 489048]
+    keywords: ["двер", "замок", "ручк", "замерз", "микровыключ", "приоткрыв", "не открыва"]
+    expected_themes:
+      - "Door malfunctions (partial open, not opening)"
+      - "Frozen handles/locks in winter"
+      - "Emergency opening procedures"
+      - "Microswitch and sensor issues"
+    min_messages: 50
+
+  tire-pressure:
+    ru_title: "Давление в шинах Zeekr 001"
+    en_title: "Tire pressure for Zeekr 001"
+    category: "tires-wheels"
+    topic_ids: [129577, 489048, 129585]
+    keywords: ["давлени", "TPMS", "ниппель", "колея", "колейн"]
+    expected_themes:
+      - "Correct pressure (dispel the 2.0 bar myth)"
+      - "Summer vs winter pressure"
+      - "TPMS calibration"
+      - "Effect on tramlining (колейность)"
+    min_messages: 30
+
+  master-account:
+    ru_title: "Мастер-аккаунт Zeekr 001 — что это, передача, ограничения"
+    en_title: "Zeekr 001 Master Account — meaning, transfer, limitations"
+    category: "ownership-accounts"
+    topic_ids: [129577, 489048, 129581, 730610]
+    keywords: ["мастер", "master", "esender", "есендер", "wechat", "вичат", "ма-аккаунт", "ма аккаунт", "мастераккаунт"]
+    expected_themes:
+      - "What MA/FA is technically (eSender + WeChat + RU SIM binding)"
+      - "MA vs FA capabilities — what only MA can do, what FA covers"
+      - "Official MA transfer paths (Chinese-to-Chinese, in-China only)"
+      - "Grey transfer schemes in RF (cost, FaceID risk, ex-owner retains access)"
+      - "Living without MA — Pandora, FA-only, broken galleries"
+      - "What to demand from seller when buying (eSender, WeChat, RU SIM ownership)"
+    min_messages: 50
+
+  buying-used:
+    ru_title: "Покупка б/у Zeekr 001 — что проверять"
+    en_title: "Buying a used Zeekr 001 — inspection checklist"
+    category: "buying-guide"
+    topic_ids: [129577, 489048, 129593]
+    keywords: ["б/у", "с пробегом", "вторичк", "перепрод", "чек-лист", "чеклист"]
+    expected_themes:
+      - "Pre-inspection checklist (body, paint, panorama, doors, lights)"
+      - "Mandatory dealer-level diagnostics — all blocks online, error log review"
+      - "Battery (HV) health — SOH, deep-discharge test, antifreeze leakage red flag"
+      - "VIN and replaced-blocks verification (left blocks not flashable on used cars)"
+      - "Model year and restyling identification (24 vs 25 MY, doreststy vs restyle)"
+      - "Account/connectivity status — MA/FA, eSender owner, sim status, server link"
+      - "Common scams and pitfalls (cleared error codes, resold blocks, repainted panels)"
+      - "Software version negotiation (below 6.2 = discount lever)"
+    min_messages: 50
