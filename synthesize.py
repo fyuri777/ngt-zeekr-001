@@ -448,11 +448,24 @@ def claude_call(
     env.pop("CLAUDECODE", None)
     env.pop("CLAUDE_CODE_ENTRYPOINT", None)
 
+    # Use -pf (prompt-from-file) when prompt would blow past macOS ARG_MAX (~256KB).
+    # Threshold conservative: 100KB. Below that, plain -p is fine.
+    use_pf_file = None
+    if len(prompt) > 100_000:
+        import tempfile
+        fd, use_pf_file = tempfile.mkstemp(prefix="cb-prompt-", suffix=".txt")
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(prompt)
+
     last_err = ""
     for attempt in range(3):
         try:
+            if use_pf_file:
+                cmd = ["claude-batch", "-pf", use_pf_file, "--model", model]
+            else:
+                cmd = ["claude-batch", "-p", prompt, "--model", model]
             result = subprocess.run(
-                ["claude-batch", "-p", prompt, "--model", model],
+                cmd,
                 env=env,
                 capture_output=True,
                 text=True,
@@ -461,6 +474,9 @@ def claude_call(
             if result.returncode == 0 and result.stdout.strip():
                 stats.calls += 1
                 stats.model_used = f"claude-{model}"
+                if use_pf_file:
+                    try: os.unlink(use_pf_file)
+                    except OSError: pass
                 return result.stdout
             last_err = f"rc={result.returncode}, stderr={result.stderr[:300]}"
             print(f"  [retry] {label}: {last_err} (attempt {attempt+1}/3)")
@@ -470,6 +486,9 @@ def claude_call(
             print(f"  [retry] {label}: {last_err}")
             time.sleep(2 ** attempt)
 
+    if use_pf_file:
+        try: os.unlink(use_pf_file)
+        except OSError: pass
     raise RuntimeError(f"claude-batch failed for {label}: {last_err}")
 
 
@@ -782,6 +801,46 @@ def _python_merge(extract: dict, gather: dict) -> dict:
     return merged
 
 
+MAX_MERGE_PROMPT_CHARS = 100_000
+
+
+def _merge_one_pass(
+    slug: str,
+    spec: dict,
+    batches: list[dict],
+    stats: CallStats,
+    label: str,
+    raw_log_path: Path | None = None,
+) -> dict | None:
+    suffix = MERGE_PROMPT_SUFFIX_TEMPLATE.format(
+        ru_title=spec["ru_title"],
+        expected_themes="\n".join(f"- {t}" for t in spec["expected_themes"]),
+        batches_json=json.dumps(batches, ensure_ascii=False),
+    )
+    prompt = MERGE_PROMPT_PREFIX + suffix
+    raw = openrouter_call(
+        prompt,
+        response_format_json=True,
+        max_tokens=8192,
+        stats=stats,
+        label=label,
+    )
+    return _extract_json(raw, raw_log_path)
+
+
+def _merge_fallback(batches: list[dict]) -> dict:
+    parsed = {
+        "key_questions": [], "key_answers": [], "controversies": [],
+        "warnings": [], "specific_data": [],
+        "best_anchor": None,
+        "_parse_error": True,
+    }
+    for b in batches:
+        for k in ("key_questions", "key_answers", "controversies", "warnings", "specific_data"):
+            parsed[k].extend(b.get(k, []) or [])
+    return parsed
+
+
 def stage_merge(
     slug: str,
     spec: dict,
@@ -795,31 +854,55 @@ def stage_merge(
         print(f"  [cached] merge {slug}")
         return json.loads(out_path.read_text(encoding="utf-8"))
 
-    suffix = MERGE_PROMPT_SUFFIX_TEMPLATE.format(
-        ru_title=spec["ru_title"],
-        expected_themes="\n".join(f"- {t}" for t in spec["expected_themes"]),
-        batches_json=json.dumps(extract["batches"], ensure_ascii=False),
-    )
-    prompt = MERGE_PROMPT_PREFIX + suffix
-    raw = openrouter_call(
-        prompt,
-        response_format_json=True,
-        max_tokens=8192,
-        stats=stats,
-        label=f"merge:{slug}",
-    )
-    parsed = _extract_json(raw, cache_dir / "03_merged.raw.txt")
-    if parsed is None:
-        # Fallback: synthesize a minimal merged blob from extract (best effort).
-        parsed = {
-            "key_questions": [], "key_answers": [], "controversies": [],
-            "warnings": [], "specific_data": [],
-            "best_anchor": None,
-            "_parse_error": True,
-        }
-        for b in extract["batches"]:
-            for k in ("key_questions", "key_answers", "controversies", "warnings", "specific_data"):
-                parsed[k].extend(b.get(k, []) or [])
+    all_batches = extract["batches"]
+    test_json = json.dumps(all_batches, ensure_ascii=False)
+
+    if len(MERGE_PROMPT_PREFIX) + len(test_json) + 2000 <= MAX_MERGE_PROMPT_CHARS:
+        # Single-pass merge — fits in context
+        parsed = _merge_one_pass(slug, spec, all_batches, stats,
+                                 f"merge:{slug}", cache_dir / "03_merged.raw.txt")
+        if parsed is None:
+            parsed = _merge_fallback(all_batches)
+    else:
+        # Hierarchical merge — split batches into chunks, merge each, then merge results
+        max_chunk_chars = MAX_MERGE_PROMPT_CHARS - len(MERGE_PROMPT_PREFIX) - 5000
+        chunks, cur = [], []
+        cur_size = 2  # opening "[]"
+        for b in all_batches:
+            b_json = json.dumps(b, ensure_ascii=False)
+            added = len(b_json) + (2 if cur else 0)  # comma + space
+            if cur and cur_size + added > max_chunk_chars:
+                chunks.append(cur)
+                cur, cur_size = [b], len(b_json) + 2
+            else:
+                cur.append(b)
+                cur_size += added
+        if cur:
+            chunks.append(cur)
+        print(f"  [merge] {slug}: hierarchical — {len(all_batches)} batches → {len(chunks)} chunks")
+
+        intermediates = []
+        for ci, chunk in enumerate(chunks):
+            inter_path = cache_dir / f"03_merge_chunk_{ci:02d}.json"
+            if inter_path.exists() and not rebuild:
+                intermediates.append(json.loads(inter_path.read_text(encoding="utf-8")))
+                print(f"  [merge]   chunk {ci}/{len(chunks)-1}: cached")
+                continue
+            result = _merge_one_pass(slug, spec, chunk, stats,
+                                     f"merge:{slug}:chunk{ci}",
+                                     cache_dir / f"03_merge_chunk_{ci:02d}.raw.txt")
+            if result is None:
+                result = _merge_fallback(chunk)
+            inter_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+            intermediates.append(result)
+            print(f"  [merge]   chunk {ci}/{len(chunks)-1}: done")
+
+        # Final merge of intermediates
+        parsed = _merge_one_pass(slug, spec, intermediates, stats,
+                                 f"merge:{slug}:final", cache_dir / "03_merged.raw.txt")
+        if parsed is None:
+            parsed = _merge_fallback(intermediates)
+
     out_path.write_text(json.dumps(parsed, ensure_ascii=False, indent=2), encoding="utf-8")
     return parsed
 
@@ -904,6 +987,7 @@ def stage_compose(
         max_tokens=8192,
         stats=stats,
         label=f"compose:{slug}",
+        model=os.environ.get("COMPOSE_MODEL", "sonnet"),
     )
     md = raw.strip()
     # Strip accidental fences if the model wrapped in ```markdown ... ```

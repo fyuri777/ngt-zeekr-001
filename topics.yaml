@@ -95,6 +95,304 @@ topics:
       - "Original Zeekr granny cable vs aftermarket"
     min_messages: 30
 
+  charging-types:
+    ru_title: "Типы зарядки и разъёмы — AC, DC, GBT, CCS2"
+    en_title: "Charging types and connectors — AC, DC, GBT, CCS2"
+    category: "charging"
+    topic_ids: [129577, 489048, 129587, 3003]
+    keywords: ["GBT", "GB/T", "ГБТ", "CCS", "CCS2", "ССS", "type 2", "type2", "тайп 2", "тайп2", "разъём", "разъем", "разьем", "коннектор", "переходник", "адаптер", "AC зарядк", "DC зарядк", "пост ток", "постоянн ток", "переменн ток", "быстр зарядк", "медленн зарядк", "порт зарядк", "зарядн порт", "yutong", "ютонг", "GBT-CCS", "CCS-GBT"]
+    expected_themes:
+      - "Native Zeekr 001 connector — GBT (China standard) on both AC and DC"
+      - "AC vs DC fundamentals — onboard charger limit (7 kW single-phase / 11 kW three-phase early dorest), DC bypasses it"
+      - "DC fast charging speed by version (Дорест vs Рест) and battery (CATL/100 kWh vs others)"
+      - "CCS2 → GBT adapters (Yutong and others) — when needed, legality, real-world reliability, price"
+      - "Type 2 (Mennekes) AC adapters — pinout, three-phase compatibility, common failure points"
+      - "Public station compatibility in RU — which networks have GBT, which require adapter"
+      - "Adapter risks — overheating, station refuses handshake, voided warranty"
+    min_messages: 30
+
+  battery-health-storage:
+    ru_title: "Здоровье ВВБ — хранение, режимы заряда, SOC"
+    en_title: "HV battery health — storage, charge modes, SOC"
+    category: "battery-health"
+    topic_ids: [129577, 489048, 129579, 3003]
+    keywords: ["SOH", "SOC", "ВВБ", "высоковольтн батаре", "высоковольтная", "ёмкост батаре", "емкост батаре", "деградац", "хранен батаре", "длительн стоянк", "длительн хранен", "режим заряд", "до 100", "до 80", "до 90", "полн заряд", "глубок разряд", "буфер батаре", "балансиров", "калибровк батаре", "циклы заряд", "ресурс батаре", "LFP", "NMC", "тройка", "литий-железо", "морозильник", "зимн хранен", "консерваци"]
+    expected_themes:
+      - "LFP vs NMC chemistry in Zeekr 001 (which battery in which version, behavior differences)"
+      - "Recommended SOC range for daily use (LFP can be 100%, NMC 80% guidance)"
+      - "Long-term storage SOC — what to leave it at if parked for weeks/months"
+      - "Avoiding deep discharge — minimum SOC, what happens at 0%, 12V parasitic drain link"
+      - "Full-charge calibration — how often, why needed for SOC accuracy (especially LFP)"
+      - "Cell balancing — when it happens, signs of imbalance, BMS behavior"
+      - "Winter storage — cold soak effects, pre-heat before charge, garage vs street"
+      - "Real SOH measurements from owner experience — degradation rates, year/km benchmarks"
+      - "What kills the battery fastest — frequent DC fast-charge to 100%, deep discharge cycles, heat"
+    min_messages: 50
+
+  keys:
+    ru_title: "Ключи Zeekr 001 — NFC-карта, телефон, физический ключ"
+    en_title: "Zeekr 001 keys — NFC card, phone, physical key"
+    category: "ownership-accounts"
+    topic_ids: [129577, 489048, 730610, 129581, 180635]
+    keywords: ["ключ", "брелок", "брелк", "NFC", "нфс", "карт-ключ", "карта ключ", "карточк", "телефон-ключ", "ключ-телефон", "цифров ключ", "digital key", "bluetooth ключ", "bt ключ", "механическ ключ", "физическ ключ", "запасн ключ", "потер ключ", "не открыва", "перепрошив ключ", "привязка ключ", "сел брелок", "батарейк ключ"]
+    expected_themes:
+      - "What ships from factory (NFC card x2, phone app, physical key availability)"
+      - "NFC card — daily use, where to tap, range, what kills it"
+      - "Phone-as-key — Bluetooth/UWB, iOS vs Android, app required, range and reliability"
+      - "Physical/mechanical key — does it exist for 001, where it's hidden, emergency unlock"
+      - "Adding a spare key — cost, where to do it, MA requirement, reflashing"
+      - "Lost/stolen key — disabling old keys, server side, MA dependency"
+      - "Common failures — NFC card desync, phone-key dropouts, dead-12V scenarios"
+    min_messages: 30
+
+  public-charging-ru:
+    ru_title: "Публичные зарядные сети в России — Punkt E и другие"
+    en_title: "Public charging networks in Russia"
+    category: "charging"
+    topic_ids: [129577, 489048, 129587, 3003]
+    keywords: ["punkt", "пункт е", "пунктЕ", "пункт-Е", "Россети", "rosseti", "Туссон", "ЭЗС", "электрозаправк", "зарядн станц", "публичн зарядк", "зарядк в город", "АЗС с зарядк", "Татнефт", "Газпром зарядк", "Yandex зарядк", "L-charge", "Эль Чардж", "Hyundai зарядк", "сети зарядк", "карта зарядк", "приложение зарядк", "оплата зарядк", "не работа зарядк"]
+    expected_themes:
+      - "Major networks in RU — Punkt E, Россети, Туссон, L-Charge, АЗС-партнёры — coverage areas"
+      - "Which networks accept GBT vs only CCS2 — adapter requirements"
+      - "Pricing tiers — peak/off-peak, network membership, payment methods"
+      - "Common failures — station offline, handshake errors, payment app issues"
+      - "Reservation and queueing — apps, etiquette, blocking ICE cars"
+      - "Trip-planning workflow — apps used (PlugShare etc.), backup stations"
+      - "Regional reality — Moscow/SPb/Сочи vs регионы, M-trasses coverage"
+    min_messages: 30
+
+  dc-charging:
+    ru_title: "DC быстрая зарядка Zeekr 001 — скорость, дорест vs рест"
+    en_title: "DC fast charging — speed, dorest vs rest differences"
+    category: "charging"
+    topic_ids: [129577, 489048, 129587, 3003]
+    keywords: ["DC зарядк", "пост ток", "быстр зарядк", "быстрая зарядк", "ДС зарядк", "максимальн мощност", "пик мощност", "100 кВт", "120 кВт", "150 кВт", "180 кВт", "кривая зарядк", "charge curve", "до 80%", "до 50%", "просад мощност", "тротлинг", "throttling", "нагрев батаре при заряд", "CATL", "BYD батаре", "Дорест зарядк", "Рест зарядк", "100 кВтч", "86 кВтч"]
+    expected_themes:
+      - "Max DC rate by version (Дорест ~120 kW, Рест up to 150-180 kW depending on battery)"
+      - "Battery pack differences — CATL 100kWh, BYD blade, Geely 86kWh — charge-curve impact"
+      - "Real-world charge curves — peak only at low SOC, taper after 50-60%"
+      - "Pre-conditioning / pre-heat — when it kicks in, why important in winter"
+      - "Why charging is slower than spec — cold cells, station limits, derating at high SOC"
+      - "10-80% real-world times — measured by owners, summer vs winter"
+      - "Best practice — when to stop charging, plug-out etiquette, maintaining curve"
+    min_messages: 30
+
+  range-soc:
+    ru_title: "Реальный пробег и SOC Zeekr 001 — сезонные различия"
+    en_title: "Real range and SOC — seasonal differences"
+    category: "battery-health"
+    topic_ids: [129577, 489048, 129587, 3003]
+    keywords: ["пробег", "запас хода", "реальн пробег", "паспортн пробег", "WLTP", "CLTC", "расход", "кВтч/100", "кВт*ч/100", "потреблен", "SOC", "процент заряд", "GOM", "guess-o-meter", "зимн пробег", "лет пробег", "холодн пробег", "морозы пробег", "трасс пробег", "город пробег", "минус 20", "при -20", "печк расход", "обогрев расход"]
+    expected_themes:
+      - "WLTP/CLTC vs real range — typical haircuts (CLTC -30-40% in RU conditions)"
+      - "Summer city/highway/mixed — kWh/100km baselines from owners"
+      - "Winter range hit — cold soak, heater load, AWD vs RWD impact"
+      - "100 kWh CATL vs 86 kWh — real range comparison"
+      - "Speed sensitivity — 90 vs 110 vs 130 km/h consumption deltas"
+      - "Heater strategy — cabin heat pump efficiency, seat heat vs cabin"
+      - "GOM (guess-o-meter) accuracy — how it learns, when to trust % vs km"
+      - "Trip planning — buffer to add, charge-to thresholds for highway runs"
+    min_messages: 30
+
+  battery-12v:
+    ru_title: "12В аккумулятор Zeekr 001 — логика подзарядки, OBD-донглы, разряды"
+    en_title: "12V battery — charging logic, OBD dongles, parasitic drain"
+    category: "battery-health"
+    topic_ids: [129577, 489048, 129579, 3003, 2049]
+    keywords: ["12в", "12В", "12 в", "12 вольт", "12-вольт", "АКБ", "акб", "стартерн", "обычн аккум", "малая батаре", "малая батаре", "подзаряд 12", "просел 12", "сел 12", "разрядил", "просадк", "OBD", "ОБД", "обд", "донгл", "dongle", "сканер", "ELM", "elm327", "ELM327", "паразитн", "ток поко", "саморазряд", "не заводится", "не включается", "BMS не буди", "буди машину", "wake up", "разрядк за ночь", "разрядк за неделю", "Bosch", "Varta"]
+    expected_themes:
+      - "12V battery role — wakes BMS to enable HV pack, all 12V loads"
+      - "Charging logic — DC-DC converter from HV pack, when it tops up the 12V (not always while parked)"
+      - "Parasitic drain rate — typical mA, days-to-discharge if car untouched"
+      - "OBD dongles — keep car awake → kill 12V; safe vs unsafe models, when to unplug"
+      - "Symptoms of weak 12V — failure to wake, electronic-handle issues, doors won't open, ghost errors"
+      - "Replacement — OEM brand/spec, AGM vs flooded, capacity, where it lives in the car"
+      - "Maintenance — periodic top-up via external 12V charger, why drive ≠ charge for 12V"
+      - "Smart battery monitor / IBS — what the car reports, dashboard warnings"
+    min_messages: 30
+
+  battery-preheat:
+    ru_title: "Прогрев ВВБ Zeekr 001 — планирование поездки, расход энергии"
+    en_title: "HV battery pre-heat — trip planning, energy cost, timing"
+    category: "battery-health"
+    topic_ids: [129577, 489048, 129579, 129587, 3003]
+    keywords: ["прогрев батаре", "прогрев ВВБ", "предпрогрев", "preheat", "pre-heat", "prepheat", "pre-condition", "preconditioning", "прекондишн", "планирован поездк", "планировани поездк", "trip planning", "режим заряд", "режим зимн", "зимн режим", "запас хода зим", "холодн запуск", "тёпл батаре", "теплая батаре", "греет батаре", "греется батаре", "термоменеджмент", "thermal management", "BTMS", "обогрев батаре", "перед зарядк", "перед быстр", "не разогн зарядк"]
+    expected_themes:
+      - "What pre-heat does — warms HV pack to ~25°C target for fast-charge throughput"
+      - "How to trigger — trip planning in head unit, app, scheduled departure"
+      - "Chinese-timezone bug — schedule misfires; how to set local time correctly"
+      - "Energy cost — how many kWh consumed warming pack, range tradeoff"
+      - "When it's worth it — DC fast-charge stop in winter, long highway run"
+      - "When to skip — short city runs, plugged in at home"
+      - "Cabin pre-heat vs battery pre-heat — separate functions, different controls"
+      - "Symptoms of no pre-heat — slow DC-charge, low regen, BMS thermal warnings"
+    min_messages: 30
+
+  emergency-12v:
+    ru_title: "Аварийный запуск Zeekr 001 при севшем 12В — открыть и завести"
+    en_title: "Emergency start with dead 12V — opening and reviving the car"
+    category: "battery-health"
+    topic_ids: [129577, 489048, 129579, 2049, 3003]
+    keywords: ["сел 12", "севш 12", "разряд 12", "не открыва", "не открыть", "не открывается машин", "аварийн открытие", "аварийн ключ", "механическ ключ", "физическ ключ", "капот не открыть", "капот не открыва", "под капот", "плюс под капот", "+12 под капот", "клемм 12", "прикурить", "прикуриват", "пускозарядн", "jump start", "jumpstart", "бустер", "booster", "повербанк 12", "power bank", "тяг АКБ", "доступ к 12", "пиропатрон", "пиро", "BMS не буди", "разбуди BMS"]
+    expected_themes:
+      - "Door opening when 12V is dead — physical key location, NFC won't work, hidden door release"
+      - "Hood release — interior latch, manual cable, where it lives"
+      - "Jumper points under hood — official +12V terminal, ground, polarity"
+      - "Jump-start procedure — booster vs another car, sequence, voltage limits"
+      - "Why driving doesn't always recover — DC-DC converter needs HV pack online first"
+      - "Reviving HV pack — does 12V wake start the system, when service intervention needed"
+      - "Tow scenarios — neutral mode, transport with 0% SOC"
+      - "Prevention — booster pack to keep in trunk, smart 12V monitor, when to replace 12V proactively"
+    min_messages: 30
+
+  ota-versions:
+    ru_title: "OTA обновления Zeekr 001 — версии 5.x дорест, 6.x рест, ZDS"
+    en_title: "OTA updates — 5.x dorest, 6.x rest, ZDS"
+    category: "software"
+    topic_ids: [129577, 489048, 730610, 129581, 180635]
+    keywords: ["OTA", "ОТА", "ота", "обновлен", "прошивк", "прошивка", "версия", "версии", "5.0", "5.1", "5.2", "5.3", "5.4", "5.5", "5.6", "5.7", "5.8", "6.0", "6.1", "6.2", "6.3", "6.4", "6.5", "ZDS", "зеть-дс", "Zeekr Digital Sphere", "релиз", "обнови", "обновл", "downgrade", "даунгрейд", "откат", "откатить", "rollback", "RAW прошивк", "OEM прошивк", "из Китая прошивк", "по воздуху", "head unit", "ХУ", "hu обновлен", "ICM", "BCM"]
+    expected_themes:
+      - "OTA channels — official OTA over MA/eSender, when it triggers, blocked outside China"
+      - "Version naming — 5.x families on Дорест, 6.x families on Рест, sub-versions"
+      - "ZDS (Zeekr Digital Sphere) — what it is, when it landed, hardware requirements"
+      - "Manual update paths — USB image, dealer flash, third-party packages"
+      - "Downgrade — possible/blocked, signed-image enforcement, regions"
+      - "Per-block updates — head unit vs BMS vs ECU vs gateway, what OTA covers"
+      - "Risks — bricked HU, lost translations, lost root, settings reset"
+      - "Recent timeline — last 12-18 months of releases, what changed each step"
+    min_messages: 30
+
+  firmware-best:
+    ru_title: "Лучшие версии прошивок Zeekr 001 — консенсус сообщества"
+    en_title: "Best firmware versions — community consensus"
+    category: "software"
+    topic_ids: [129577, 489048, 730610, 129581, 180635]
+    keywords: ["лучш версия", "лучшая прошивк", "стабильн прошивк", "стабильная версия", "не ставь", "не обновляйся", "проблемная версия", "багов прошивк", "багованая", "сидеть на", "остаться на", "рекомендую", "топ прошивк", "stable", "stable build", "best build", "ругают версию", "ругали версию", "хвалят", "лагает после", "тормозит после", "стало хуже", "стало лучше"]
+    expected_themes:
+      - "Дорест 5.x — which sub-version is consensus 'safe stable'"
+      - "Рест 6.x — which sub-version is consensus 'safe stable'"
+      - "Versions to AVOID — known bad releases, why (battery bug, HU brick, lost feature)"
+      - "Sweet-spot trade-offs — newer = features but bugs; older = stable but missing X"
+      - "Pre-6.2 cutoff — practical price-discount lever when buying used"
+      - "Per-region notes — what RU owners run vs CN OEM"
+      - "When to update — wait period after release, owner reports timeline"
+    min_messages: 50
+
+  reboots-lags:
+    ru_title: "Перезагрузки и лаги планшета Zeekr 001 — причины и фиксы"
+    en_title: "Head unit reboots and lags — causes and fixes"
+    category: "software"
+    topic_ids: [129577, 489048, 730610, 129581, 180635]
+    keywords: ["перезагруз", "ребут", "reboot", "reboots", "висит планшет", "повисла", "тормоз планшет", "тормозит", "лаги", "лагает", "фриз", "freeze", "зависает", "зависание", "зависла", "чёрн экран", "черный экран", "белый экран", "перезапуск ХУ", "перезапуск планшет", "не реагирует экран", "софт-резет", "soft reset", "hard reset", "холд кнопк", "удерж кнопк", "перезагрузка комбинац", "стало тормозить", "после обновлен лаги"]
+    expected_themes:
+      - "Symptoms — full reboot vs HU-only crash vs lag spike, frequency"
+      - "Triggers — specific apps, CarPlay, navigation, after wake from sleep"
+      - "Manual restart — button combinations, hold X seconds, what's safe"
+      - "Cache/storage cleanup — third-party app data, navigation tiles"
+      - "Firmware correlation — which versions made it better/worse"
+      - "12V battery link — weak 12V causes ghost reboots"
+      - "Hardware vs software — when it's a dealer/service issue"
+      - "User remedies — reboot routine, avoiding triggers, when to escalate"
+    min_messages: 50
+
+  rusifikators:
+    ru_title: "Сравнение русификаторов Zeekr 001 — Infohub, GMC, XMETA, ZeeAppStore"
+    en_title: "Comparison of Russification packs — Infohub, GMC, XMETA, ZeeAppStore"
+    category: "russification"
+    topic_ids: [129577, 489048, 730610, 129581, 180635]
+    keywords: ["русификат", "русификац", "Infohub", "инфохаб", "INFOHUB", "GMC", "ГМЦ", "гмц", "XMETA", "Иксмета", "ксмета", "ZeeAppStore", "Zee App Store", "зиаппстор", "локализац", "перевод меню", "перевод интерфейс", "перевести машину", "русифицирова", "русифицирован", "пакет русифик", "лаунчер", "launcher", "русск меню", "русск голос"]
+    expected_themes:
+      - "Each pack overview — Infohub, GMC, XMETA, ZeeAppStore (what's in each, install path)"
+      - "Coverage comparison — UI, voice, navigation, media apps, settings menus"
+      - "Cost — free vs paid, subscription model, lifetime updates"
+      - "Compatibility — Дорест vs Рест, firmware version requirements"
+      - "Stability — known bugs per pack, lost-launcher recovery"
+      - "Updates frequency — which pack tracks new firmware fastest"
+      - "Switching/uninstalling — clean removal, conflicts between packs"
+      - "Community consensus — most popular pack and why, alternatives by use case"
+    min_messages: 50
+
+  frozen-doors:
+    ru_title: "Замёрзшие двери и ручки Zeekr 001 зимой — профилактика и решение"
+    en_title: "Frozen doors and handles in winter — prevention and fixes"
+    category: "doors-access"
+    topic_ids: [129577, 489048]
+    keywords: ["замёрз", "замерз", "примёрз", "примерз", "обледен", "лёд", "лед на двер", "лед на ручк", "не открыва зимой", "дверь не откр", "ручка не откр", "обогрев двер", "обогрев ручк", "силикон", "антилёд", "антиобледен", "WD-40", "зимняя эксплуатац", "уплотнител", "резинк двер", "примерзани"]
+    expected_themes:
+      - "Root cause — flush door design traps water, ice binds handle mechanism"
+      - "Prevention — silicone spray on seals, WD-40, garage parking"
+      - "Emergency fixes — warm water (risky), alcohol spray, patience"
+      - "Handle heater mod — aftermarket solutions, wiring"
+      - "Seal treatment — what works, frequency, products"
+      - "Firmware role — door motor force settings, cold-weather logic"
+    min_messages: 30
+
+  drive-modes:
+    ru_title: "Режимы вождения Zeekr 001 — ECO, Comfort, Sport, Snow, AWD"
+    en_title: "Drive modes — ECO, Comfort, Sport, Snow, AWD"
+    category: "driving"
+    topic_ids: [129577, 489048]
+    keywords: ["режим", "ECO", "эко", "Comfort", "комфорт", "Sport", "спорт", "Snow", "снег", "AWD", "полн привод", "задн привод", "RWD", "передн привод", "режим езды", "режим вожден", "динамик", "разгон", "ускорен", "мощност мотор", "boost", "бустер", "launch", "лонч", "launch control", "0-100", "драг"]
+    expected_themes:
+      - "Mode differences — throttle map, suspension, steering weight, regen level"
+      - "AWD vs RWD — when each engages, fuel economy tradeoff"
+      - "Sport mode — real 0-100 times, battery drain, thermal limits"
+      - "Snow mode — traction control, stability, owner experience"
+      - "ECO mode — range gain %, what it disables"
+      - "Custom/individual mode — what's configurable"
+      - "Launch control — does it exist, how to activate, wear"
+    min_messages: 50
+
+  air-suspension:
+    ru_title: "Пневмоподвеска Zeekr 001 — режимы, надёжность, город vs трасса"
+    en_title: "Air suspension — modes, reliability, city vs highway"
+    category: "driving"
+    topic_ids: [129577, 489048, 2049]
+    keywords: ["пневм", "пневмоподвес", "подвеск", "клиренс", "дорожн просвет", "просвет", "высота кузов", "уровень кузов", "занижен", "поднят", "lift", "lower", "компрессор", "компрессор подвес", "баллон", "пневмобаллон", "утечка воздух", "просел", "просела", "перекос", "калибровк подвес", "Sport режим подвес", "Comfort подвес", "авто уровень", "jack mode", "сервисн режим подвес", "перегрев компрессор"]
+    expected_themes:
+      - "Ride height modes — numbers in mm, when each is useful"
+      - "Auto-leveling — speed-based lowering, manual override"
+      - "Compressor overheating — symptoms, cooldown, long gravel roads"
+      - "Reliability — failure modes, leaking bags, compressor life"
+      - "Jack mode / service mode — how to activate for tire change"
+      - "City vs highway — recommended settings, comfort vs handling"
+      - "Winter behavior — cold affects air springs, extra noise"
+      - "Cost of repair — bags, compressor, labor in Russia"
+    min_messages: 30
+
+  v2l:
+    ru_title: "V2L Zeekr 001 — машина как розетка, что можно запитать"
+    en_title: "V2L — vehicle-to-load, what you can power"
+    category: "charging"
+    topic_ids: [129577, 489048, 3003]
+    keywords: ["V2L", "в2л", "v2l", "vehicle to load", "внешн розетк", "розетка в маш", "розетк 220", "инвертор", "инвертер", "обратн зарядк", "питани от маш", "электроприбор от маш", "чайник от маш", "запитать", "мощност розетк", "3.3 кВт", "3300", "кемпинг", "палатк", "туризм", "аварийн питани"]
+    expected_themes:
+      - "V2L availability — which trim/version has it, where the outlet is"
+      - "Max power — 3.3 kW limit, what trips it"
+      - "Real-world use cases — camping appliances, power tools, emergency home backup"
+      - "What NOT to connect — inductive loads, compressors, sensitive electronics"
+      - "Adapter/cable needed — OEM vs aftermarket"
+      - "Battery drain rate — kWh per hour under load, how long 100kWh lasts"
+      - "V2V (vehicle-to-vehicle) — charging another EV, feasibility"
+    min_messages: 20
+
+  buying-china:
+    ru_title: "Покупка Zeekr 001 из Китая — процесс, грей-импорт, риски"
+    en_title: "Buying from China — process, grey import, risks"
+    category: "buying-guide"
+    topic_ids: [129577, 489048, 129593, 180656]
+    keywords: ["покупк", "купить", "заказ из Кита", "грей импорт", "грей-импорт", "серый импорт", "параллельн импорт", "перекупщик", "перегон", "перегонщик", "из Кита", "из КНР", "доставк из Кита", "карго", "карготранспорт", "корабл", "контейнер", "автовоз", "таможн", "растаможк", "ЭПТС", "эптс", "СБКТС", "СБКЦ", "утильсбор", "утилизацион", "брокер", "декларац", "комплектац", "заказать конфигурац"]
+    expected_themes:
+      - "End-to-end process — order in China, shipping, customs, registration"
+      - "Grey import vs official — what's available, price difference"
+      - "Costs breakdown — car price, shipping, customs duty, SBKTS, util fee, broker"
+      - "Risks — fraud, wrong spec, damaged in transit, blocked features"
+      - "Trusted agents/brokers — community-verified, red flags"
+      - "Timeline — how long from order to driving in Russia"
+      - "Configuration choices — what to order, what's hard to get"
+      - "Documents — EPTS, PTS, SBKTS certificate, what to check"
+    min_messages: 50
+
   buying-used:
     ru_title: "Покупка б/у Zeekr 001 — что проверять"
     en_title: "Buying a used Zeekr 001 — inspection checklist"
