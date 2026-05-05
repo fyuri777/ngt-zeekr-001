@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Здоровье ВВБ — хранение, режимы заряда, SOC — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / Здоровье батареи</nav>
+<h1>Здоровье ВВБ — хранение, режимы заряда, SOC</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за август 2024 — май 2026: что говорят 2534+ сообщений о химии батарей, оптимальных режимах зарядки, деградации и зимней эксплуатации.</p>
+<h2>Химия батареи: LFP vs NMC</h2>
+<p>Zeekr 001 выпускается с двумя типами высоковольтной батареи, и разница в химии определяет все дальнейшие рекомендации по эксплуатации.</p>
+<p><strong>95 кВт·ч — LFP (литий-железо-фосфат).</strong> Более тяжёлая, но с ресурсом в 2–3 раза выше, чем у NMC. Терпима к регулярной зарядке до 100%. Более чувствительна к морозу — перед быстрой зарядкой на холоде обязательно прогревать.</p>
+<p><strong>100 кВт·ч — NMC (никель-марганец-кобальт).</strong> Легче и компактнее, но требует более щадящего режима зарядки. Рабочая температура — выше 30°C (оптимально 33–35°C). При +8°C расход вырастает с 22–24 до 32 кВт·ч/100 км из-за подогрева батареи массой 500 кг до рабочей температуры.</p>
+<p>Определить тип можно по формуле: ёмкость (Ач) × напряжение (В) / 1000. <span class="badge badge-official">📌 OFFICIAL</span> — данные из спецификаций производителя.</p>
+<h2>Повседневная зарядка: до скольки процентов</h2>
+<p><span class="badge badge-official">📌 OFFICIAL</span> Производитель рекомендует ~90% для ежедневной эксплуатации — на экране зарядки есть соответствующая метка. Допустимый рабочий диапазон для NMC: 20–95%.</p>
+<p><strong>Для LFP</strong> можно заряжать до 100% без ограничений — это штатный режим для данной химии. LFP-ячейки не испытывают повышенного напряжения при полном заряде, в отличие от NMC.</p>
+<p><strong>Для NMC</strong> оптимально 80–90%. <span class="badge badge-consensus">👥 CONSENSUS</span> Многие владельцы выбирают потолок 80–97%, чтобы всегда оставался запас для рекуперации. При зарядке до 100% рекуперативное торможение отключается до тех пор, пока SOC не снизится — это ощущается как менее комфортное замедление.</p>
+<p>Зарядка до 100% допустима, если сразу после этого начинается поездка. Вредно не само достижение полного заряда, а длительное хранение на максимуме — NMC-ячейки находятся под повышенным напряжением, что ускоряет химическое старение. Если зарядили NMC до 100% и планируете поездку через 3+ дня — батарея деградирует быстрее.</p>
+<h2>Калибровка и балансировка ячеек</h2>
+<p>Для LFP рекомендуется периодический цикл: разрядить ниже 10% и зарядить до 100% на медленной AC-зарядке (от розетки). Частота — раз в месяц по консервативной оценке. <span class="badge badge-consensus">👥 CONSENSUS</span> Раз в полгода полезно оставить LFP на медленной зарядке от розетки до 100% на пару дней — это даёт BMS время на полную балансировку всех ячеек.</p>
+<p>Дисбаланс ячеек — не абстрактная угроза. Зафиксирован случай, когда на пробеге 25 тыс. км ёмкость батареи упала до 60% от номинала: заливалось только 59,5 кВт·ч вместо 86. Причина — критический разброс напряжений между ячейками. Без диагностики и балансировки через AC-зарядку 0–100% проблема прогрессирует.</p>
+<p>Скорость DC-зарядки падает после 80–85% SOC: с 70–145 кВт до 35–60 кВт на последних 10–15%. LFP держит мощность лучше (не ниже 40 кВт), NMC падает сильнее. Это нормальное поведение BMS — внутреннее сопротивление ячеек растёт при высоком SOC.</p>
+<h2>Деградация: реальные цифры</h2>
+<p><span class="badge badge-official">📌 OFFICIAL</span> Гарантия завода на батарею: 200 000 км или 8 лет с сохранением не менее 80% ёмкости (~832 цикла).</p>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span> Реальные показатели SOH у большинства владельцев: 98,5–99,2%. Деградация при обычной эксплуатации (зарядка до 90%, редкая DC):</p>
+<table>
+<thead>
+<tr>
+<th>Пробег</th>
+<th>Деградация</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>40 тыс. км</td>
+<td>0,5–1%</td>
+</tr>
+<tr>
+<td>100 тыс. км</td>
+<td>1–3%</td>
+</tr>
+<tr>
+<td>300 тыс. км</td>
+<td>менее 10%</td>
+</tr>
+</tbody>
+</table>
+<p>Конкретный пример: 2 года, 21 тыс. км, домашняя зарядка в диапазоне 50–95% — SOH 98,7%.</p>
+<p><strong>Агрессивный режим (таксист, ежедневная DC-зарядка до 100%):</strong> деградация ~2,5% на 50 тыс. км — примерно в 5 раз выше нормы. При этом из Китая есть данные с аналогичным режимом и деградацией 0% — влияние условий эксплуатации и климата значительно. Статистика по Китаю за 2023–2024: ~4% деградации за 3 года при частых быстрых зарядках.</p>
+<p>Для минимальной деградации идеальный режим — медленная зарядка 2–3 кВт в диапазоне 60–80%. На практике большинство владельцев не замечают деградации даже при более агрессивных режимах.</p>
+<h2>Как проверить SOH</h2>
+<p>SOH не отображается штатной системой автомобиля — это осознанное решение производителя. Для проверки нужна диагностика через OBD-сканер со специализированным ПО.</p>
+<p>Простые Bluetooth OBD-адаптеры могут не выдавать данные о SOH. Pandora на рестайлинге может показывать некорректные значения. Для глубокой диагностики разбалансировки ячеек (разница напряжений между max и min) нужен инженерный софт или программатор.</p>
+<p>Косвенный способ оценки — фиксировать, сколько кВт·ч заливается при зарядке от определённого SOC до 100%. Если стабильно заливается меньше ожидаемого — повод обратиться на диагностику.</p>
+<h2>Длительная стоянка и зимний режим</h2>
+<p><strong>Оптимальный SOC для хранения:</strong> <span class="badge badge-official">📌 OFFICIAL</span> Производитель запрещает хранить с пустой батареей и не рекомендует долго держать на 100%.</p>
+<ul>
+<li>Недели: 70–80% SOC</li>
+<li>Месяцы: 40–60% SOC</li>
+<li>Отключить охранную сигнализацию и режим охраны — минимизация паразитной нагрузки</li>
+</ul>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span> Исправная машина без допоборудования теряет 1–2% SOC в неделю. За полгода — около 30%.</p>
+<p><strong>Зимние данные:</strong></p>
+<ul>
+<li>20 дней зимы, Москва, до –19°C: с 90% до 45% SOC (из них 4 прогрева по 15 минут — минус 9%). Без прогревов потеря составила бы ~5%.</li>
+<li>Неделя в аэропорту при –30°C: батарея не потеряла ни процента, при прогреве —1%.</li>
+<li>С Pandora: расход 1–2% SOC в день даже при плюсовой температуре.</li>
+</ul>
+<p><strong>Критические пороги SOC:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Порог</th>
+<th>Что происходит</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 20%</td>
+<td>ВВБ перестаёт заряжать 12В АКБ (порог сдвинут до 10% примерно полтора года назад обновлением прошивки)</td>
+</tr>
+<tr>
+<td>&lt; 13%</td>
+<td>Отключается STR (быстрый запуск) — полная перезагрузка планшета с анимацией</td>
+</tr>
+<tr>
+<td>&lt; 13% + &lt; –10°C + стоянка &gt; 72 ч</td>
+<td>«Глубокий сон» — защитный режим для сохранения ВВБ и 12В АКБ</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Зарядка зимой:</strong> на холодной батарее мощность DC-зарядки — максимум 40 кВт, на тёплой — 100+ кВт. <span class="badge badge-recent">🆕 RECENT</span> Перед быстрой зарядкой на морозе используйте предварительный прогрев через настройки «battery temp regulation» или «запланировать поездку».</p>
+<h2>Спорные моменты</h2>
+<h3>Нужна ли регулярная полная зарядка до 100% для балансировки NMC-батарей?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Балансировка нужна только для LFP, для NMC не нужна — 800-вольтовая архитектура равномерно заряжает ячейки.<br>
+Аргументация: в 800В-системе уплотнённая структура обеспечивает равномерный заряд. Производитель рекомендует 90% ежедневно, 100% только для дальних поездок — зачем идти вразрез с рекомендацией?</p>
+<p><strong>Лагерь B:</strong> Для NMC тоже полезна периодическая зарядка до 100% на медленной AC для балансировки ячеек.<br>
+Аргументация: диагностика реальных машин показывает разницу напряжений между ячейками — дисбаланс может привести к резкому падению ёмкости. Медленная AC-зарядка до 100% даёт BMS время на выравнивание. Рекомендуемый режим — как для LFP: 20–80% повседневно, раз в неделю до 100%.</p>
+<h3>Можно ли постоянно заряжать NMC до 100%?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> До 100% можно, если сразу едешь. Инструкция разрешает.<br>
+Аргументация: владелец с годом ежедневной зарядки до 100% — SOH 99,37%. Опыт владельцев Voyah: 2 года ежедневной зарядки до 100% — деградация 4%, темп замедляется со временем.</p>
+<p><strong>Лагерь B:</strong> Лучше ограничиться 80–85% для NMC, если не едешь сразу.<br>
+Аргументация: выше 85% скорость DC-зарядки падает до 35–40 кВт — BMS сама сигнализирует, что этот режим менее оптимален. Длительное хранение полностью заряженной NMC-батареи при перепадах температуры создаёт риск повышенной деградации.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li>
+<p>⚠️ <strong>Не разряжайте ВВБ ниже 20%.</strong> При низком SOC высоковольтная батарея перестаёт подзаряжать 12В систему. Если оставить машину надолго — 12В аккумулятор сядет, потребуется «прикуривание». <span class="badge badge-stale">⚠️ STALE</span> Порог подзарядки 12В сдвинут с 20% до 10% обновлением прошивки ~полтора года назад — проверьте актуальность для вашей версии ПО.</p>
+</li>
+<li>
+<p>⚠️ <strong>Не храните NMC-батарею на 100% без немедленной поездки.</strong> Хранение в состоянии полного заряда ускоряет старение. При перепадах температуры химия может перейти в состояние перезаряда. Для LFP менее критично.</p>
+</li>
+<li>
+<p>⚠️ <strong>Дисбаланс ячеек может уронить ёмкость до 60% от номинала.</strong> Зафиксирован случай на пробеге 25 тыс. км. Профилактика — периодическая медленная AC-зарядка 0–100%. Частая зарядка только на DC без AC может привести к раскалибровке.</p>
+</li>
+<li>
+<p>⚠️ <strong>Зимой прогревайте батарею перед DC-зарядкой.</strong> Холодная батарея заряжается максимум на 40 кВт вместо 100+ кВт и с повышенным износом. Используйте «battery temp regulation» или функцию «запланировать поездку».</p>
+</li>
+<li>
+<p>⚠️ <strong>При SOC &lt; 13% + температура &lt; –10°C + стоянка &gt; 72 часа — «глубокий сон».</strong> Защитная функция: отключается STR, долгая перезагрузка планшета с анимацией при запуске. Отменить нельзя.</p>
+</li>
+<li>
+<p>⚠️ <strong>Комбинация факторов убивает батарею быстрее всего:</strong> DC до 100% + жара + немедленный старт на высокой скорости. Особенно опасно для ранних NMC-батарей дорестайловых 86 кВт·ч с известной проблемой протечки антифриза системы охлаждения.</p>
+</li>
+<li>
+<p>⚠️ <strong>Раз в полгода ставьте LFP на медленную зарядку до 100% на пару дней</strong> для балансировки ячеек. Для NMC периодическая медленная AC-зарядка до 100% тоже помогает при разбалансировке.</p>
+</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 2534 сообщений тем «001 Дорест | 001 Рест (+FR) | Обслуживание и ремонт | 3003» за период август 2024 — май 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/1124081">t.me/zeekrclub/1124081</a></em></p>
+</main>
+</body>
+</html>

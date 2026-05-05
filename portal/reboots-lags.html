@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Перезагрузки и лаги планшета Zeekr 001 — причины и фиксы — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / ПО и прошивки</nav>
+<h1>Перезагрузки и лаги планшета Zeekr 001 — причины и фиксы</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за август 2024 — май 2026: что говорят 2748+ сообщений о причинах перезагрузок, методах диагностики и пошаговых решениях — от софт-ребута до петли под капотом.</p>
+<h2>Три уровня перезагрузки: от мягкого до радикального</h2>
+<p>У Zeekr 001 есть три способа перезагрузки, и важно понимать, когда какой применять. Путать их — значит либо недолечить проблему, либо создать новую.</p>
+<p><strong>Софт-ребут планшета (уровень 1).</strong> На рестайле — зажать одновременно обе крутилки (шайбы громкости) на руле и держать ~10 секунд до погашения экранов. Альтернативный способ: зажать колесико громкости, затем крутить его вправо-влево, не отпуская, до перезагрузки. На дорестайле — перезагрузка через крутилку на центральной консоли. <span class="badge badge-consensus">👥 CONSENSUS</span> Быстрая перезагрузка (с заставкой ZEEKR) занимает 1.5–2 минуты. Решает ~70% бытовых глюков: зависание интерфейса, лаги навигации, пропажу Bluetooth.</p>
+<p><strong>Перезагрузка телематики / TCAM (уровень 2).</strong> Зажать кнопку SOS на потолке на 15 секунд — держать до 15 зелёных миганий подряд. Перезагрузка занимает 2–5 минут. <span class="badge badge-consensus">👥 CONSENSUS</span> Помогает при потере GPS-сигнала, пропаже 3G/4G, проблемах с датчиками давления в шинах, отсутствии связи с приложением Zeekr. <span class="badge badge-recent">🆕 RECENT</span> На прошивке 6.7+ появилась программная кнопка перезагрузки телематики в настройках планшета — она активна при плохой связи и избавляет от необходимости тянуться к потолку.</p>
+<p><strong>Перезагрузка петлей (уровень 3).</strong> Отключение оранжевого разъёма (петли) под капотом или минусовой клеммы 12V АКБ на 30 минут (минимум 15 мин). Это полный сброс всех систем автомобиля. <span class="badge badge-consensus">👥 CONSENSUS</span> Крайняя мера при ghost-ошибках пневмы, зависшем багажнике, не открывающихся лючках зарядки, проблемах с камерами 360, после вывешивания без режима «домкрат». Не для регулярной эксплуатации.</p>
+<h2>Почему планшет перезагружается сам: шесть основных причин</h2>
+<p>Спонтанные перезагрузки — самая частая жалоба владельцев. Причины делятся на программные и аппаратные.</p>
+<p><strong>1. Конфликтная русификация или английский язык на прошивках 6.x.</strong> На прошивках 6.1.0–6.2 включение английского языка (через «лягушку» или иной патч) вызывает циклический ребут при перезагрузке машины. Английский работает до первого ребута, после чего планшет уходит в вечный цикл. <span class="badge badge-consensus">👥 CONSENSUS</span> Временное решение: перед каждой перезагрузкой переключаться на китайский, после загрузки возвращать английский. На 6.5+ с нативной русской и английской локалью (через приложение zSupport) проблема решена — язык не слетает.</p>
+<p><strong>2. VPN/DNS-ченджер в режиме VPN.</strong> DNS-ченджеры (например, ByeDPI) в режиме VPN на Zeekr 001 вызывают ребут планшета через 1 минуту. <span class="badge badge-consensus">👥 CONSENSUS</span> Системные приложения определяют активный VPN и инициируют перезагрузку. Решение: использовать только режим прокси или per-app VPN (только для нужных приложений). Примечательно, что на Zeekr X режим VPN работает без проблем.</p>
+<p><strong>3. Переполнение оперативной памяти.</strong> Критический порог — 80–90% загрузки RAM. Проверяется в приложении «Менеджер системы» (зелёный щит). Главные потребители: голосовые ассистенты (особенно на прошивке 5.3), Telegram и Яндекс.Музыка в фоне. При превышении система запускает самоочистку и уходит в защитные ребуты. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>4. Слабая 12V батарея.</strong> При низком напряжении 12V АКБ система работает нестабильно — возникают ghost-reboots (спонтанные перезагрузки без видимых причин). Проверка состояния 12V — первый шаг диагностики при регулярных перезагрузках.</p>
+<p><strong>5. Мороз ниже −10…−15°C.</strong> При низких температурах функция STR (быстрый запуск) автоматически отключается. Вместо моментального пробуждения включается холодный старт с анимацией (кубики + гонг). <span class="badge badge-official">📌 OFFICIAL</span> Техподдержка Zeekr подтверждает: STR отключается при T &lt; −10°C, SOC &lt; 13% или стоянке &gt; 72 часов — для защиты тяговой и 12V батарей.</p>
+<p><strong>6. Неудачное OTA-обновление.</strong> Если во время установки прошивки (~4 ГБ, скачивается 1–1.5 часа) обрывался интернет, один из блоков может недообновиться. Результат — постоянные ребуты, которые не лечатся софт-перезагрузкой. Требуется ZDS-процедура (Reset → Reload VGM → при необходимости двойной Reload DHU) или ожидание следующей OTA.</p>
+<h2>Планшет тормозит: пошаговая диагностика</h2>
+<p>Последовательность действий при лагах и зависаниях — от простого к сложному:</p>
+<ol>
+<li><strong>Софт-ребут планшета</strong> — зажать обе шайбы на руле на 10 секунд.</li>
+<li><strong>Очистка кэша и данных</strong> — удалить содержимое папок <code>Android/logs/*</code> и <code>/data/data/com.abupdate.ota/databases</code>. Переустановить через ADB магазины Rustore и ApkPure с полной очисткой данных. Очистить кэш навигации (плитки карт Яндекс).</li>
+<li><strong>Проверка загрузки RAM</strong> — открыть «Менеджер системы» (зелёный щит). Если 80–90% — удалить лишние APK, особенно голосовые ассистенты.</li>
+<li><strong>Перезагрузка телематики</strong> — SOS 15 секунд.</li>
+<li><strong>Петля на 30 минут</strong> — если предыдущие шаги не помогли.</li>
+<li><strong>Обращение к русификатору</strong> — если лаги начались после установки или обновления русификации.</li>
+</ol>
+<p>После очистки кэша обязательна перезагрузка планшета. Система заново отправляет логи на сервер и подхватывает обновления.</p>
+<h2>Прошивки и перезагрузки: что знать о версиях</h2>
+<p>Связь между версией прошивки и стабильностью планшета — прямая.</p>
+<p><strong>Прошивка 5.2.x–5.3.</strong> Проблема чёрного экрана при загрузке. Решение для 5.2.x: многократный тап на иконку климата (вентилятор) «вслепую» по памяти расположения. На 5.3 главная проблема — голосовые ассистенты, потребляющие RAM до предела.</p>
+<p><strong>Прошивка 6.0–6.3.</strong> Нестабильная работа с русификацией и англоязычной локалью. На 6.2 с английским языком — вечный ребут. <span class="badge badge-stale">⚠️ STALE</span> Первые прошивки рестайла 2025 (6.3.2–6.3.3) были «сырыми», но их сменили стабильные обновления.</p>
+<p><strong>Прошивка 6.5+.</strong> Переломный момент: нативная русская локаль через приложение zSupport, не слетающая после ребута. Камеры на диски показываются автоматически. Английский язык работает стабильно. <span class="badge badge-recent">🆕 RECENT</span></p>
+<p><strong>Прошивка 6.7+.</strong> Программная кнопка ребута телематики в настройках. Общая стабильность выше. <span class="badge badge-recent">🆕 RECENT</span></p>
+<p>Процессор рестайла 2025 в 3 раза мощнее дорестайла, что субъективно снижает частоту лагов.</p>
+<h2>Правильный порядок перезагрузки для запуска OTA</h2>
+<p>Для восстановления связи и запуска OTA-обновления на рестайле 2025 (6.3.2+) рекомендуется строгая последовательность: сначала перезагрузка телематики (SOS 15 секунд), затем через 10 минут — перезагрузка планшета (шайбы на руле). <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Перед OTA рекомендуется прописать китайские DNS (188.166.226.78 / 202.46.34.75) через Change DNS или в роутере. Обеспечить стабильный 4G/WiFi на всё время установки — иногда это занимает часы. Обрыв соединения может привести к недообновлённому блоку и постоянным ребутам.</p>
+<p>Если OTA зависло — не удалять всё подряд в папке OTA. Безопасно удалять только <code>ser1log</code>. Удаление манифеста вызывает зависание «облачка» обновления и путаницу с отображением версии прошивки. Восстановление потребует Reset + Reload VGM через ZDS.</p>
+<h2>Спорные моменты</h2>
+<h3>Перезагрузки на морозе — баг или норма?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Это баг прошивки или русификации, не должно так быть. Владельцы сообщают о постоянных ребутах на 6.7 даже при 0°C и +5°C — далеко от порога −10°C. Проблемы начались после обновления или русификации, а дорестайл той же машины во дворе ведёт себя стабильно. Ребуты в тепле при каждом открытии — признак проблемы с телематикой, SIM или русификацией.</p>
+<p><strong>Лагерь B:</strong> Это штатное поведение при морозе ниже −10…−15°C. Техподдержка подтверждает: STR отключается при низких температурах для защиты батарей. В тёплом гараже проблем нет, на улице в мороз — перезагрузки. Владельцы с опытом 2–3 зим подтверждают, что это норма и волноваться не стоит.</p>
+<h3>Петля или софт-ребут — что выбрать при зависании?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Петля — крайняя мера, только при полном отказе системы. Софт-ребут планшета через руль и телематики через SOS решает 90% глюков. Петля может вызвать сброс настроек и потерю данных. Правильная последовательность: руль → SOS → петля → сервис.</p>
+<p><strong>Лагерь B:</strong> При серьёзных глюках (полное зависание, чёрный экран, потеря связи) нужна петля — софт-ребут не всегда помогает. Петля возвращает работоспособность при ghost-ошибках пневмы, проблемах с камерой 360, зависшем багажнике. Опытные владельцы называют петлю «лучшей рекомендацией всех времён».</p>
+<h3>Нужно ли перезагружать и телематику, и планшет?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Обязательна строгая последовательность: сначала телематика (SOS 15 сек), через 10 минут — планшет. Несоблюдение порядка может привести к зависанию загрузки OTA.</p>
+<p><strong>Лагерь B:</strong> Достаточно перезагрузить только планшет или только телематику, порядок не критичен. Один владелец за 1.5 года ни разу не перезагружал телематику кнопкой SOS — обновления приходили сами. Вероятно, зависит от конкретной ситуации: потеря связи требует ребута TCAM, а глюк приложения — только планшета.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li class="warning">⚠️ <strong>VPN на планшете = ребут.</strong> DNS-ченджеры в режиме VPN (особенно ByeDPI) вызывают перезагрузку через 1 минуту. Используйте только режим прокси или per-app VPN.</li>
+<li class="warning">⚠️ <strong>Порядок отключения петли критичен.</strong> Сначала клемма 12V, потом высоковольтная петля (ВВБ). Если наоборот — вся нагрузка пойдёт на 12V АКБ. При снятии петли или клеммы <strong>не закрывать двери</strong> — без питания центральный замок не работает, можно заблокироваться снаружи.</li>
+<li class="warning">⚠️ <strong>Петля и подкинутый чип SIM.</strong> После перезагрузки петлей подкинутый чип может потерять регистрацию в сети. Связь не восстановится без повторного подкидывания чипа или установки китайской SIM.</li>
+<li class="warning">⚠️ <strong>Неудачное OTA опасно.</strong> Обрыв интернета во время обновления может привести к постоянным ребутам. Обеспечьте стабильный 4G/WiFi, не начинайте OTA при слабом сигнале. Исправление — ZDS или ожидание следующего обновления.</li>
+<li class="warning">⚠️ <strong>Кривая русификация = вечные ребуты.</strong> Некорректно установленная русификация (APK не как системные, конфликтные приложения) может привести к циклическому ребуту. В худшем случае — замена мультимедийного блока (~600 000 ₽). Если планшет ушёл в цикл после русификации — немедленно вернуть китайскую локаль.</li>
+<li class="warning">⚠️ <strong>Перед обновлением прошивки переключите локаль на китайский</strong> (через zSupport), иначе планшет может уйти в вечный ребут. После обновления можно вернуть русский.</li>
+<li class="warning">⚠️ <strong>Telegram и Яндекс.Музыка в фоне провоцируют ребуты.</strong> Конфликт с системой/русификацией вызывает циклические перезагрузки после стоянки. Рекомендуется выходить из аккаунтов в приложениях, когда они не нужны.</li>
+<li class="warning">⚠️ <strong>Регулярные ребуты → проверить антифриз.</strong> Низкий антифриз → перегрев ВВ батареи → ошибки BMS → спонтанные ребуты. Протечка антифриза в батарею → короткое замыкание ячеек → замена всей батареи за ~$17 000 (батарея цельная, неразборная). У дорестайлов до января 2023 — два бачка антифриза, после января 2023 и рестайл — один.</li>
+<li class="warning">⚠️ <strong>Переполнение RAM (80–90%) = белый/чёрный экран и авторебуты.</strong> Проверяйте загрузку в «Менеджере системы». Удалите лишние APK, особенно голосовые ассистенты на прошивке 5.3.</li>
+<li class="warning">⚠️ <strong>Не удалять файлы OTA кроме ser1log.</strong> Удаление манифеста ломает отображение версии прошивки. Восстановление — только через ZDS.</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 2748 сообщений тем «001 Дорест | 001 Рест (+FR) | ПО/МА — 001 Рест | ПО/МА — 001 Дорест | Техничка / ПО и МА (X, 001, 007, 009, 7x)» за период август 2024 — май 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/1077134">t.me/zeekrclub/1077134</a></em></p>
+</main>
+</body>
+</html>

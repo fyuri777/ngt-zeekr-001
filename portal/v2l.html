@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>V2L Zeekr 001 — машина как розетка, что можно запитать — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / Зарядка</nav>
+<h1>V2L Zeekr 001 — машина как розетка, что можно запитать</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за август 2024 — апрель 2026: что говорят 180+ сообщений из 118 тредов о функции V2L, подключении бытовых приборов и резервном питании дома.</p>
+<h2>Что такое V2L и какая мощность доступна</h2>
+<p>V2L (Vehicle-to-Load) — функция, позволяющая использовать высоковольтную батарею автомобиля как источник переменного тока 220В для внешних потребителей. В Zeekr 001 максимальная отдаваемая мощность составляет 3,3 кВт (3300 Вт). <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Мощность распределяется по двум точкам подключения:</p>
+<ul>
+<li><strong>Салонная розетка 220В</strong> (только комплектация You) — ограничена 10А, то есть примерно 2,2 кВт.</li>
+<li><strong>Зарядный порт AC с переходником V2L</strong> — работает на 16А, что даёт полные 3,3 кВт.</li>
+</ul>
+<p>Таким образом, для получения максимальной мощности нужен внешний переходник-разрядник, даже если в машине есть встроенная розетка.</p>
+<h2>Где находится розетка и какой переходник нужен</h2>
+<p>Встроенная бытовая розетка 220В расположена в салоне и доступна <strong>только в комплектации You</strong>. В комплектациях Me и других вариантах розетки в салоне нет — для использования V2L требуется переходник. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Переходник V2L (разрядник стандарта GB/T) вставляется в медленный зарядный порт AC автомобиля. На выходе переходника — стандартная бытовая розетка, к которой подключается удлинитель или прибор напрямую. Стоимость переходника на Ozon — около 3300 руб. Устройство компактное, легко хранится в багажнике.</p>
+<p>Важно понимать разницу: салонная розетка удобна для мелких потребителей (зарядка ноутбука, телефона, игровой консоли), а переходник в зарядный порт — для серьёзных нагрузок вроде электроинструмента, обогревателя или питания дома.</p>
+<h2>Что можно подключить к V2L</h2>
+<p>Практический опыт владельцев показывает следующие сценарии использования:</p>
+<p><strong>Работает без проблем:</strong><br>
+- Освещение дома или дачи (LED-лампы суммарно потребляют мизер)<br>
+- Электрогриль, мультиварка (если мощность до 2,5–3 кВт)<br>
+- Электрочайник мощностью до 2 кВт<br>
+- Игровые консоли (Nintendo Switch, PlayStation)<br>
+- Ноутбуки, мониторы, роутеры<br>
+- Зарядка электроинструмента</p>
+<p><strong>Работает с оговорками:</strong><br>
+- Чайники мощностью 2,5–3 кВт — на пределе, но обычно тянет<br>
+- Небольшие обогреватели (до 2 кВт)</p>
+<p><strong>Проблемные приборы:</strong><br>
+- Пылесосы — пиковая нагрузка при старте двигателя может превышать 3,3 кВт, срабатывает защита инвертора<br>
+- Компрессоры и кондиционеры — пусковой ток в 3–5 раз выше номинального<br>
+- Любые приборы с суммарной нагрузкой свыше 3,3 кВт</p>
+<p>Ключевое правило: смотреть нужно не на номинальную мощность прибора, а на пиковую (пусковую). Приборы с электромоторами потребляют при старте в разы больше, чем в рабочем режиме.</p>
+<h2>Запитывание дома при отключении электричества</h2>
+<p>Одно из самых практичных применений V2L — резервное питание дома или дачи при отключении электроснабжения. Батарея на 100 кВт⋅ч позволяет обеспечить автономную работу освещения и базовых электроприборов на длительный срок. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Однофазный ввод (большинство квартир и дач):</strong></p>
+<p>Схема простая: переходник V2L → удлинитель → перекидной автомат в щитке. Перекидной автомат отключает дом от внешней сети и подаёт питание от машины. Мощность — до 3,5 кВт на одной фазе. Этого достаточно для света, холодильника, роутера, зарядки устройств и одного нагревательного прибора.</p>
+<p><strong>Трёхфазный ввод (частные дома):</strong></p>
+<p>Здесь сложнее. Два варианта:</p>
+<ol>
+<li><strong>Объединить три фазы</strong> после вводного автомата и раздавать одну фазу от автомобиля по всему дому. Требует понимания электрики и правильной коммутации.</li>
+<li><strong>Преобразователь однофазного в трёхфазное</strong> — стоимость около 80 тыс. руб. Решение для тех, у кого есть трёхфазные потребители (электроплита, мощный кондиционер).</li>
+</ol>
+<p>Трёхфазные приборы (электроплита на 380В, промышленные двигатели) от V2L работать не будут в любом случае — машина выдаёт только одну фазу 220В.</p>
+<p>⚠️ <strong>Категорически нельзя</strong> просто воткнуть провод от V2L в бытовую розетку дома без перекидного автомата. Это создаёт обратную подачу напряжения в сеть, опасную для ремонтных бригад и для самого автомобиля при внезапном включении внешнего питания.</p>
+<h2>Расход батареи при использовании V2L</h2>
+<p>Точных замеров расхода кВт⋅ч/час в сообществе не проводилось. Однако можно рассчитать приблизительно:</p>
+<ul>
+<li>При нагрузке 1 кВт (свет + холодильник + роутер) батарея 100 кВт⋅ч проработает теоретически до 100 часов (более 4 суток)</li>
+<li>При нагрузке 2 кВт (добавить обогреватель или электрогриль) — около 50 часов</li>
+<li>При максимальной нагрузке 3,3 кВт — около 30 часов</li>
+</ul>
+<p>На практике КПД инвертора составляет 85–92%, поэтому реальное время будет на 10–15% меньше. Также машина резервирует часть заряда для собственных нужд (12В система, BMS).</p>
+<p>Владельцы отмечают, что для типичного сценария «свет и розетки в доме при отключении» батареи хватает с большим запасом — несколько суток без проблем. <span class="badge badge-stale">⚠️ STALE</span> — точных замеров с секундомером в сообществе не публиковалось.</p>
+<h2>V2V: зарядка другого электромобиля</h2>
+<p>Вопрос о возможности зарядить другой электромобиль от Zeekr 001 (Vehicle-to-Vehicle) поднимается редко, и единого мнения нет.</p>
+<p>Теоретически это возможно через кабель Type 2 (32А) и переходник-разрядник с обратной подачей по линии зарядки. Один из владельцев утверждает, что это реализуемо, однако требует нестандартной переделки и понимания протоколов зарядки.</p>
+<p>На практике штатный V2L выдаёт обычную бытовую розетку 220В, а для зарядки другого EV нужен полноценный EVSE (зарядная станция), которая выступает посредником в коммуникации с бортовым зарядным устройством принимающего автомобиля. Подключить «напрямую кабелем» без промежуточного оборудования нельзя.</p>
+<p>Вывод: V2V возможен только через цепочку V2L → портативная зарядная станция → второй EV, что крайне неэффективно по потерям (двойное преобразование), но технически работает для аварийной подзарядки на несколько километров пробега.</p>
+<h2>12В аккумулятор и его связь с V2L</h2>
+<p>Работа V2L напрямую зависит от исправности 12В аккумулятора и инвертора — это важно понимать.</p>
+<p><strong>Как работает цепочка:</strong><br>
+Высоковольтная батарея (ВВБ) → инвертор → 12В АКБ → бортовая электроника. Инвертор поддерживает напряжение 14–14,2В на малом аккумуляторе, пока заряд ВВБ выше 10–20%.</p>
+<p><strong>Проблема:</strong> если 12В АКБ сел полностью, инвертор не запустится. Машина не сможет ни активировать V2L, ни даже открыть двери штатно. При этом зарядить 12В от ВВБ тоже не получится — замкнутый круг.</p>
+<p>Без подзарядки от ВВБ малый аккумулятор держит машину в рабочем состоянии максимум 20–30 минут. Это значит, что при неисправности инвертора машина быстро превращается в «кирпич».</p>
+<h2>Спорные моменты</h2>
+<h3>Можно ли «прикуривать» Zeekr 001 бустером при севшем 12В аккумуляторе?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Бустером НЕЛЬЗЯ — спалишь инвертор, замена до 500 тыс. руб.</p>
+<p>Официальные инструкции и сервисы категорически запрещают использование бустеров. В сообществе описаны случаи сгоревших инверторов после прикуривания. Рекомендация — зарядить 12В АКБ отдельно (снять или подключить зарядное на малом токе) или использовать лабораторный блок питания с контролем напряжения.</p>
+<p><strong>Лагерь B:</strong> Можно аккуратно подать ток от другого авто или зарядки 30А — машина запустится.</p>
+<p>Некоторые владельцы успешно запускали машину, подключив провода от заведённого автомобиля или зарядное устройство на 12В к клеммам АКБ (доступ — под передним бампером). Ключевое условие — не допускать завышенного напряжения выше 14,5В и не давать большой ток рывком.</p>
+<p><strong>Итог:</strong> риск реален, цена ошибки — до 500 тыс. руб. Безопасный путь: лабораторный БП или зарядное устройство для АКБ с регулировкой тока и напряжения, подключённое на малом токе (2–5А) до достижения 12,5–13В, после чего машина сама запустит инвертор и дозарядит АКБ.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li>
+<p>⚠️ <strong>Не превышать 3,3 кВт нагрузки на V2L</strong> — иначе сработает защита и инвертор отключится. Пылесосы, компрессоры и другие приборы с электромотором могут вызвать срабатывание даже при номинальной мощности ниже лимита из-за пускового тока.</p>
+</li>
+<li>
+<p>⚠️ <strong>Использование бустера для «прикуривания» 12В АКБ может сжечь инвертор</strong> — замена до 500 тыс. руб. Бустеры дают нестабилизированное завышенное напряжение. Официально запрещено производителем.</p>
+</li>
+<li>
+<p>⚠️ <strong>При полностью севшем 12В АКБ машина не возьмёт заряд от ВВБ</strong> — нужно сначала зарядить малый аккумулятор внешним источником. Без 12В питания инвертор не запустится, V2L не активируется.</p>
+</li>
+<li>
+<p>⚠️ <strong>Для запитывания дома от V2L обязателен перекидной автомат</strong> — нельзя просто воткнуть провод в розетку. Без коммутации возможна обратная подача напряжения в сеть, опасная для людей и оборудования.</p>
+</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 180 сообщений тем «001 Дорест | 001 Рест (+FR) | 3003» за период август 2024 — апрель 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/867502">t.me/zeekrclub/867502</a></em></p>
+</main>
+</body>
+</html>

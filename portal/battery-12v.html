@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>12В аккумулятор Zeekr 001 — логика подзарядки, OBD-донглы, разряды — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / Здоровье батареи</nav>
+<p>Статья готова. Вот она целиком:</p>
+<h1>12В аккумулятор Zeekr 001 — логика подзарядки, OBD-донглы, разряды</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за август 2024 — май 2026: что говорят 1996+ сообщений о логике работы 12В батареи, причинах разрядов, влиянии OBD-донглов и правильном обслуживании.</p>
+<h2>Какой 12В аккумулятор стоит в машине</h2>
+<p>На дорестайлинговых Zeekr 001 (2022–2023) установлена свинцово-кислотная AGM-батарея ёмкостью 50 А·ч, размер L207×W175×H190 мм. Расположена под капотом. Полная энергоёмкость — около 0.6–0.7 кВт·ч.</p>
+<p>На рестайлинге (2024+), а также на X и 007 — железо-фосфатный (LiFePO4) 12В аккумулятор. Он компактнее, легче и не подвержен сульфатации, но неремонтируемый и требует напряжения заряда не менее 14В. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Важно: заменять AGM на обычный свинцово-кислотный аккумулятор нельзя. Логика зарядки DC-DC инвертора настроена под AGM — при установке обычного АКБ возможны проблемы с OTA-обновлениями и некорректная работа системы подзарядки.</p>
+<h2>Как работает подзарядка 12В от высоковольтной батареи</h2>
+<p>12В аккумулятор подзаряжается автоматически от ВВБ через DC-DC инвертор. Система мониторит напряжение и включает подзарядку, когда оно падает ниже порога (~12.0–12.3В). Цикл подзарядки длится примерно 2 часа и съедает ~1–2% заряда ВВБ (в мороз — до 2% с учётом прогрева). <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Напряжение зарядки различается в зависимости от режима:<br>
+- <strong>В движении:</strong> ~14.6В — достаточно для полноценной зарядки AGM<br>
+- <strong>На стоянке (поддержание):</strong> ~14.0В — недостаточно для AGM (нужно 14.4–14.6В)</p>
+<p>Один из участников провёл эксперимент: Zeekr 001 дорест (прошивка 5.5) простоял 5 суток 4 часа при температуре -3…-7°C без движения. ВВБ ни разу не проснулась на подзарядку, напряжение 12В на старте составило 12.59В. Это показывает, что исправный 12В АКБ без OBD-донглов способен держать заряд неделю и более.</p>
+<p><strong>Порог отключения:</strong> при заряде ВВБ ниже 10–20% (порог зависит от прошивки) машина не включает инвертор и не подзаряжает 12В АКБ. Приоритет системы — сохранить жизнь ВВБ. Если оставить машину надолго с зарядом ВВБ ниже 20%, 12В может разрядиться в ноль. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<h2>Почему AGM-батарея хронически недозаряжается</h2>
+<p>Корень проблемы массовых отказов 12В АКБ на машинах 2022–2023 года — хронический недозаряд. Для нормальной зарядки AGM необходимы три условия одновременно:</p>
+<ol>
+<li>Напряжение 14.4–14.6В</li>
+<li>Ток ~0.05C от ёмкости (2.5А для 50 А·ч)</li>
+<li>Температура АКБ выше 0°C</li>
+</ol>
+<p>В режиме стоянки машина даёт только ~14В — этого недостаточно. Зимой АКБ холодный и не нагревается при коротких городских поездках. Результат: сульфатация пластин, потеря ёмкости на 20–30% за 2 года. Деградация идёт как снежный ком — чем меньше ёмкость, тем чаще падает напряжение, тем чаще ВВБ просыпается для подзарядки, тем больше циклов неполной зарядки. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Первые признаки деградации: проседание напряжения до 12.0–12.3В за ночь, машина начинает подзаряжать АКБ каждую ночь, электронные ручки глючат, двери не открываются, появляются призрачные ошибки.</p>
+<p>Порог замены: внутреннее сопротивление &gt;7 мОм на заряженной батарее.</p>
+<h2>OBD-донглы и паразитный ток</h2>
+<p>OBD-донглы (Пандора, ELM327, любые сканеры) держат машину в режиме бодрствования и значительно ускоряют разрядку 12В батареи. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Конкретные цифры:<br>
+- <strong>Паразитный ток от OBD-донгла:</strong> 50–200 мА<br>
+- <strong>Нормальная потеря ВВБ без донгла:</strong> 1–2% в неделю<br>
+- <strong>С OBD-донглом:</strong> до 5% ВВБ в день (2–4% за ночь)<br>
+- <strong>Пандора при корректной установке:</strong> 1–3% ВВБ в сутки<br>
+- <strong>Саморазряд ВВБ при длительной парковке без телематики:</strong> 4–5% в месяц</p>
+<p>Механизм проблемы: донгл не даёт машине полностью заснуть, дёргает CAN-шину. ВВБ вынуждена чаще просыпаться для подзарядки 12В, что ведёт к повышенной потере заряда. Если машина теряет &gt;1% ВВБ в сутки без донгла — это аномалия, нужно искать проблему.</p>
+<p><strong>Рекомендация:</strong> отключать OBD-донгл на время долгого простоя. При планировании стоянки более 3–5 дней с установленной Пандорой — зарядить 12В АКБ внешним ЗУ перед парковкой.</p>
+<h2>Обслуживание: внешняя зарядка и замена</h2>
+<p>Рекомендуется заряжать 12В АКБ внешним зарядным устройством <strong>2 раза в сезон</strong> — перед зимой и после зимы. Особенно актуально при коротких городских пробегах, установленной Пандоре или признаках деградации. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Правила зарядки:</strong><br>
+- Использовать ЗУ с поддержкой AGM (режим 14.4–14.6В)<br>
+- <span class="badge badge-official">📌 OFFICIAL</span>: максимальный ток зарядки — 11,25 А (из официального техмануала)<br>
+- Снять минусовую клемму перед зарядкой<br>
+- Отключить ВВБ через планшет (неизвестно, как DC-DC отреагирует на внешнее питание без нагрузки)<br>
+- При снятии клеммы учитывать, что пневмоподвеска падает — включить петлю или поднять машину, чтобы баллоны не стёрлись о кузов</p>
+<p><strong>Замена AGM-батареи</strong> (для дорестов):<br>
+- Delkor AGM — 22 000 руб. (Москва)<br>
+- Mutlu AGM 50 А·ч L207×W175×H190 — 16–18 000 руб. (Озон)<br>
+- Varta AGM — подходит по размеру<br>
+- RDrive 50Ah AGM (BMW-совместимый)</p>
+<p>Найти AGM под размер L207×W175×H190 — проблема даже в Москве. После замены нужно прописать новый АКБ через OBD-коннектор (ZDS или аналог).</p>
+<h2>Экстренное оживление при севшем 12В</h2>
+<p>Разряженный 12В АКБ в ноль = машина-кирпич. Даже при заряженной ВВБ на 90%+ машина не проснётся — не откроется, не включится. ⚠️</p>
+<p><strong>Рестайлинг и X/007:</strong> открыть лючок буксировочной проушины на переднем бампере справа, вытащить два провода (чёрный — минус, цветной — плюс), подключить донорский 12В аккумулятор (НЕ бустер!), дождаться запуска машины.</p>
+<p><strong>Дорест:</strong> открыть резиновую заглушку над передним левым колесом (на 12 часов), дёрнуть тросик капота 2 раза (рядом шланг омывайки — не перепутать), подключить донорский АКБ к клеммам под капотом или под задним сиденьем.</p>
+<p><strong>Критически важно:</strong><br>
+- Прикуривать ТОЛЬКО от незаведённой машины или отдельного АКБ<br>
+- НЕЛЬЗЯ прикуривать от заведённой машины (скачок напряжения от генератора)<br>
+- НЕЛЬЗЯ использовать бустер (пусковое устройство) — завышенное напряжение может сжечь DC-DC инвертор (замена — до 500 000 руб.)</p>
+<p>После оживления обязательно зарядить 12В АКБ внешним ЗУ. Глубокий разряд убивает AGM практически безвозвратно.</p>
+<h2>Критические ситуации</h2>
+<p><strong>Обновление ПО:</strong> при обновлении прошивки ВВБ отключается, питание идёт только от 12В АКБ. Были случаи окирпичивания из-за севшего 12В во время обновления. Некоторые владельцы ставят лабораторный источник питания на время обновления. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Долгая стоянка:</strong> не оставлять машину с зарядом ВВБ ниже 20%. Зарядить ВВБ до 50–70%, зарядить 12В внешним ЗУ, отключить OBD-донгл. Нормальный исправный АКБ продержится 2–3 недели без вмешательства.</p>
+<p><strong>Не захлопывать капот</strong> до подключения 12В аккумулятора — если 12В не подключён, капот не откроется штатно.</p>
+<h2>Спорные моменты</h2>
+<h3>Можно ли использовать бустер для прикуривания</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Можно использовать бустер для оживления машины — в ранних обсуждениях упоминался как вариант наравне с донорским АКБ.</p>
+<p><strong>Лагерь B:</strong> Бустер категорически нельзя — он даёт завышенное напряжение и может сжечь DC-DC преобразователь. Сервисные специалисты подтверждают очень высокую вероятность повреждения инвертора. Замена — до 500 000 рублей. Большинство опытных владельцев придерживаются этой позиции.</p>
+<h3>Достаточно ли 14В от DC-DC для зарядки AGM</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Система работает как задумано инженерами — мониторит напряжение и включает подзарядку автоматически. Логгеры подтверждают стабильную работу.</p>
+<p><strong>Лагерь B:</strong> 14В недостаточно для полноценной зарядки AGM (нужно 14.4–14.6В при температуре выше 0°C). Коротких поездок не хватает для нормальной зарядки. AGM страдает от хронического недозаряда, что объясняет массовые отказы через 2–3 года. Необходима периодическая зарядка внешним ЗУ.</p>
+<h3>SOH — надёжный ли индикатор состояния 12В АКБ</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> SOH от BT-тестеров корректно отражает состояние — батареи с 85–95% ещё работают. При нагреве в тепле SOH восстанавливается (с 70% до 92% за неделю).</p>
+<p><strong>Лагерь B:</strong> SOH — условный параметр, не отражающий реальную ёмкость. Эксперимент с профессиональным разрядником показал: АКБ с отличным SOH и низким сопротивлением выдал ёмкость намного ниже паспортных 50 А·ч. SOH не учитывает необратимую сульфатацию пластин. Точная проверка — только разрядником.</p>
+<h3>Допустимый ток зарядки внешним ЗУ</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Можно заряжать током 30–45 А — на практике незапитанная от ВВБ машина потребляет 45 А при 13.7В, что составляет всего 360 Вт мощности.</p>
+<p><strong>Лагерь B:</strong> <span class="badge badge-official">📌 OFFICIAL</span> — согласно официальному техническому мануалу, запрещается использовать ток зарядки выше 11,25 А. Запрещена ускоренная зарядка. Использовать только ЗУ с поддержкой AGM.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li class="warning">⚠️ <strong>НИКОГДА не использовать бустер</strong> для прикуривания — завышенное напряжение может убить DC-DC инвертор (замена до 500 000 руб.)</li>
+<li class="warning">⚠️ <strong>OBD-донглы ускоряют разрядку</strong> — потребление 50–200 мА, потеря ВВБ до 5% в день. На длительной стоянке вытащить</li>
+<li class="warning">⚠️ <strong>AGM требует периодической зарядки</strong> внешним ЗУ 2 раза в сезон — иначе сульфатация и смерть через 2–3 года</li>
+<li class="warning">⚠️ <strong>Не оставлять машину с ВВБ ниже 20%</strong> — 12В может не подзаряжаться, машина станет кирпичом</li>
+<li class="warning">⚠️ <strong>12В АКБ должен быть заряжен при обновлении ПО</strong> — были случаи окирпичивания</li>
+<li class="warning">⚠️ <strong>Не прикуривать от заведённой машины</strong> — скачок напряжения от генератора повредит электронику</li>
+<li class="warning">⚠️ <strong>Глубокий разряд убивает AGM безвозвратно</strong> — не доводить до полной разрядки</li>
+<li class="warning">⚠️ <strong>При снятии клеммы пневмоподвеска падает</strong> — баллоны могут стереться о кузов, включить петлю</li>
+<li class="warning">⚠️ <strong>Не захлопывать капот без подключённого 12В</strong> — штатное открытие не сработает</li>
+<li class="warning">⚠️ <strong>SOH от BT-тестеров — условный параметр</strong>, не отражает реальную ёмкость. Точная проверка — только разрядником</li>
+<li class="warning">⚠️ <strong>На машинах 2022–2023 массово умирают 12В АКБ</strong> — проверять состояние после 2 лет эксплуатации</li>
+<li class="warning">⚠️ <strong>Нельзя заменять AGM на обычный свинцово-кислотный</strong> — логика зарядки не совместима</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 1996 сообщений тем «001 Дорест | 001 Рест (+FR) | Обслуживание и ремонт | 3003 | 2049» за период август 2024 — май 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/1095500">t.me/zeekrclub/1095500</a></em></p>
+<hr>
+<p>Запись на диск заблокирована правами доступа. Разреши запись в <code>articles/12v-battery.md</code>, и я сохраню файл.</p>
+</main>
+</body>
+</html>

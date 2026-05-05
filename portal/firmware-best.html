@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Лучшие версии прошивок Zeekr 001 — консенсус сообщества — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / ПО и прошивки</nav>
+<h1>Лучшие версии прошивок Zeekr 001 — консенсус сообщества</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за сентябрь 2024 — апрель 2026: что говорят 279+ сообщений из 170 тредов о стабильных, проблемных и обязательных версиях прошивок для дореста и рестайлинга.</p>
+<h2>Как устроена нумерация прошивок</h2>
+<p>Zeekr 001 существует в двух поколениях: дорестайлинг (серия 5.x) и рестайлинг (серия 6.x). Внутри каждой серии обновления идут последовательно — от базовой версии через промежуточные патчи к стабильным релизам. Не все промежуточные версии одинаково надёжны: некоторые выходят с критичными багами, которые исправляются в следующем патче.</p>
+<p>Буквенные суффиксы (например, 6.1.1a) обозначают минорные правки внутри версии. Разница между, скажем, 5.2.2 и 5.2.3 может быть микроскопической — пара исправлений без заметного влияния на повседневное использование. А вот переход между мажорными версиями (с 5.x на 6.x или внутри 6.x с большим шагом) обычно приносит ощутимые изменения в работе подвески, мультимедиа и систем помощи водителю.</p>
+<h2>Рестайлинг: 6.5.2 — выбор сообщества</h2>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Версия <strong>6.5.2</strong> — консенсусный выбор владельцев рестайлинга на период обсуждений. Опытный специалист по обновлениям Олег Романович, чьё мнение в сообществе считается авторитетным, подтверждает стабильность этой версии и использует её на собственном автомобиле. Нареканий — ноль.</p>
+<p>Несколько владельцев независимо друг от друга отмечают отсутствие глюков, стабильную работу всех систем и предсказуемое поведение автомобиля на 6.5.2. Это та версия, на которой можно «сидеть» спокойно, не гоняясь за каждым новым обновлением.</p>
+<p>Для тех, кто хочет иметь последнюю доступную версию, упоминается <strong>6.1.1a</strong> как альтернатива на определённый период, а также <strong>6.3.3</strong>, на которой стабильно работает обновление по воздуху (OTA). Однако именно 6.5.2 собирает наибольшее количество положительных отзывов.</p>
+<h2>Дорестайлинг: 5.2.2 / 5.2.3 — надёжная база</h2>
+<p>Для дорестайлинга ситуация менее однозначная, но выделяются версии <strong>5.2.2</strong> и <strong>5.2.3</strong> как стабильные варианты. Разница между ними минимальна — 5.2.3 содержит микроскопическое обновление, и владельцы на 5.2.2 могут спокойно оставаться на своей версии без потери функциональности.</p>
+<p>После перехода на серию 5.x владельцы дореста отмечают заметные улучшения в работе пневмоподвески и качестве звука мультимедийной системы. Это важный аргумент для тех, кто всё ещё на ранних версиях прошивки.</p>
+<p><span class="badge badge-stale">⚠️ STALE</span> — данные по дорестайлингу менее свежие, чем по рестайлингу. Новых обсуждений стабильных версий для дореста в последние месяцы меньше, так как фокус сообщества сместился на рестайлинг.</p>
+<h2>Обязательный минимум: версия 6.0.8 и безопасность тормозов</h2>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Версия <strong>6.0.8</strong> — это не просто рекомендация, а критичный минимум для рестайлинга. Машины на версиях ниже 6.0.8 имеют зафиксированные нарекания по <strong>отказу тормозной системы на высоких скоростях</strong>. Это не теоретический риск — владельцы сталкивались с реальными ситуациями.</p>
+<p>Июльские машины 2024 года выпуска уже идут с завода на версии 6.0.8, так что проблема касается в первую очередь более ранних экземпляров. Если ваш рестайлинг на прошивке ниже 6.0.8 — обновление не просто желательно, а необходимо для безопасности.</p>
+<p>📌 Это одна из немногих ситуаций, когда сообщество единодушно: даже сторонники консервативного подхода к обновлениям признают, что до 6.0.8 нужно обновиться обязательно.</p>
+<h2>Чёрный список: версии, которых стоит избегать</h2>
+<h3>Дорестайлинг: 5.0.1 и 5.1.2</h3>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Версии <strong>5.0.1</strong> и <strong>5.1.2</strong> для дорестайлинга — печально известные «проблемные» прошивки. После их установки фиксировались <strong>массовые обращения</strong> владельцев с двумя основными проблемами:</p>
+<ul>
+<li><strong>Отказ пневмоподвески</strong> — машина «падала» на отбойники, система не выходила на рабочий уровень.</li>
+<li><strong>Неработающие фары</strong> — полный или частичный отказ головного света.</li>
+</ul>
+<p>Если вы каким-то образом оказались на одной из этих версий, обновление до 5.2.2+ настоятельно рекомендуется.</p>
+<h3>Рестайлинг: 6.5.0</h3>
+<p>Версия <strong>6.5.0</strong> для рестайлинга содержит известные баги. Разработчики русификаций прямо не рекомендуют её устанавливать и советуют ждать сразу <strong>6.5.1</strong> или <strong>6.5.3</strong>, минуя нулевую сборку. Это классический случай «сырого» релиза, который был оперативно пропатчен в следующих версиях.</p>
+<h2>Стратегия обновлений: когда и как</h2>
+<h3>Золотое правило: не быть в первом вагоне</h3>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Сообщество выработало чёткую рекомендацию: <strong>не обновляться сразу после выхода новой прошивки</strong>. Оптимальная стратегия — подождать <strong>1–2 недели</strong>, пока другие владельцы протестируют новую версию и поделятся результатами в чатах.</p>
+<p>Опытные обновляторы подчёркивают: обычному владельцу нет смысла обновляться «на каждую циферку и буковку». Можно спокойно сидеть на проверенной стабильной версии <strong>до года</strong>, если она работает без нареканий. Новая версия не означает автоматического улучшения — она может принести новые баги.</p>
+<h3>Подготовка к обновлению</h3>
+<p><span class="badge badge-recent">🆕 RECENT</span></p>
+<p>Перед обновлением, особенно после русификации, рекомендуется <strong>покатать 1–2 недели на китайском языке интерфейса</strong>. Это нужно, чтобы все блоки управления успели скачать и установить свои обновления. Если блоки были «неправильно залиты» при русификации, система может запросить повторное обновление или отдельные блоки не «проснутся» для приёма новой прошивки.</p>
+<h3>Откат прошивки: возможно, но не просто</h3>
+<p>Технически откат на более раннюю версию возможен — например, с 6.7.2 на 6.5.2. Но это не операция для самостоятельного выполнения. Требуется:</p>
+<ul>
+<li>Диагностическое оборудование</li>
+<li>Файлы нужной версии прошивки</li>
+<li>Опытный специалист (обновлятор)</li>
+</ul>
+<p>При этом грамотный специалист <strong>откажет</strong> в откате, если единственная причина — «все хвалят 6.5.2». Откат делается при наличии реальной проблемы на текущей версии, а не ради следования моде. Каждый откат несёт свои риски, и без объективной причины эта процедура нецелесообразна.</p>
+<h2>Русификация и обновления: тонкий баланс</h2>
+<p>Вопрос взаимодействия русификации с обновлениями прошивки — один из самых деликатных. После установки русского языка через стороннюю русификацию некоторые блоки управления могут <strong>не обновиться корректно</strong> при следующем OTA-обновлении.</p>
+<p>Кривая русификация способна привести к тому, что система в будущем вообще перестанет получать обновления по воздуху. Это создаёт дилемму: с одной стороны, русский интерфейс — это удобство. С другой — потенциальная потеря возможности безопасно обновляться.</p>
+<p>Рекомендация сообщества: если русификация уже установлена, перед любым обновлением прошивки консультироваться с тем специалистом, который её делал. Не пытаться «инженерить» самостоятельно — не открывать инженерное меню и не менять языковые настройки без понимания последствий.</p>
+<h2>Сводная таблица рекомендаций</h2>
+<table>
+<thead>
+<tr>
+<th>Поколение</th>
+<th>Стабильная версия</th>
+<th>Минимум</th>
+<th>Избегать</th>
+<th>Уверенность</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Дорестайлинг (5.x)</td>
+<td>5.2.2 / 5.2.3</td>
+<td>—</td>
+<td>5.0.1, 5.1.2</td>
+<td>Средняя</td>
+</tr>
+<tr>
+<td>Рестайлинг (6.x)</td>
+<td>6.5.2</td>
+<td>6.0.8</td>
+<td>6.5.0</td>
+<td>Высокая</td>
+</tr>
+</tbody>
+</table>
+<h2>Спорные моменты</h2>
+<h3>Обновляться на последнюю или сидеть на стабильной старой</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Обновление — это всегда улучшение, не имеет смысла сидеть на старой версии. Зачем отказываться от новых функций ради одной фичи, которую можно заменить обходным путём? Например, если потеряли возможность звонить через машину — просто звоните на SIM напрямую.</p>
+<p><strong>Лагерь B:</strong> Не быть в первом вагоне — проверенная мудрость. На 5.0.1 и 5.1.2 были массовые отказы пневмоподвески и фар, на 6.5.0 — явные баги. Обычному пользователю лучше дождаться обкатки сообществом и обновляться только на проверенные версии. Опытные специалисты рекомендуют именно этот подход.</p>
+<h3>Обновляться после русификации или сохранять текущую версию</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> После русификации лучше не трогать прошивку. Обновление может сломать перевод, нарушить работу блоков и привести к потере функциональности. Были случаи проблем после обновления с кривой русификацией — рекомендуется не открывать инженерное меню и не менять языковые настройки.</p>
+<p><strong>Лагерь B:</strong> Обновляться нужно хотя бы до критичных версий, в первую очередь до 6.0.8. Риск отказа тормозной системы на высоких скоростях — это вопрос жизни и здоровья, который перевешивает любые неудобства с переводом интерфейса. Безопасность важнее русского языка в меню.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li class="warning">⚠️ <strong>Версии 5.0.1 и 5.1.2 (дорест)</strong> — массовые отказы пневмоподвески и головного света. Не устанавливать, при наличии — обновить.</li>
+<li class="warning">⚠️ <strong>Версия 6.5.0 (рест)</strong> — багованный релиз. Разработчики русификаций рекомендуют пропускать в пользу 6.5.1 или 6.5.3.</li>
+<li class="warning">⚠️ <strong>Версии ниже 6.0.8 (рест)</strong> — критичная проблема с тормозной системой на высоких скоростях. Обновление обязательно.</li>
+<li class="warning">⚠️ <strong>Не обновляться сразу после выхода новой прошивки</strong> — подождать 1–2 недели отзывов от других владельцев.</li>
+<li class="warning">⚠️ <strong>Откат прошивки — только через специалиста</strong> с диагностическим оборудованием и файлами нужной версии. Без реальной проблемы на текущей версии опытные обновляторы откажут.</li>
+<li class="warning">⚠️ <strong>После русификации блоки могут не обновиться корректно</strong> — кривая русификация блокирует будущие OTA-обновления.</li>
+<li class="warning">⚠️ <strong>Перед обновлением — 1–2 недели на китайском языке интерфейса</strong>, чтобы все блоки скачали свои обновления и были готовы к переходу на новую версию.</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 279 сообщений тем «001 Дорест | 001 Рест (+FR) | ПО/МА — 001 Рест | ПО/МА — 001 Дорест | Техничка / ПО и МА (X, 001, 007, 009, 7x)» за период сентябрь 2024 — апрель 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/1142323">t.me/zeekrclub/1142323</a></em></p>
+</main>
+</body>
+</html>

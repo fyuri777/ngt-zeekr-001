@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Сравнение русификаторов Zeekr 001 — Infohub, GMC, XMETA, ZeeAppStore — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / Русификация и связь</nav>
+<h1>Сравнение русификаторов Zeekr 001 — Infohub, GMC, XMETA, ZeeAppStore</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за август 2024 — май 2026: что говорят 3013+ сообщений из 2009 тредов о выборе русификации, ценах, подводных камнях обновлений и реальных отличиях между поставщиками.</p>
+<h2>Обзор рынка русификации</h2>
+<p>На Zeekr 001 сложился рынок из пяти основных поставщиков русификации, каждый со своей специализацией и ценовой политикой. Выбор зависит от бюджета, требований к полноте перевода (планшет, приборка, задний экран) и готовности отдать контроль над инженерным меню.</p>
+<p><strong>Infohub (zeekr_infohub)</strong> — бесплатная базовая русификация при открытой инженерке, расширенная версия ~10 тыс. руб. Установка удалённо через утилиту zeekrtool или ADB Toolkit за 5–10 минут. Русификация планшета + приборки (последние версии) + галереи + сценариев. Пожизненные бесплатные обновления, не закрывает ADB. Быстрее всех выпускает пакеты под новые прошивки — иногда раньше официального OTA. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>GMC</strong> — 50 тыс. руб. на весь срок владения, бесплатное восстановление после любых обновлений. Включает голосовое управление с автопаузой музыки, проекцию навигации на лобовое стекло (HUD), приложение для прогрева и мониторинга батареи, разделение экрана, кастомные звуки. Не закрывает ADB. Требуется физический визит для установки.</p>
+<p><strong>Xanavi (Ксанави)</strong> — 80–130 тыс. руб. за полный пакет (планшет + приборка + задний экран). Обновление прошивки по кабелю — 60 тыс. руб. Бесплатное восстановление русификации для первого владельца. Голосовое управление на русском, разделение экрана на 3 части. Закрывает инженерное меню и ADB после установки. Москва и регионы, физические сервисы.</p>
+<p><strong>XMETA</strong> — 40 тыс. руб. (ADB открыт), +25 тыс. если ADB закрыт. Подписка: 10 тыс./год или 20 тыс. навсегда (lifetime). Бесплатны только минорные обновления (6.1.2→6.1.3), мажорные (6.1→6.2) — платно. Специализация на телематике и связи, Telegram-бот для push-обновлений. Москва, Питер, удалённая работа.</p>
+<p><strong>ZeeAppStore / Rustor</strong> — не полная русификация, а магазин адаптированных приложений (Яндекс.Карты, Яндекс.Музыка с крупными кнопками для планшета). Платная подписка. Меняет подпись разработчика — конфликт с оригинальными APK Яндекса.</p>
+<h2>Сравнительная таблица: цена, функции, ограничения</h2>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th>Infohub</th>
+<th>GMC</th>
+<th>Xanavi</th>
+<th>XMETA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Русификация планшета</td>
+<td>20–25 тыс.</td>
+<td>50 тыс. (всё включено)</td>
+<td>80–130 тыс.</td>
+<td>40–65 тыс.</td>
+</tr>
+<tr>
+<td>Обновление прошивки</td>
+<td>35 тыс.</td>
+<td>Бесплатно</td>
+<td>60 тыс.</td>
+<td>Мажорные платно</td>
+</tr>
+<tr>
+<td>Связка (русификация + обновление)</td>
+<td>~55–60 тыс.</td>
+<td>50 тыс.</td>
+<td>~140 тыс.</td>
+<td>По запросу</td>
+</tr>
+<tr>
+<td>Перевод приборки</td>
+<td>Да (последние версии)</td>
+<td>Да</td>
+<td>Да</td>
+<td>Да</td>
+</tr>
+<tr>
+<td>Голосовое управление</td>
+<td>Нет</td>
+<td>Да</td>
+<td>Да</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>HUD-проекция навигации</td>
+<td>Нет</td>
+<td>Да</td>
+<td>Да</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>Разделение экрана</td>
+<td>Нет</td>
+<td>Да</td>
+<td>Да (3 части)</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>Закрывает ADB</td>
+<td>Нет</td>
+<td>Нет</td>
+<td>Да</td>
+<td>Нет</td>
+</tr>
+<tr>
+<td>Восстановление после обновления</td>
+<td>Бесплатно навсегда</td>
+<td>Бесплатно навсегда</td>
+<td>Бесплатно (1-й владелец)</td>
+<td>Минорные бесплатно</td>
+</tr>
+<tr>
+<td>Для нового владельца б/у</td>
+<td>Бесплатно</td>
+<td>Бесплатно</td>
+<td>80–100 тыс.</td>
+<td>Платно</td>
+</tr>
+<tr>
+<td>Установка</td>
+<td>Удалённо, 5–10 мин</td>
+<td>Физический визит</td>
+<td>Физический визит</td>
+<td>Удалённо/физически</td>
+</tr>
+</tbody>
+</table>
+<p>Отдельно стоит <strong>лаунчер от Кирилла (HudSettings)</strong> — 10 тыс. руб. с настройкой проекции. Не полная русификация, а замена лаунчера: вывод Яндекс.Навигатора на главный экран и проекцию лобового стекла (карта, подсказки с поворотами, камеры). Самообновляется автоматически. Подходит тем, кому достаточно английского интерфейса с ключевыми доработками. <span class="badge badge-recent">🆕 RECENT</span></p>
+<h2>Обновление прошивки и русификация: как не сломать систему</h2>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Обновление по воздуху (OTA) с установленной русификацией — почти гарантированная поломка. Русификация ставится поверх заводской прошивки, при OTA системные файлы перезаписываются — лаунчер слетает, локаль переключается на китайский, появляются баги: шторка не открывается, сиденья не регулируются, климат глючит. По данным сообщества, проблемы возникают в 99% случаев.</p>
+<p><strong>Безопасный алгоритм обновления:</strong></p>
+<ol>
+<li>Переключить локаль на китайскую (через «лягушку» или приложение смены языка).</li>
+<li>Перезагрузить планшет.</li>
+<li>Обновить по кабелю <strong>USB A–USB A</strong> через сервис или удалённо с помощью русификатора. Кабель <strong>USB A–USB C</strong> — для обновления прошивки через компьютер.</li>
+<li>Восстановить русификацию у своего поставщика.</li>
+</ol>
+<p>GMC и Infohub восстанавливают бесплатно на весь срок владения. Xanavi — бесплатно для первого владельца. XMETA — только минорные обновления бесплатно.</p>
+<p>Штатный китайский язык + английская локаль обновляются по воздуху без проблем. Для дореста существует инструкция OTA-обновления через DNS Changer + ADB, но проще и безопаснее — через компьютер по кабелю.</p>
+<h2>Инженерное меню и ADB: контроль над машиной</h2>
+<p><span class="badge badge-debated">🔥 DEBATED</span></p>
+<p>Доступ к инженерному меню (ADB) — ключевой параметр при выборе русификатора. Через ADB устанавливаются приложения, меняется лаунчер, открываются скрытые функции, чистится кэш при сбоях. Без ADB владелец зависит от русификатора для любого действия.</p>
+<p><strong>Кто закрывает:</strong> Xanavi, Provolta, Fenzy — ставят динамический пароль на инженерное меню и блокируют ADB.</p>
+<p><strong>Кто оставляет открытым:</strong> GMC, Infohub — намеренно не блокируют доступ.</p>
+<p>Обходной путь — приложение <strong>zSupport</strong> из ZeeAppStore/RuStore: переключает режим USB-порта и даёт доступ к ADB без инженерки. Но это костыль, не полноценная замена.</p>
+<p>Стоимость открытия инженерки зависит от версии прошивки: <strong>5–10 тыс. руб.</strong> на версии 6.0.8, <strong>50–80 тыс. руб.</strong> на версии 6.1.2+. С версии 6.1.2 завод ввёл пароль на ADB — разница в цене в 10 раз. Если планируете самостоятельную русификацию через Infohub — открывать инженерку выгоднее до обновления на 6.1.2.</p>
+<h2>Перевод приборной панели</h2>
+<p>Приборка и камеры работают на QNX (не Android), поэтому их русификация технически сложнее планшета. Не все поставщики умеют это делать.</p>
+<p>Xanavi, GMC, XMETA и Infohub (последние версии) — переводят и планшет, и приборку. Бюджетные решения — только планшет, приборка остаётся на английском или китайском. Отдельная русификация приборки — <strong>20–25 тыс. руб.</strong></p>
+<p>На рестайлингах (6.7+) у продвинутых поставщиков есть решения без разборки и снятия блоков. На дорестах требовалась физическая работа с блоком. Завод добавляет зачатки английской локализации в приборку начиная с версии 6.1+.</p>
+<p><span class="badge badge-stale">⚠️ STALE</span> — информация по приборке быстро устаревает: поставщики регулярно расширяют поддержку новых прошивок. Уточняйте актуальность для вашей версии ОС.</p>
+<h2>Альтернатива: штатный английский без русификации</h2>
+<p>На прошивке 6.x для рестайлинга доступна штатная английская локаль. На версии 6.5+ через ZSupport можно включить встроенный русский, покрывающий ~95% интерфейса (кроме приборки). Минимальный набор: штатный русский через Z-Support (переключение «лягушкой»), русские пакеты настроек и климата, лаунчер с Яндекс.Картами. Приборка остаётся китайской.</p>
+<p>Многие владельцы год и более ездят на штатном английском без русификации — обновления приходят по воздуху без проблем, нет расходов на восстановление после каждого обновления. Один раз настроить через переводчик и забыть.</p>
+<h2>Устранение проблем после обновления</h2>
+<p>Если после обновления или OTA слетел лаунчер или русификация работает криво — стандартные действия через ADB:</p>
+<ul>
+<li><strong>Слетевший лаунчер:</strong> <code>adb uninstall com.zeekr.carlauncher3d</code> (или <code>ecarx.launcher3</code>), затем <code>adb shell pm clear com.zeekr.carlauncher3d</code> — установить актуальную версию под текущую прошивку.</li>
+<li><strong>Нерабочая шторка (SystemUI):</strong> почистить кэш через ADB, перезагрузить.</li>
+<li><strong>Конфликты приложений:</strong> старые APK из data/ конфликтуют с новой прошивкой — удалить через ADB, восстановить русификацию заново.</li>
+</ul>
+<p>Частая ошибка — лаунчер или приложение климата от другой версии ОС. Лаунчер от 6.0.8 не работает на 6.1.2 и наоборот. Решение: обновить ОС до последней, затем обновить системные приложения под эту версию.</p>
+<p>Если нет доступа к ADB — обращайтесь к автору русификации для переустановки. У GMC и Infohub восстановление занимает 30–45 минут, часто удалённо.</p>
+<h2>Спорные моменты</h2>
+<h3>Русификация vs штатный английский — нужна ли вообще?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Лучше ездить на штатном английском — стабильнее, обновления по воздуху без проблем, не нужно платить за восстановление. На 6.5+ встроенный русский через ZSupport покрывает 95% интерфейса. Английский с завода появился, разово настроить через переводчик и забыть. Экономия десятков тысяч рублей и нервов.</p>
+<p><strong>Лагерь B:</strong> Русификация нужна для полноценного использования — перевод всех меню включая приборку, голосовое управление с автопаузой музыки, навигация на HUD-проекции, разделение экрана, кастомные звуки, сценарии. Встроенный русский неполный — приборка китайская, нет голосового ассистента. Современные русификации (Infohub, GMC) стабильны и быстро обновляются.</p>
+<h3>Infohub (бесплатная) vs платные русификации</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Infohub — лучший выбор по соотношению цена/качество. Бесплатная, быстрые обновления, открытая инженерка, пожизненная поддержка. Экономия 60–80 тыс. руб. по сравнению с Xanavi. Не перекомпилирует APK — минимальные риски глюков.</p>
+<p><strong>Лагерь B:</strong> Платные русификации оправданы. GMC и Xanavi предлагают функции, которых нет у Infohub: голосовое управление, проекция навигации на лобовое стекло, разделение экрана на 3 части, фирменное приложение для прогрева. Качество техподдержки и гарантия стабильности стоят своих денег.</p>
+<h3>Закрытие инженерного меню — защита бизнеса или lock-in?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Закрытие инженерки — недобросовестная практика. Привязывает владельца к одному мастеру, создаёт риски при необходимости самостоятельно исправить проблемы, ограничивает права собственника. При смене русификатора — factory reset или плата за разблокировку.</p>
+<p><strong>Лагерь B:</strong> Русификаторы защищают свой труд и интеллектуальную собственность. Без защиты от копирования бизнес-модель нежизнеспособна. Пароль на ADB с версии 6.1.2 — заводской, не ставится русификаторами.</p>
+<h3>Обновлять прошивку или оставаться на стабильной?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Стабильная версия (5.2.x для дореста, 6.0.8/6.5.2 для реста) уже отлажена. Обновления приносят слёт русификации, новые глюки, рост расхода энергии. Владельцы на прошивке 1.0 ездят 2 зимы и 50 тыс. км без проблем. 90% обращений — проблемы с языком после обновлений.</p>
+<p><strong>Лагерь B:</strong> Новые версии исправляют критические баги: отказ тормозов на 6.0.7, проблемы с пневмой. Добавляют функции: камеры в реальном времени, режим парковки, лидар видит светофоры, пневма, улучшенный звук. Критические обновления безопасности важнее удобства русификации.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li class="warning">⚠️ <strong>OTA с русификацией = поломка.</strong> Обновление по воздуху с установленной русификацией почти гарантированно ломает систему. Обновляйтесь только по кабелю через сервис или удалённо с русификатором.</li>
+<li class="warning">⚠️ <strong>Новый владелец платит заново.</strong> Большинство поставщиков не переносят гарантию: восстановление для второго владельца — 80–120 тыс. руб. Только GMC и Infohub восстанавливают на весь срок владения машины.</li>
+<li class="warning">⚠️ <strong>Закрытый ADB = зависимость.</strong> Xanavi, Provolta, Fenzy закрывают инженерное меню. Сменить русификатора можно только через factory reset (потеря всех данных) или платную разблокировку.</li>
+<li class="warning">⚠️ <strong>Приборка не у всех.</strong> Не все русификации переводят приборную панель. Доплата — 20–25 тыс. руб. Уточняйте до установки.</li>
+<li class="warning">⚠️ <strong>Несовместимая русификация блокирует функции.</strong> Кривая версия может сломать: бардачок (не открывается кнопкой), климат, задний экран, режим отдыха, запись регистратора. Требуйте проверку всех функций после установки.</li>
+<li class="warning">⚠️ <strong>ZeeAppStore конфликтует с оригинальными APK.</strong> Приложения из ZeeAppStore нельзя ставить одновременно с оригинальными Яндекс-приложениями — разные подписи. Удалите все оригинальные версии перед установкой, иначе в лаунчере пропадёт навигация.</li>
+<li class="warning">⚠️ <strong>Factory reset ≠ Reset to default.</strong> Сброс к заводским настройкам (factory reset) удаляет русификацию, все приложения и данные безвозвратно. Reset to default сбрасывает только пользовательские настройки (память сидений, расписание подогрева), русификация сохраняется. Путать нельзя.</li>
+<li class="warning">⚠️ <strong>Связь на 6.7+.</strong> Массовые проблемы с переходом 4G→E на прошивке 6.7.x — не связаны с русификацией, но проявляются после обновления.</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 3013 сообщений тем «001 Дорест | 001 Рест (+FR) | ПО/МА — 001 Рест | ПО/МА — 001 Дорест | Техничка / ПО и МА (X, 001, 007, 009, 7x)» за период август 2024 — май 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/1116181">t.me/zeekrclub/1116181</a></em></p>
+</main>
+</body>
+</html>

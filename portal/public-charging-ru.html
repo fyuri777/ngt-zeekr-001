@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Публичные зарядные сети в России — Punkt E и другие — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / Зарядка</nav>
+<h1>Публичные зарядные сети в России — Punkt E и другие</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за август 2024 — апрель 2026: что говорят 1696+ сообщений о реальной работе зарядных сетей, совместимости станций и подводных камнях на трассах и в городе.</p>
+<h2>Карта операторов: кто есть кто</h2>
+<p>Российский рынок публичных зарядных станций (ЭЗС) для электромобилей с разъёмом GBT к 2025 году сформировал несколько ключевых операторов. Каждый — со своими особенностями и ограничениями для владельцев Zeekr 001.</p>
+<p><strong>Россети / Ситроникс</strong> — крупнейшая государственная сеть. С конца 2024 года Россети перешли на платформу управления Ситроникс: станции теперь отображаются одновременно в двух приложениях (Россети ЭЗС и Ситроникс). Юридически станции принадлежат Россетям, техническое управление — через Ситроникс. С 02.11.2024 сеть переведена в бесплатный автономный режим из-за профилактики платформы. <span class="badge badge-consensus">👥 CONSENSUS</span>: станции крайне нестабильны — то онлайн, то офлайн, запуск с 3–4 попытки, GBT-разъём часто физически повреждён. Заявленная мощность до 70 кВт, но получить её — лотерея.</p>
+<p><strong>Энергия Москвы</strong> — ~290 станций, план расширения до 30 000 к 2030 году. Новые станции с GBT-разъёмом тарифицируются по 20 ₽/кВт·ч (DC), медленная AC — от 6,99 ₽/кВт·ч. Старые станции остаются бесплатными. <span class="badge badge-recent">🆕 RECENT</span>: в спальных районах идёт программа замены спаренных AC 22 кВт на однопортовые DC 44 кВт — подведённая мощность та же, железо новое.</p>
+<p><strong>Punkt E</strong> — сеть быстрых зарядок, заявленный максимум 55 кВт, реально ~49 кВт. Запускаются быстро и стабильно, но GBT-разъёмов мало, а переходники CCS2→GBT почти не работают из-за строгой прошивки станций. <span class="badge badge-consensus">👥 CONSENSUS</span>: при подключении второго пользователя ко второму порту мощность делится пополам (~25 кВт каждому).</p>
+<p><strong>Парус Электро</strong> — единственный оператор в Москве, реально выдающий заявленную мощность: станции на 180 кВт (реально 170 кВт на М11), появились новые на 240 кВт / 500А. <span class="badge badge-recent">🆕 RECENT</span>: бесплатное тестирование станций проводилось в декабре 2025. Однако именно станции Парус Электро на платформе Россети «сожгли несколько Lotus Eletre» — ремонт от 250 тыс. ₽, ответственность перекидывается между Россетями и Парусом.</p>
+<p><strong>Портал Energy</strong> — региональный оператор (Курск и окрестности). Владелец — Михаил Иванцов, купивший Курский электро-аппаратный завод для производства собственных станций. У ТЦ Бумеранг в Курске станция работает после обновления ПО, но стабильность нестабильна.</p>
+<p><strong>Прочие:</strong> Татнефть, Газпром, Яндекс (партнёрские АЗС), Туссон, L-Charge, Мособлэнерго. Новые станции ставят с GBT, старые бесплатные — преимущественно CCS2.</p>
+<h2>Совместимость с Zeekr 001: дорест vs рест</h2>
+<p>Ключевая проблема — архитектура напряжения. Zeekr 001 рестайлинг (2024+) работает на 800В архитектуре, а большинство российских DC-станций рассчитаны на диапазон 200–750В. Результат — ошибка E333 или полный отказ запуска сессии зарядки. <span class="badge badge-consensus">👥 CONSENSUS</span>: это массовая проблема, затрагивающая Россети, Портал Energy, значительную часть станций Punkt E.</p>
+<p>Zeekr 001 дорестайлинг (до февраля 2023) работал на этих станциях нормально. Однако с обновлениями прошивок станций совместимость «поплыла» и для дореста — станции с устаревшим ПО не проходят handshake, отключаются через 10 секунд после старта.</p>
+<p>Ситроникс показывает относительно лучшие результаты: handshake при повторном визите занимает ~10 секунд, первый раз — около минуты. Для сравнения, CCS-порт на Tesla Supercharger проходит согласование за 5–6 секунд. <span class="badge badge-stale">⚠️ STALE</span>: прошивки станций обновляются медленно — пример из Курска: из 8 обещанных станций за неделю обновили только 2.</p>
+<h2>Переходники CCS2→GBT: спасение или иллюзия</h2>
+<p>Переходник CCS2→GBT для DC-зарядки стоит порядка 100 тыс. ₽, Chademo→GBT — около 70 тыс. ₽ (Ozon). В теории это решение позволяет использовать старые европейские CCS2-станции. На практике результаты сильно зависят от оператора.</p>
+<p>На <strong>Punkt E</strong> переходники работают крайне редко. Даже выезд инженера производителя на станцию не помог — строгая прошивка при малейшем отклонении протокола разрывает сессию. На <strong>Энергии Москвы</strong> (50 кВт) переходник работает на 001 рест, мощность до 40 кВт. В <strong>Европе</strong> (Польша, PolEnergia) переходник работает стабильно.</p>
+<p>Отдельный плюс переходника — страховка от застревания пистолета GBT. На станциях Россети зафиксирован случай: пистолет заклинил, штырёк аварийного отключения оказался отломан предыдущими пользователями. Владельца спас стержень от ручки BMW, вставленный в аварийное отверстие. <span class="badge badge-consensus">👥 CONSENSUS</span>: возите тонкую отвёртку или проволоку, инспектируйте пистолет перед подключением.</p>
+<h2>Трассы: покрытие и реальный опыт</h2>
+<p>Маршрут <strong>Москва — Санкт-Петербург</strong> (через Зеленоград) — примерно 5 зарядок с GBT на всю трассу. Пара Россети (нестабильны), несколько Punkt E (работают, но медленно — 49 кВт). Последняя Россети перед Питером — GBT-разъём не работает. <span class="badge badge-consensus">👥 CONSENSUS</span>: закладывайте +2 часа к расчётному времени на ожидание и поиск рабочей станции. Принцип n-1 резервирования (если одна не работает, в радиусе 5–10 км должна быть другая) не соблюдается — одна сломалась, и ехать не на чем.</p>
+<p>На обратном направлении <strong>Питер — Москва</strong> Россети не работали — спас Punkt E под Тверью.</p>
+<p><strong>Воронеж — Орёл — Брянск — Беларусь:</strong> рабочая зарядка у ТЦ Европа (Курск), но Zeekr 001 она заряжала не всегда — неделей ранее отказала.</p>
+<p>Практический вывод: перед межгородом обязательно проверяйте актуальный статус каждой станции в 2chargers (отзывы, статистика) и в чатах владельцев. Не рассчитывайте на единственную станцию по маршруту.</p>
+<h2>Стоимость и экономика публичной зарядки</h2>
+<p>При тарифе 20 ₽/кВт·ч на DC-станциях Энергии Москвы и зимнем расходе Zeekr 001 порядка 30 кВт/100 км стоимость «топлива» — около 6 ₽/км. Это сопоставимо с бензиновым автомобилем расходом 8–9 л/100 км при цене бензина 65–70 ₽/л.</p>
+<p>Медленная AC-зарядка от 6,99 ₽/кВт·ч — уже вдвое дешевле. Но к расходам на электричество нужно прибавить парковку в Москве: 40–600 ₽/час в зависимости от района. На дорогих парковках стоимость стоянки может превысить экономию на электричестве.</p>
+<p>Потери при зарядке — отдельная тема. Россети считают потреблённую станцией энергию, а не закачанную в батарею. Зафиксирована разница более 4 кВт·ч на 67% заряда батареи. На быстрой DC-зарядке потери составляют 3–5%, на медленной AC — до 15%.</p>
+<p>⚠️ Без своей домашней зарядки удовольствие от владения электромобилем падает кардинально. Один владелец продал 001 через 2 месяца — устал возить семью в ТЦ и час ждать зарядки. Постоянная зависимость от публичных станций утомляет.</p>
+<h2>Приложения и оплата</h2>
+<p>Основные приложения для поиска и запуска зарядки:</p>
+<ul>
+<li><strong>Ситроникс</strong> — для станций Россети и Ситроникс (после объединения платформ)</li>
+<li><strong>Россети ЭЗС</strong> — дублирует станции Ситроникс, можно использовать любое из двух</li>
+<li><strong>2chargers</strong> — интегратор через протокол OCPP, показывает статистику работоспособности, отзывы пользователей, удалённое управление станциями. <span class="badge badge-consensus">👥 CONSENSUS</span>: лучший источник актуального статуса конкретной станции</li>
+<li><strong>Энергия Москвы</strong> — для московских станций</li>
+<li><strong>PlugShare</strong> — международный агрегатор</li>
+</ul>
+<p>Оплата — через приложение соответствующего оператора. На Россетях (в автономном режиме с ноября 2024) зарядка бесплатна. Энергия Москвы — через своё приложение. 2chargers работает как интегратор с «нулевыми оплатами» (баланс через приложение).</p>
+<h2>Проблема очередей и этикет</h2>
+<p>На медленных AC-зарядках основная боль — машины стоят сутками. Владельцы ставят сессию на 5 часов, потом перезапускают её несколько раз подряд, блокируя станцию на весь день и ночь. Программного запрета на повторные сессии в сутки нет.</p>
+<p>Предложение сообщества: лимит 1 сессия в сутки на 1 станцию + ограничение по времени (5 часов), после чего штраф за простой (~50 ₽/мин). На быстрых DC проблема меньше, но машины стоят после окончания зарядки — автоматический штраф за overstay отсутствует.</p>
+<p>Отдельная проблема — парковочные места у зарядок заняты ДВС-автомобилями. Если нет знаков «парковка для электромобилей» — юридически предъявить нечего. ДПС обязана эвакуировать при наличии знаков, но на практике приходится активно «напоминать».</p>
+<h2>Спорные моменты</h2>
+<h3>Блокируют ли намеренно переходники на бесплатных CCS2-станциях?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Москва специально отключает поддержку переходников CCS2→GBT на бесплатных станциях, чтобы перевести владельцев на платные GBT-станции. После обновлений прошивок переходник перестал работать на бесплатных CCS2, но работает на новых платных GBT. Совпадение по времени с запуском платного тарифа.</p>
+<p><strong>Лагерь B:</strong> Это технический сбой или несовместимость прошивок, а не политика. На других станциях переходник продолжает работать, часть владельцев успешно заряжается через CCS2→GBT. Проблема не носит массовый характер.</p>
+<h3>Потери при зарядке: реальны ли они?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Мособлэнерго заряжает «без потерь» — 1 кВт = 1% по личному опыту пользователя, всегда сходится.</p>
+<p><strong>Лагерь B:</strong> Без потерь не бывает — любая передача энергии имеет КПД ниже 100%. На быстрой зарядке 3–5%, на медленной до 15%. Россети считают потреблённую станцией энергию, а не закачанную в батарею — разница более 4 кВт·ч на 67% батареи подтверждает наличие потерь.</p>
+<h3>DC vs AC в спальных районах</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> AC 7–22 кВт оптимальны для спальников. За 10 ночных часов заряжается одна машина, на DC — тоже одна (никто не бегает в 3 ночи переставлять). AC дешевле в установке, на ту же мощность (44 кВт) можно поставить 7 портов AC вместо 1 DC.</p>
+<p><strong>Лагерь B:</strong> DC 44+ кВт нужны даже в спальниках — оборачиваемость в 6 раз выше, машина заряжается за час и уезжает. На AC машины стоят сутками. Энергия Москвы уже меняет AC 22 на DC 44 — подтверждение тренда.</p>
+<h3>Совместимость стандартов: норма или брак?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Определённый вид разъёма поддерживает определённый протокол — если всё по стандарту, всё должно работать. Несоответствие — это брак станции или машины.</p>
+<p><strong>Лагерь B:</strong> Даже в рамках одного стандарта реализации протоколов отличаются у разных производителей. Машины с разных рынков имеют отличия в прошивках, у каждой своя кривая заряда. Станция и машина постоянно «передоговариваются» — отличия неизбежны.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li class="warning">⚠️ <strong>001 рест (800В) не заряжается</strong> на большинстве станций Россети, Портал Energy и части Punkt E — DC-станции на 200–750В выдают ошибку E333 или отказ запуска</li>
+<li class="warning">⚠️ <strong>Punkt E в Сочи — высокий риск</strong>: строгая прошивка, GBT мало, переходники почти не работают, приложение виснет. Не ехать туда с полупустым аккумулятором</li>
+<li class="warning">⚠️ <strong>Пистолет GBT на Россетях может заклинить</strong> — штырёк аварийного отключения часто отломан. Возите тонкую отвёртку или проволоку</li>
+<li class="warning">⚠️ <strong>Парус Электро (на платформе Россети) сжёг несколько Lotus Eletre</strong> — ремонт от 250 тыс. ₽, ответственность не установлена</li>
+<li class="warning">⚠️ <strong>Энергия Москвы (50–60 кВт) регулярно глючит</strong> — сессия обрывается сразу после старта, станция гудит и выключается. Проблема массовая</li>
+<li class="warning">⚠️ <strong>На М11 последняя Россети перед Питером — GBT не работает</strong>. Не рассчитывайте на неё как единственную</li>
+<li class="warning">⚠️ <strong>Мощность Punkt E делится на двоих</strong>: если подключится второй пользователь, вместо 49 кВт получите ~25 кВт</li>
+<li class="warning">⚠️ <strong>Медленные AC-зарядки блокируются на сутки</strong> — нет программного запрета на повторные сессии</li>
+<li class="warning">⚠️ <strong>Места у зарядок заняты ДВС</strong> — без знаков «парковка для ЭМ» юридически ничего не предъявить</li>
+<li class="warning">⚠️ <strong>Новые станции могут иметь старую прошивку</strong> — даже при совместимости напряжения handshake не проходит. Перед поездкой проверяйте статус в 2chargers</li>
+<li class="warning">⚠️ <strong>Россети с ноября 2024 в автономном режиме</strong> — бесплатно, но 001 рест и 007 всё равно заряжают нестабильно</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 1696 сообщений тем «001 Дорест | 001 Рест (+FR) | Зарядка и Батарея | 3003» за период август 2024 — апрель 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/913179">t.me/zeekrclub/913179</a></em></p>
+</main>
+</body>
+</html>

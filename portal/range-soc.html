@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Реальный пробег и SOC Zeekr 001 — сезонные различия — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / Здоровье батареи</nav>
+<h1>Реальный пробег и SOC Zeekr 001 — сезонные различия</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за август 2024 — май 2026: что говорят 4466 сообщений о реальном расходе, зимних потерях и точности бортового компьютера.</p>
+<h2>Летний расход и пробег: что реально получается</h2>
+<p>Летом при температуре +15…+25°C Zeekr 001 с батареей CATL 100 кВт·ч показывает расход <strong>18–25 кВт·ч/100 км</strong> в зависимости от режима и стиля езды. В городе при спокойной манере вождения владельцы фиксируют 18–21 кВт·ч/100 км, при активной езде — 24–28 кВт·ч/100 км. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>На трассе расход сильно зависит от скорости:<br>
+- <strong>80–90 км/ч:</strong> 15–18 кВт·ч/100 км (экстремально экономный режим)<br>
+- <strong>100–110 км/ч:</strong> 19–22 кВт·ч/100 км (оптимальный баланс)<br>
+- <strong>120–130 км/ч:</strong> 22–26 кВт·ч/100 км<br>
+- <strong>140–160 км/ч:</strong> 28–30 кВт·ч/100 км<br>
+- <strong>180+ км/ч:</strong> 34–45+ кВт·ч/100 км</p>
+<p>Реальный пробег на одном заряде летом: <strong>400–500 км</strong> в смешанном режиме. При «овощной» езде 70–90 км/ч владельцы выжимали до 550–600 км. Рекорд — 460 км при средней скорости 87 км/ч ночью на трассе в режиме ЭКО с отключённым полным приводом. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Важно: после 120 км/ч расход растёт не линейно, а скачкообразно. Разница между 110 и 120 км/ч минимальна (~0,3 кВт·ч/100 км), но после 120 начинается резкий рост — аэродинамическое сопротивление увеличивается квадратично.</p>
+<h2>Зимний расход: куда уходит энергия</h2>
+<p>Зимой картина меняется кардинально. Расход зависит не только от температуры, но и от длины поездок. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Длинные поездки (100+ км без остановок):</strong><br>
+- При −5…−10°C: 25–30 кВт·ч/100 км<br>
+- При −15…−20°C: 28–35 кВт·ч/100 км<br>
+- При −25…−30°C: 30–40 кВт·ч/100 км</p>
+<p><strong>Короткие городские поездки (3–15 км):</strong><br>
+- При −5…−10°C: 30–35 кВт·ч/100 км<br>
+- При −15…−20°C: 40–50 кВт·ч/100 км<br>
+- При −25…−30°C: 50–72 кВт·ч/100 км</p>
+<p>Реальный зимний пробег на полной батарее: <strong>250–350 км</strong> при умеренном морозе (−5…−15°C), <strong>150–250 км</strong> при сильном морозе (−20…−30°C). При коротких городских поездках в −25°C пробег может упасть до <strong>100–150 км</strong>. Один владелец при −20°C на 800-км маршруте заряжался каждые 100–150 км.</p>
+<p>Главный пожиратель заряда зимой — система обогрева. Тепловой насос эффективно работает до −10…−15°C, ниже включается электрический хитер мощностью <strong>7 кВт</strong>. При коротких поездках до 70% энергии уходит на обогрев салона и батареи, и только 30% — на движение. Каждый холодный старт при −20°C отнимает <strong>4–5% заряда</strong> только на прогрев, при 0…−10°C — <strong>1–2%</strong>.</p>
+<h2>Факторы, влияющие на расход</h2>
+<p><strong>Полный привод (AWD vs RWD).</strong> В режимах ЭКО и Комфорт машина фактически заднеприводная — передний мотор подключается только при необходимости (пробуксовка, дождь, резкое ускорение). Постоянный полный привод (режим Спорт, Снег, или принудительная галочка AWD) добавляет <strong>+1–5 кВт·ч/100 км</strong> к расходу в зависимости от условий. На трассе это минус <strong>80–100 км</strong> пробега. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Дождь</strong> увеличивает расход на <strong>+3–5 кВт·ч/100 км</strong> из-за сопротивления качения и автоматического подключения полного привода.</p>
+<p><strong>Режим езды.</strong> ЭКО даёт минимальный расход (18–21 кВт·ч/100 км), но подвеска слишком низкая, разгон вялый. Комфорт — оптимальный баланс (20–23 кВт·ч/100 км). Спорт добавляет расход из-за постоянного полного привода и агрессивных настроек. На трассе при 130+ км/ч разница между ЭКО и Спорт минимальна — основной расход идёт на аэродинамику.</p>
+<p><strong>Пневмоподвеска</strong> в режиме Комфорт добавляет <strong>10–12%</strong> расхода на работу компрессора.</p>
+<p><strong>Бокс на крыше</strong> увеличивает расход на <strong>15–20%</strong> — расход не опускается ниже 26 кВт·ч/100 км даже при 110 км/ч.</p>
+<p><strong>Тёплый паркинг</strong> критически важен зимой: старт из гаража (+10°C) даёт расход 22–27 кВт·ч/100 км, с уличной стоянки при тех же −5°C — 40–45 кВт·ч/100 км на первых километрах.</p>
+<h2>CLTC vs реальность: насколько врёт паспорт</h2>
+<p>Заявленный пробег по CLTC (610–750 км в зависимости от версии) не имеет ничего общего с реальностью в российских условиях. WLTP (~590 км) ближе к правде, но тоже завышает. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Коэффициенты для планирования:<br>
+- <strong>Лето:</strong> CLTC × 0,65–0,75 (реально 400–500 км)<br>
+- <strong>Зима (умеренная):</strong> CLTC × 0,45–0,55 (реально 250–350 км)<br>
+- <strong>Зима (сильный мороз):</strong> CLTC × 0,25–0,40 (реально 150–250 км)</p>
+<p>В китайском массовом тесте Zeekr 001 показал <strong>51% от заявленного CLTC</strong> на трассе — один из худших показателей среди электромобилей.</p>
+<h2>GOM (guess-o-meter): можно ли верить приборке</h2>
+<p>Бортовой компьютер Zeekr 001 показывает два значения запаса хода: по CLTC (завышенное) и динамическое (пересчёт по последним 50 км). Динамический режим точнее, но тоже врёт. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Главная проблема: <strong>приборка показывает только расход моторов на движение</strong>. Климат-контроль, обогрев батареи, 12В системы, Пандора — всё это не учитывается. Реальный расход «от розетки» зимой на <strong>30–50%</strong> выше показаний приборки. Пример: приборка показывает 25 кВт·ч/100 — реально с учётом печки 35–40 кВт·ч/100.</p>
+<p>После обновления прошивки 672а часть владельцев отмечает, что GOM стал ещё менее точным — показывает промежуточное значение между CLTC и реальностью. <span class="badge badge-recent">🆕 RECENT</span></p>
+<p>Рекомендация владельцев: ориентироваться на <strong>проценты SOC</strong> и средний расход в кВт·ч/100 км, а не на оставшиеся километры. Простое правило: <strong>10% батареи = 45–50 км летом, 36–40 км зимой</strong>.</p>
+<h2>Прогрев батареи и зарядка зимой</h2>
+<p>Прогрев батареи создан прежде всего для быстрой DC-зарядки — холодная батарея принимает 55–70 кВт вместо летних 130–170 кВт. На прогрев уходит около <strong>10 кВт·ч</strong> и 20 минут. При домашней зарядке на 7 кВт прогрев не нужен. <span class="badge badge-official">📌 OFFICIAL</span></p>
+<p>Полный прогрев салона и батареи после долгой стоянки при −25…−30°C съедает <strong>5–7% заряда</strong> (~5 кВт·ч). Если машина стоит на зарядке — прогревать от сети экономичнее, но нужно следить, чтобы зарядка не была завершена (иначе энергия берётся из батареи).</p>
+<p><strong>Потери на стоянке зимой:</strong> при правильных настройках — <strong>1–2% в сутки</strong> при морозе до −10°C. С включённым подогревом ВВБ или Пандорой — до <strong>5% в сутки</strong>. Пандора разряжает 12В АКБ, которая подзаряжается от тяговой батареи — это может давать до 5,2 кВт·ч/сутки расхода.</p>
+<p><strong>Рекомендации по зарядке:</strong> для ежедневной езды — до <strong>90%</strong> (NMC-химия). До 100% — только перед дальней поездкой и сразу ехать. Для балансировки ячеек — раз в 1–2 месяца зарядка до 100%. Зарядка с 20% до 80% на DC занимает ~30 минут, с 80% до 100% — ещё ~30 минут. <span class="badge badge-official">📌 OFFICIAL</span></p>
+<h2>Дорест vs рестайлинг</h2>
+<p>Рестайлинг потребляет на <strong>15–20% больше</strong> дореста при активной езде. На трассе дорест показывает 20–22 кВт·ч/100 км, рестайлинг — 24–26 кВт·ч/100 км. При спокойной езде до 80 км/ч разница минимальна, рест может быть даже экономичнее. Рест с батареей 100 кВт·ч и 800В архитектурой даёт +20–30 км запаса за счёт лучшего КПД моторов. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Деградация батареи: <strong>2–4% за 100 000 км</strong> по опыту владельцев, <strong>9% за 320 000 км</strong> (данные китайского владельца). Полезная ёмкость батареи — около <strong>90–95,5 кВт·ч</strong> из заявленных 100 (производитель резервирует буфер).</p>
+<h2>Спорные моменты</h2>
+<h3>Рекуперация: снижает ли она расход?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Рекуперация возвращает 8–10% энергии, снижает расход и износ колодок. На длинных спусках (Красная Поляна) расход падает до 9 кВт·ч/100 км. Максимальная рекуперация рекомендуется в городе.</p>
+<p><strong>Лагерь B:</strong> Рекуперация не снижает расход напрямую — она только возвращает часть уже потраченной энергии. На трассе отключение рекуперации даёт экономию 1–2 кВт·ч/100 км за счёт свободного наката. Один владелец увеличил пробег до 450 км, переключив рекуперацию на слабую.</p>
+<h3>Приборка: показывает ли полный расход?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Приборка показывает полный расход, и у некоторых владельцев цифры совпадают с реальной заправкой — особенно на длинных поездках.</p>
+<p><strong>Лагерь B:</strong> Приборка показывает только расход моторов. Климат, BMS, 12В — отдельно. Проверка: приборка показала 26,8 кВт·ч на движение, планшет — 28+ общий. Реальный расход «от розетки» зимой на 30–50% выше.</p>
+<h3>Нужно ли прогревать батарею перед обычной поездкой?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> После прогрева расход падает с 33–35 до 28–30 кВт·ч/100 км. Прогретая батарея даёт полную рекуперацию и динамику уже через 10 минут. Прогрев от розетки экономит 5–7% заряда.</p>
+<p><strong>Лагерь B:</strong> Прогрев сам расходует 5–10 кВт·ч. Батарея греется в движении за 15–20 минут. Итоговая экономия сомнительна, прогрев оправдан только перед DC-зарядкой.</p>
+<h3>Заряжать до 100% или ограничивать 80–90%?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Современная BMS защищает батарею. Владелец BMW i3 за 10 лет и 120 000 км всегда заряжал до 100% — деградация 23%. У CATL есть буфер и терморегуляция, 1000 циклов = 350–400 тыс. км ресурса.</p>
+<p><strong>Лагерь B:</strong> Вредно не заряжать до 100%, а хранить на 100%. NMC-химия страдает от полного заряда при длительном хранении. Завод рекомендует 90% для ежедневной езды. Для LFP-батарей ограничение не актуально.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li class="warning">⚠️ <strong>Короткие поездки зимой (3–10 км) дают расход 40–60 кВт·ч/100 км</strong> — пробег падает до 100–150 км. Каждый холодный старт при −20°C = новый прогрев на 4–5% заряда.</li>
+<li class="warning">⚠️ <strong>GOM зимой показывает одинаковые ~380 км на 80% что в +20°C, что в −15°C</strong> — реально проедет в 2 раза меньше. Ориентируйтесь только на проценты SOC.</li>
+<li class="warning">⚠️ <strong>После 120 км/ч расход растёт скачкообразно.</strong> На 200 км/ч полбатареи хватает на 120 км (~50 минут).</li>
+<li class="warning">⚠️ <strong>Пандора с неправильными настройками</strong> разряжает ВВБ на 2–5% в сутки через 12В АКБ.</li>
+<li class="warning">⚠️ <strong>Не разряжать ниже 20%, не заряжать выше 85% на быстрых зарядках</strong> — полезная ёмкость всего 65 кВт·ч (65% от номинала), зимой это 140–200 км между зарядками.</li>
+<li class="warning">⚠️ <strong>Максимальная рекуперация на скользкой дороге</strong> может привести к заносу при сбросе газа. Зимой ставить не выше среднего уровня.</li>
+<li class="warning">⚠️ <strong>Прогрев салона при подключённой, но завершённой зарядке</strong> берёт энергию из батареи, а не от сети. Нужно убедиться, что зарядка активна.</li>
+<li class="warning">⚠️ <strong>Режим ЭКО может быть опасен при манёврах</strong> — вялый разгон создаёт риск на Т-образных перекрёстках и при выезде на главную.</li>
+<li class="warning">⚠️ <strong>При планировании дальняка зимой</strong> закладывайте расход 35 кВт·ч/100 км и подзарядку каждые 150–200 км. Буфер +20–30% к расчётному расходу обязателен.</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 4466 сообщений тем «001 Дорест | 001 Рест (+FR) | Зарядка и Батарея | 3003» за период август 2024 — май 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/1137893">t.me/zeekrclub/1137893</a></em></p>
+</main>
+</body>
+</html>
