@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Яндекс Музыка и Карты на Zeekr 001 — настройка и авторизация — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / Русификация и связь</nav>
+<h1>Яндекс Музыка и Карты на Zeekr 001 — настройка и авторизация</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за август 2024 — апрель 2026: что говорят 422+ сообщений о установке, авторизации и проблемах Яндекс-приложений на штатном планшете.</p>
+<h2>Установка Яндекс Карт и Музыки</h2>
+<p>Яндекс-приложения устанавливаются на Zeekr 001 двумя путями: в составе пакета русификации (InfoHub, Xanavi и др.) либо отдельно через ADB Toolkit, ZeeAppStore или RuStore. При установке через русификацию Яндекс Навигатор автоматически встраивается в лаунчер и заменяет штатную китайскую навигацию. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Яндекс Музыку можно поставить отдельным APK-файлом или через пакет русификации. Для полноценного стриминга требуется подписка Яндекс Плюс (раздаётся до 5 членам семьи). Встроенная в Яндекс Карты мини-версия Музыки (фоновый поток) работает и без отдельного приложения.</p>
+<p>Критически важно: все Яндекс-приложения (Карты, Навигатор, Музыка, Браузер) необходимо ставить из одного источника. Если смешивать RuStore и APKpure — возникают конфликты авторизации и сбои сервисов. ⚠️</p>
+<h2>Выбор источника: ZeeAppStore vs оригинальные APK</h2>
+<p>Приложения из ZeeAppStore имеют другую подпись разработчика. Это означает, что нельзя одновременно установить оригинальный Яндекс Навигатор и его версию из ZeeAppStore — они конфликтуют. При попытке установить обе версии одна из них не запустится или навигация пропадёт из лаунчера.</p>
+<p>Плюс ZeeAppStore — адаптация под широкий экран Zeekr: масштаб, крупный шрифт, удобный интерфейс. Без адаптации стандартные APK выглядят мелко. Плюс оригинальных APK — простота обновлений через Google Play/RuStore и отсутствие вопросов к безопасности (Xanavi, например, принципиально не ставит модифицированные приложения).</p>
+<p>Решение при конфликте: удалить все приложения Яндекса, установить заново всё из одного источника, перезагрузить систему.</p>
+<h2>Авторизация и подписка</h2>
+<p>Авторизация проходит через аккаунт Яндекс — по номеру телефона, QR-коду или через встроенный браузер. Опытные владельцы рекомендуют порядок: сначала авторизоваться в Яндекс Навигаторе, затем — в Музыке. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Для работы Яндекс Музыки в HQ-режиме (высокое качество звука через планшет) требуется активная подписка Яндекс Плюс. Качество звука через планшет заметно выше, чем через Bluetooth с телефона — Bluetooth сжимает аудиопоток.</p>
+<p>Известная проблема: после 2 лет стабильной работы авторизация может слететь с ошибкой «возможно включён VPN». Решение — очистить данные приложения и войти заново. Иногда помогает смена DNS или перезагрузка модуля связи.</p>
+<h2>Версии приложений и стабильность</h2>
+<p>Владельцы рекомендуют ставить версии Яндекс Навигатора примерно на полгода старше текущей — свежие релизы часто нестабильны на Android-планшете Zeekr. <span class="badge badge-stale">⚠️ STALE</span> (рекомендация середины 2024)</p>
+<p>Конкретный пример: Яндекс Навигатор 24.0.1 — в нём работает встроенная Яндекс Музыка, но первые 5–10 минут после холодного старта маршруты строятся без учёта пробок (пока не подгрузятся данные).</p>
+<p>При зависании навигации или проблемах с загрузкой пробок помогает очистка кэша через ADB:<br>
+<code>adb shell pm clear ru.yandex.yandexnavi</code> — или через графический ADBAppControl.</p>
+<h2>Кнопки на руле и управление музыкой</h2>
+<p>Управление Яндекс Музыкой кнопками на руле — не универсальная функция. Работоспособность зависит от типа русификации и способа установки.</p>
+<p>Кнопки руля работают:<br>
+- В русификациях от Xanavi и InfoHub (после обновления)<br>
+- В лаунчерах с интеграцией Яндекс Музыки (требуется соответствующий фикс)<br>
+- При установке Яндекс Музыки через RuStore (по отзывам части владельцев)</p>
+<p>Кнопки руля НЕ работают:<br>
+- В стандартных APK Яндекс Музыки без интеграции<br>
+- При воспроизведении через Bluetooth — ставит на паузу, но нестабильно переключает треки</p>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span>: для надёжного управления с руля нужна русификация с интеграцией медиакнопок.</p>
+<h2>Навигация на проекции (HUD)</h2>
+<p>В базовой русификации на проекцию (HUD) выводится только штатная китайская навигация. Вывод Яндекс Навигатора на HUD — кастомная доработка.</p>
+<p>Варианты решений:<br>
+- Русификация InfoHub — добавляет подсказки поворотов от Яндекса + предупреждения о камерах от SpeedTest на проекцию (бесплатное обновление для клиентов) <span class="badge badge-recent">🆕 RECENT</span><br>
+- Лаунчер от Кирилла — настройка проекции (навигация, поворотники, время, батарея) за 10 000 ₽ с самостоятельной установкой<br>
+- Полная интеграция Яндекс Навигатора в проекцию — от 50 000 ₽ (платные кастомные лаунчеры)</p>
+<p>Разные решения дают разный функционал: кто-то выводит фрагмент карты, кто-то — только подсказки поворотов. Уточняйте у конкретного русификатора.</p>
+<h2>Проблемы с GPS и навигацией</h2>
+<p>Самая частая жалоба — навигация не определяет местоположение. Основные причины:</p>
+<p><strong>Глушилки GPS.</strong> В пределах ТТК Москвы, рядом с аэропортами и режимными объектами установлены глушилки. Zeekr использует GPS + GLONASS с приоритетом GPS. При глушении GPS-частоты машина теряет навигацию полностью, в то время как телефон продолжает работать (он использует A-GPS, GLONASS, Galileo, BeiDou). Навигация начинает работать ближе к МКАД. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Программные сбои.</strong> После обновления прошивки (особенно 6.7.1 + русификация) могут слететь разрешения на геолокацию. Проверьте настройки приложений.</p>
+<p><strong>Решения:</strong><br>
+- Подключить внешний GPS/ГЛОНАСС-приёмник через USB (требуется USB Host Mode в инженерном меню) — некоторые владельцы подтверждают улучшение в центре Москвы<br>
+- Очистить кэш Яндекс Навигатора через ADB<br>
+- Загрузить офлайн-карты по Wi-Fi — определение местоположения работает без интернета (GPS-модуль не зависит от GSM-модуля)</p>
+<h2>Обновления прошивки и восстановление</h2>
+<p>После крупных обновлений прошивки (5.0 → 5.2.x, 5.x → 6.x) русификация частично или полностью слетает: меню возвращается на китайский, Яндекс Навигатор пропадает из лаунчера, авторизация сбрасывается. Один владелец обновлялся 5–6 раз за год, другой — залил 10 прошивок. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Восстановление занимает 30–45 минут у русификатора. Большинство компаний (Xanavi, InfoHub и др.) делают это бесплатно для своих клиентов. При наличии знаний можно восстановить самостоятельно через инженерное меню или онлайн-русифицировать без закрытия инженерки.</p>
+<p><strong>Интернет для навигации:</strong> минимальный тариф SIM — 20 ГБ/мес при активном стриминге. Скорость через SIM в машине: 3–8 Мбит/с (Мегафон, СПб, прошивка 6.7.2) — хватает на Карты и Музыку, но не всегда стабильно.</p>
+<h2>Альтернативы Яндекс Картам</h2>
+<ul>
+<li><strong>2GIS</strong> — адаптирован под широкий экран Zeekr в ZeeAppStore, не лагает, работает быстрее Яндекса (по мнению части владельцев)</li>
+<li><strong>Navitel</strong> — офлайн-навигация, не требует интернета</li>
+<li><strong>Google Maps</strong> — работает, но карты России устаревшие (отставание на 2+ года), не подходит для актуальных данных о камерах</li>
+<li><strong>Waze</strong> — можно установить, но требуется специфическая точка входа</li>
+</ul>
+<p>Для актуальных данных о камерах и ограничениях скорости владельцы используют сторонние антирадары (RadarBot, Radaroid) или HUD Speed — Яндекс Карты могут показывать устаревшие данные (отставание до 2 лет).</p>
+<h2>Спорные моменты</h2>
+<h3>Почему телефон ловит GPS, а машина — нет?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> У Zeekr в антенне только 1 спутник, поэтому при глушилках связь теряется полностью. Телефон с «сотней спутников» устойчивее.</p>
+<p><strong>Лагерь B:</strong> Zeekr обычно принимает 30–40 спутников (GPS + GLONASS) и использует 12 для расчёта координат. Ситуация с 1 спутником — признак неисправности, а не нормальное поведение. Разница в том, что телефон использует A-GPS, GLONASS, BeiDou, Galileo, QZSS одновременно, а Zeekr при глушении GPS-частоты теряет приоритетный канал и показывает 0 спутников.</p>
+<h3>Нужна ли SIM-карта для работы навигации и музыки?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> SIM обязательна для полноценной работы — без неё нет пробок, онлайн-поиска, стриминга музыки. Тариф минимум 20 ГБ/мес.</p>
+<p><strong>Лагерь B:</strong> SIM не обязательна — GPS работает независимо от GSM-модуля, офлайн-карты можно загрузить по Wi-Fi, местоположение определяется в режиме полёта. Для музыки можно использовать Bluetooth с телефона.</p>
+<h3>ZeeAppStore или оригинальные APK?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> ZeeAppStore предлагает адаптированные версии с правильным масштабом под экран Zeekr. Без адаптации приложения мелкие и неудобные.</p>
+<p><strong>Лагерь B:</strong> Оригинальные APK не конфликтуют между собой, легко обновляются, безопаснее (нет модификации кода). Xanavi принципиально не ставит модифицированные приложения.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li class="warning">⚠️ Все Яндекс-приложения ставьте из одного источника — иначе конфликт авторизации и сбои сервисов</li>
+<li class="warning">⚠️ Нельзя одновременно устанавливать оригинальные APK и версии из ZeeAppStore (разная подпись → конфликт)</li>
+<li class="warning">⚠️ GPS не работает в центре Москвы (в пределах ТТК) и рядом с аэропортами из-за глушилок — Zeekr теряет навигацию полностью</li>
+<li class="warning">⚠️ После обновления прошивки русификация и Яндекс-приложения слетают — потребуется восстановление (30–45 мин у русификатора, бесплатно)</li>
+<li class="warning">⚠️ При удалении Яндекс Карт без замены на другую навигацию — экран навигации в лаунчере станет чёрным</li>
+<li class="warning">⚠️ Замена SIM в слоте телематики может привести к потере связи с серверами Zeekr (блокировка при обнаружении новой SIM)</li>
+<li class="warning">⚠️ Старые версии Яндекс Навигатора стабильнее — свежие могут глючить с построением маршрутов</li>
+<li class="warning">⚠️ Навигация на проекции (HUD) — не штатная функция, требует кастомной русификации или лаунчера (от 10 000 до 50 000+ ₽)</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 422 сообщений тем «001 Дорест | 001 Рест (+FR) | ПО/МА — 001 Рест | ПО/МА — 001 Дорест | Техничка / ПО и МА (X, 001, 007, 009, 7x)» за период август 2024 — апрель 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/1087932">t.me/zeekrclub/1087932</a></em></p>
+</main>
+</body>
+</html>

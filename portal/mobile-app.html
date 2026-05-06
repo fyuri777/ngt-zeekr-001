@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Мобильное приложение Zeekr (МА) — функции, проблемы, альтернативы — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / Аккаунты и владение</nav>
+<h1>Мобильное приложение Zeekr (МА) — функции, проблемы, альтернативы</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за август 2024 — май 2026: что говорят 5982+ сообщений о настройке приложения, потере связи, Bluetooth-ключах, прогреве и альтернативах вроде Pandora.</p>
+<h2>Типы аккаунтов: Master Account и Family Account</h2>
+<p>Приложение Zeekr завязано на систему аккаунтов с китайским номером телефона. Без входа в аккаунт приложение пустое — ни одной функции. Существуют два типа аккаунтов с принципиально разным уровнем доступа.</p>
+<p><strong>Master Account (МА)</strong> — полный доступ ко всем функциям: привязка Bluetooth-ключей, раздача Family Account (до 5 штук), просмотр камер охраны (прошивка 6.2+), получение push-уведомлений об OTA-обновлениях, запись на ТО. <span class="badge badge-consensus">👥 CONSENSUS</span>: оформление МА через сервисы (ХМета, Connect Service) обходится в 80–100 тыс. руб.</p>
+<p><strong>Family Account (ФА)</strong> — покрывает 99% ежедневных задач: открытие/закрытие замков, запуск климата, просмотр SOC и местоположения, планировщик прогрева, использование телефона как Bluetooth-ключа. <span class="badge badge-consensus">👥 CONSENSUS</span>: ФА достаточно для повседневной эксплуатации. Не доступно через ФА: привязка новых BT-ключей, раздача ФА другим пользователям, просмотр камер (без разрешений МА), запись на ТО. МА выдаёт приглашение — оно действует 24 часа, после чего сгорает.</p>
+<h2>Установка и первичная настройка</h2>
+<p><strong>iPhone:</strong> приложение доступно только в китайском App Store. Нужна учётка Apple ID с регионом China Mainland. Варианты: временно переключить регион в «Контент и покупки», скачать приложение и вернуться обратно; или создать отдельный китайский Apple ID через браузер на номер eSender. Ссылка: <code>apps.apple.com/app/id1570277888</code>. Если Apple удалит приложение из магазина — восстановить через iMazing.</p>
+<p><strong>Android:</strong> проще — скачать APK напрямую с <code>m.zeekrlife.com/download</code>. Обновления также через этот адрес.</p>
+<p>Для входа в приложение нужен китайский номер. <span class="badge badge-consensus">👥 CONSENSUS</span>: самый распространённый способ — виртуальный номер через eSender. Первые 72 часа бесплатно, далее 130–380 юаней на 1–3 года в зависимости от тарифа. Вошли по SMS-коду → отсканировали QR-код в машине → приложение привязано.</p>
+<h2>Функции приложения</h2>
+<p>Приложение показывает: уровень заряда (SOC), местоположение машины, статистику зарядок, давление в шинах, историю поездок, температуру батареи. <span class="badge badge-official">📌 OFFICIAL</span></p>
+<p>Доступные действия: открыть/закрыть замки, запустить климат удалённо, настроить планировщик предпрогрева (до 5 расписаний с выбором температуры, подогрева сидений и руля), использовать телефон как Bluetooth-ключ, просматривать камеры в режиме охраны (прошивка 6.2+, только МА). Push-уведомления об OTA приходят только на МА.</p>
+<p>Все функции требуют связи машины с серверами через 4G. При слабом сигнале (индикатор «E» вместо «4G») команды часто не проходят. <span class="badge badge-consensus">👥 CONSENSUS</span>: дата в приложении — главный индикатор связи: актуальная дата = связь есть, устаревшая = связь потеряна.</p>
+<h2>Удалённый климат и предпрогрев</h2>
+<p>Прогрев запускается удалённо за 10–15 минут до выезда. Можно задать расписание: до 5 слотов с настройкой температуры салона, подогрева сидений и руля. <span class="badge badge-consensus">👥 CONSENSUS</span>: расход ВВБ за один сеанс прогрева составляет 2–9% в зависимости от температуры за бортом. Климат автоматически выключается через 30 минут — это заводское ограничение.</p>
+<p>⚠️ Время в планировщике отображается по пекинскому часовому поясу (UTC+8). Для Москвы это +5 часов: если нужен прогрев в 7:00 MSK, ставьте 12:00 в приложении.</p>
+<p>Надёжность зависит от качества связи. На 4G команды проходят стабильно, на «E» (EDGE) — часто теряются. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><span class="badge badge-recent">🆕 RECENT</span>: на рестайлинговых машинах удалённый климат <strong>не работает</strong> даже после перепайки SIM — телематика не поддерживает эту функцию.</p>
+<h2>Телефон как Bluetooth-ключ</h2>
+<p>Привязка телефона как BT-ключа требует МА и активного соединения с сервером. На Family Account можно пользоваться уже привязанным ключом, но создать новый нельзя.</p>
+<p>⚠️ На iPhone 11 и новее система предлагает создать UWB-ключ версии 3.0, который не работает в РФ. BT-ключ версии 1.0 на этих моделях напрямую создать нельзя. <span class="badge badge-consensus">👥 CONSENSUS</span>: обходной путь — создать ключ на старом iPhone (модели 8–10) или на Android, затем перенести.</p>
+<p>Калибровать расстояние срабатывания рекомендуется на 2–3 метра. Приложению нужны <strong>все</strong> разрешения, энергосбережение необходимо отключить — иначе BT-ключ не сработает при подходе к машине.</p>
+<p>BT-ключ работает только на одной платформе: Android или iOS. При переключении между платформами ключ слетает, а настроить заново без связи с сервером невозможно.</p>
+<p><span class="badge badge-recent">🆕 RECENT</span>: на рестайлинговых машинах активация BT-ключа возможна <strong>только в Китае</strong> — российский сервер недоступен.</p>
+<h2>Потеря связи с приложением и восстановление</h2>
+<p>Это одна из самых болезненных проблем. Причины потери связи: машина «уснула» (будится звонком на SIM в T-box); проблемы с SIM-картой (баланс, сигнал, блокировка); смена SIM; истёк контракт eSender; региональная блокировка (решается VPN); автопереключение 5G/4G (помогает отключение 5G); блокировка по VIN и SIM ID на стороне оператора.</p>
+<p>⚠️ <strong>НИКОГДА не меняйте SIM-карту в машине.</strong> Машина привязана к конкретной SIM. После замены связь с сервером теряется, восстановление стоит 40–60 тыс. руб.: впайка SIM (~150$) + прошивка телематики (~400$). <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><span class="badge badge-recent">🆕 RECENT</span>: с конца 2025 года иностранные SIM-карты перестали получать SMS в РФ. Приложение раз в год принудительно разлогинивает и требует SMS-код. Решения: (1) заранее привязать аккаунт к WeChat или Apple ID; (2) связаться с владельцем МА за SMS-кодом; (3) восстановить МА на свой номер (80–100 тыс. руб.). <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>При покупке б/у машины обязательно проверяйте связь с серверами <strong>до сделки</strong>. Признаки рабочей связи: OTA-обновления приходят, дата в приложении актуальная.</p>
+<h2>Передача МА новому владельцу</h2>
+<p>Официальный путь: через поддержку Zeekr с предоставлением документов (RNR), срок ~5 дней. Доступен только гражданам КНР. <span class="badge badge-official">📌 OFFICIAL</span></p>
+<p>Неофициальные способы: передача eSender с логином/паролем (серая зона — номер остаётся на паспорт старого владельца); посредники за 1000–1500$ (подлог документов). Полная перерегистрация обходится в 80–100 тыс. руб.</p>
+<p>⚠️ С середины 2024 года передача МА не-гражданам КНР практически невозможна. Передача через eSender — серая зона: формально номер принадлежит старому владельцу, и при желании он может восстановить доступ к машине. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<h2>Спорные моменты</h2>
+<h3>Pandora vs штатное приложение</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Pandora — независимость от китайских серверов и стабильное решение. Работает через собственные серверы, даёт климат, охрану, геозоны, автозапуск, мониторинг 12V АКБ и SOH, местоположение. Многие владельцы пришли к Pandora после регулярных обрывов связи штатного приложения. Стоимость 10–50 тыс. руб. Покрывает ~70% функционала.</p>
+<p><strong>Лагерь B:</strong> штатное приложение с МА даёт полный функционал, Pandora — лишние 40 тыс. руб. После прошивки 6.2 штатное приложение работает стабильно. Оно даёт OTA-обновления, камеры, телефон как ключ — Pandora этого не может. Pandora не заменяет: телефон как ключ, OTA, прописку ключей и NFC-карт. Альтернативы Pandora: StarLine, EN Cars.</p>
+<h3>Расход батареи с Pandora</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Pandora не даёт машине уйти в глубокий сон, периодически будит DHU, что приводит к расходу 1–3% ВВБ за ночь в мороз — в сумме 2% ВВБ за сутки. В мороз происходит несколько циклов пробуждения за ночь.</p>
+<p><strong>Лагерь B:</strong> расход с Pandora не выше штатного, а проблема — в кривой установке. Владельцы трёх машин утверждают, что расход одинаковый с Pandora и без. В тёплое время года дополнительного расхода нет вовсе.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li class="warning">⚠️ <strong>Не меняйте SIM-карту в машине.</strong> Машина привязана к конкретной SIM. Восстановление связи — 40–60 тыс. руб.</li>
+<li class="warning">⚠️ <strong>Иностранные SIM не получают SMS в РФ с конца 2025 года.</strong> Заранее привяжите аккаунт к WeChat или Apple ID — приложение раз в год требует SMS-код.</li>
+<li class="warning">⚠️ <strong>iPhone 11+ не создаёт BT-ключ 1.0 напрямую</strong> — предлагает только UWB 3.0, который не работает в РФ. Обходной путь — через старый iPhone или Android.</li>
+<li class="warning">⚠️ <strong>Время прогрева в приложении — по пекинскому поясу</strong> (+5 часов к Москве).</li>
+<li class="warning">⚠️ <strong>Проверяйте связь машины с серверами до покупки б/у.</strong> Признаки: OTA приходят, дата в приложении актуальная.</li>
+<li class="warning">⚠️ <strong>Family Account не даёт привязывать BT-ключи</strong> — только Master Account.</li>
+<li class="warning">⚠️ <strong>BT-ключ работает только на одной платформе</strong> (Android или iOS). При переключении ключ слетает.</li>
+<li class="warning">⚠️ <strong>На рестайле: удалённый климат не работает, активация BT-ключа только в Китае.</strong></li>
+<li class="warning">⚠️ <strong>Передача МА через eSender — серая зона.</strong> Номер остаётся на паспорт старого владельца.</li>
+<li class="warning">⚠️ <strong>Приложению нужны все разрешения, энергосбережение отключено</strong> — иначе BT-ключ не сработает.</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 5982 сообщений тем «001 Дорест | 001 Рест (+FR) | ПО/МА — 001 Рест | ПО/МА — 001 Дорест | Техничка / ПО и МА (X, 001, 007, 009, 7x)» за период август 2024 — май 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/1140745">t.me/zeekrclub/1140745</a></em></p>
+</main>
+</body>
+</html>

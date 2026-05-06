@@ -393,6 +393,72 @@ topics:
       - "Documents — EPTS, PTS, SBKTS certificate, what to check"
     min_messages: 50
 
+  stuck-cable:
+    ru_title: "Застрявший зарядный кабель Zeekr 001 — как отсоединить"
+    en_title: "Stuck charging cable — how to disconnect"
+    category: "charging"
+    topic_ids: [129577, 489048, 129587, 3003]
+    keywords: ["застрял", "застрявш", "не вытащ", "не отсоедин", "не отключа", "заклинил", "залип", "блокировк пистолет", "блокировка кабел", "разблокиров", "зарядн кабель", "пистолет зарядк", "зарядн пистолет", "кнопка разблокиров", "механическ разблокиров", "трос разблокиров", "лючок", "замок лючк", "не отпускает", "примёрз кабель", "примерз пистолет"]
+    expected_themes:
+      - "Why the cable gets stuck — lock mechanism, software bug, cold weather"
+      - "Software unlock — via head unit menu, app, or dashboard button"
+      - "Manual/mechanical release — location of emergency release cable"
+      - "Frozen cable in winter — prevention and thawing methods"
+      - "Station-side issues — handshake failure, station holds lock"
+      - "Common mistakes — pulling too hard, forcing connector"
+      - "Prevention — proper disconnect sequence, lubrication"
+    min_messages: 20
+
+  yandex-apps:
+    ru_title: "Яндекс Музыка и Карты на Zeekr 001 — настройка и авторизация"
+    en_title: "Yandex Music and Maps on Zeekr 001 — setup and authorization"
+    category: "russification"
+    topic_ids: [129577, 489048, 730610, 129581, 180635]
+    keywords: ["яндекс", "yandex", "яндекс музык", "яндекс карт", "яндекс навигат", "навигация яндекс", "карты яндекс", "музыка яндекс", "авторизац яндекс", "логин яндекс", "яндекс подписк", "яндекс плюс", "яндекс навигатор", "яндекс авто", "ya.ru", "yandex auto", "навител", "2gis", "дубль гис", "навигац", "офлайн карт"]
+    expected_themes:
+      - "Installation path — via russification pack or standalone APK"
+      - "Authorization — Yandex account login, QR code, phone number method"
+      - "Yandex Music — streaming quality, offline cache, subscription required?"
+      - "Yandex Maps/Navigator — offline maps, traffic, speed cameras"
+      - "Alternatives — 2GIS, Navitel, Google Maps availability"
+      - "Known bugs — logout after firmware update, crashes, GPS issues"
+      - "Yandex Plus subscription — what it gives on car head unit"
+    min_messages: 30
+
+  mobile-app:
+    ru_title: "Мобильное приложение Zeekr (МА) — функции, проблемы, альтернативы"
+    en_title: "Zeekr mobile app — features, issues, alternatives"
+    category: "ownership-accounts"
+    topic_ids: [129577, 489048, 730610, 129581, 180635]
+    keywords: ["приложен", "мобильн приложен", "приложение zeekr", "приложение зикр", "zeekr app", "my zeekr", "удалённ управлен", "удалённый запуск", "удалённ прогрев", "дистанционн", "предпрогрев через приложен", "закрыть через приложен", "открыть через приложен", "геолокац", "местоположен машин", "SOC в приложен", "статус заряд", "pandora", "пандора", "starline", "старлайн", "сигнализац"]
+    expected_themes:
+      - "Official Zeekr app — what it can do (remote start, climate, lock/unlock, SOC)"
+      - "App setup — requires MA, Chinese phone number, region lock workarounds"
+      - "Remote pre-heat / climate — how to schedule, reliability"
+      - "Monitoring — SOC, location, trip history, charging status"
+      - "Common problems — forced logout, login loop, region mismatch"
+      - "Pandora as alternative — what it adds (alarm, autostart, geofence)"
+      - "StarLine and other aftermarket — integration options"
+      - "App without MA — what works with Family Account only"
+    min_messages: 30
+
+  adb-access:
+    ru_title: "ADB-доступ к Zeekr 001 — что можно, что нельзя, риски"
+    en_title: "ADB access to Zeekr 001 — capabilities, limits, risks"
+    category: "software"
+    topic_ids: [129577, 489048, 730610, 129581, 180635]
+    keywords: ["ADB", "адб", "adb connect", "adb shell", "android debug", "дебаг", "debug mode", "developer mode", "режим разработчик", "разработчик", "root", "рут", "рут доступ", "su", "скрыт меню", "инженерн меню", "engineer menu", "engineering mode", "терминал", "logcat", "pm install", "apk установ", "сайдлоад", "sideload", "adb install", "adb push"]
+    expected_themes:
+      - "How to enable ADB — developer mode activation, USB vs WiFi ADB"
+      - "What you can do — install APKs, change settings, view logs"
+      - "What you cannot do — root, modify system partitions, flash firmware"
+      - "Useful ADB commands — force stop, clear cache, screen capture"
+      - "App sideloading — which APKs work, architecture (ARM64)"
+      - "Risks — bricking HU, losing warranty, OTA breaking customizations"
+      - "Engineering/hidden menus — what they show, how to access"
+      - "ADB over WiFi vs USB — which port, cable type, stability"
+    min_messages: 20
+
   buying-used:
     ru_title: "Покупка б/у Zeekr 001 — что проверять"
     en_title: "Buying a used Zeekr 001 — inspection checklist"

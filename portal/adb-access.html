@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ADB-доступ к Zeekr 001 — что можно, что нельзя, риски — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / ПО и прошивки</nav>
+<h1>ADB-доступ к Zeekr 001 — что можно, что нельзя, риски</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за август 2024 — май 2026: что говорят 2755+ сообщений о возможностях ADB, подводных камнях обновлений и реальной цене ошибок.</p>
+<h2>Как получить ADB-доступ</h2>
+<p>Головное устройство (DHU) Zeekr 001 работает на Android, и ADB (Android Debug Bridge) — основной инструмент для установки приложений, настройки системы и диагностики. Доступ открывается через инженерное меню, но способ зависит от поколения автомобиля и версии прошивки.</p>
+<p><strong>Дорестайл и прошивки до 6.0.8.</strong> ADB можно открыть самостоятельно или удалённо через специалиста с Windows-компьютером и USB-кабелем. Стоимость услуги — 5–15 тыс. руб. (Info Hub, русификаторы). Инженерное меню вызывается командой <code>adb shell am start -n com.yfvet.engineeringmode/.main.MainActivity</code> или физически — одновременным зажатием обеих крутилок на руле до перезагрузки. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Рестайл и прошивки 6.1+.</strong> Начиная с 6.1 на инженерном меню появился динамический пароль. Самостоятельное открытие без специальных инструментов невозможно — пароль лечится подменой загрузчика. Стоимость открытия у специалистов: 10–60 тыс. руб., для рестайлов 2024–2025 годов — до 150–200$. На 6.3.1+ штатная инженерка перестаёт открывать ADB — нужна альтернативная версия APK от прошивки 6.0.8. <span class="badge badge-recent">🆕 RECENT</span></p>
+<p><strong>Альтернативный путь</strong> — установить приложение zSupport, которое переключает режим USB-порта без пароля инженерки. Также возможно открытие через OBD-диагностику (оборудование ZDS + ноутбук).</p>
+<h2>Что нужно для подключения</h2>
+<p>Для работы с ADB потребуется компьютер (Windows предпочтительнее), USB-кабель и установленный ADB-драйвер. Несколько критичных нюансов:</p>
+<p><strong>Кабель:</strong> строго USB Type-A → Type-C. Кабели Type-C → Type-C часто не работают. Кабель должен поддерживать передачу данных (data), а не только зарядку. Рекомендуются короткие толстые кабели от SSD (Samsung и аналогичные). <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Порт в машине:</strong> используется левый USB-порт в подлокотнике. Правый — только питание (зарядка 27W, до 120W с переходником).</p>
+<p><strong>Компьютер:</strong> MacBook на M-чипах может не видеть машину из-за отсутствия драйверов или особенностей Type-C. Windows 11 Home тоже иногда вызывает проблемы. Помогает смена USB-порта на ноутбуке или другой компьютер. <span class="badge badge-stale">⚠️ STALE</span></p>
+<p><strong>Режим порта:</strong> для ADB порт должен быть в режиме Peripheral (Device). Для флешки — в режиме Host. Переключается через zSupport или инженерное меню. Флешка читается только в FAT32, exFAT не поддерживается.</p>
+<h2>Что можно делать через ADB</h2>
+<p>ADB на Zeekr 001 даёт доступ уровня обычного пользователя Android — без root, но с широкими возможностями. Архитектура процессора — ARM64, при скачивании APK нужно выбирать соответствующую версию.</p>
+<p><strong>Установка приложений.</strong> Яндекс Навигатор, Яндекс Музыка, RuStore, ZeeApp Store, Telegram, VPN-клиенты (Amnezia VPN), Google Keyboard, Apple Music (старые версии), APKPure, FX Explorer. Установка через <code>adb install -g &lt;файл.apk&gt;</code>. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Выдача разрешений.</strong> VPN для DNS Changer: <code>adb shell appops set --user 0 com.andevstudioth.changedns ACTIVATE_VPN allow</code>. Права на установку пакетов для Telegram: <code>adb shell appops set org.telegram.messenger.web REQUEST_INSTALL_PACKAGES allow</code>. Аналогично для APKPure: пакет <code>com.apkpure.aegon</code>.</p>
+<p><strong>Отключение верификатора пакетов</strong> (обязательно для установки сторонних APK на 6.3+):<br>
+- <code>adb shell pm disable-user --user 0 com.ecarx.xsfinstallverifier</code><br>
+- <code>adb shell settings put global package_verifier_enable 0</code><br>
+- <code>adb shell settings put global verifier_verify_adb_installs 0</code><br>
+- <code>adb reboot</code></p>
+<p>На 6.1+ эти команды не работают без открытой инженерки. После перезагрузки настройки могут сброситься.</p>
+<p><strong>Системные настройки.</strong> Смена часового пояса: <code>adb shell service call alarm 3 s16 Europe/Moscow</code> (не слетает при перезагрузке, но приборка в 99% случаев не обновится). Очистка кэша приложения: <code>adb shell pm clear ru.yandex.yandexnavi</code>. Список сторонних приложений: <code>adb shell pm list packages -3</code>. Вызов меню обновления: <code>adb shell am start -n ecarx.upgrade/ecarx.upgrade.ui.activity.Dc1eMainActivity</code>.</p>
+<p><strong>Извлечение пароля от бардачка.</strong> Требуется временный псевдо-root: <code>adb shell setprop service.adb.root 1</code>, затем <code>adb shell 'cat /data/data/com.geely.pma.settings/shared_prefs/SpUtil.xml | grep def_settings_glove_box_value'</code>. Работает только на дорестайлах.</p>
+<p><strong>Удаление русификации при глюках:</strong> <code>adb uninstall com.geely.pma.settings</code> (настройки) или <code>adb uninstall com.zeekr.carlauncher3d</code> (лаунчер). Часто единственный способ восстановления при зависании на заставке.</p>
+<h2>Чего нельзя делать — ограничения root</h2>
+<p>Полноценный root на Zeekr 001 закрыт. На дорестайлах был временный псевдо-root через <code>adb shell setprop service.adb.root 1</code> — работает до перезагрузки, только для чтения системных файлов. На рестайлах с прошивки 6.0.2+ root полностью закрыт. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>Невозможно: установить Magisk/su, модифицировать системные разделы, прошивать кастомные ROM, получить постоянный root. Для постоянного root требуется патченная прошивка DHU — это крайне рискованно и может превратить головной блок в кирпич.</p>
+<h2>zSupport — ключевое приложение</h2>
+<p>zSupport (версия 1.3.3+ / 1.3.5+) — приложение для управления ADB, языком, часовым поясом и режимом USB-порта. Доступно в RuStore и ZeeApp Store.</p>
+<p>Критически важно установить zSupport <strong>до первого OTA-обновления</strong>. После обновления до версии 6.5+ без предустановленного zSupport установка через ADB или магазины невозможна — приложение просто не поставится. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p>zSupport позволяет: переключать USB-порт между режимами Host (флешка) / Peripheral (ADB) / Auto без компьютера; входить в инженерное меню одной кнопкой; переключать язык интерфейса на русский без полной русификации (покрывает ~95% интерфейса, кроме приборки); автоматически выдавать права приложениям.</p>
+<h2>Обновления прошивки и судьба ADB</h2>
+<p>Обновление прошивки — самый болезненный момент для владельцев с открытым ADB. Существует два типа обновлений: малое OTA (обычно не закрывает ADB) и заводской сброс / major update (закрывает ADB, удаляет приложения, возвращает заводские настройки).</p>
+<p><strong>Обновление по воздуху (OTA)</strong> возможно бесплатно через китайский DNS. Устанавливается DNS Changer (com.andevstudioth.changedns с apkpure.net), выдаются VPN-права через ADB, прописываются DNS-серверы: 202.98.192.67, 188.166.226.78, 202.46.34.75 или 186.166.226.67. Далее вызывается меню обновления. <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Рекомендации перед обновлением:</strong> установить zSupport; держать порт в режиме Peripheral; сохранить APK инженерного меню для переустановки после обновления; на машинах 2024 года с zSupport обновление на 6.7 проходило без потери ADB.</p>
+<p><strong>Обновление по проводу (ZDS)</strong> стоит 40–60 тыс. руб. у специалистов. Считается безопаснее, но есть случаи зависания на определённом проценте, блокировки блоков и циклических перезагрузок — ремонт может стоить от 150 тыс. руб.</p>
+<h2>Русификаторы и ADB</h2>
+<p>Ситуация с русификаторами и ADB — одна из самых запутанных тем. Разные поставщики по-разному обходятся с доступом к инженерному меню.</p>
+<p><strong>Оставляют ADB открытым:</strong> Линко (Linko), Дейзи, лаунчер от Кирилла (10 000 руб. с самостоятельной установкой, продолжает работать после OTA-обновлений). <span class="badge badge-consensus">👥 CONSENSUS</span></p>
+<p><strong>Закрывают ADB (по отзывам владельцев):</strong> Xanavi, Можарова — блокируют доступ к инженерке для защиты интеллектуальной собственности. При этом Xanavi заявляет, что не закрывает ADB — остаётся только заводской динамический пароль. <span class="badge badge-debated">🔥 DEBATED</span></p>
+<p>Рекомендация: уточнять у установщика <strong>до</strong> русификации, останется ли ADB открытым, и ставить zSupport как страховку.</p>
+<h2>Спорные моменты</h2>
+<h3>Закрывается ли ADB после OTA-обновления на 6.1+ / 6.7?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> ADB остаётся, если установлен zSupport или машина 2024 года.<br>
+Владельцы машин 2024 года сообщают, что после обновления на 6.7 всё переключалось через zSupport. Если порт был в режиме Peripheral — доступ сохраняется. Можно сохранить APK инженерки до обновления и переустановить после.</p>
+<p><strong>Лагерь B:</strong> ADB закрывается паролем, особенно после сброса настроек.<br>
+После factory reset ADB закрывается. На 6.1.2+ самостоятельное открытие недоступно — требуется платная услуга. Без zSupport или с портом в Host-режиме ADB закроется паролем.</p>
+<h3>Нужен ли zSupport или достаточно стандартного ADB?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> zSupport необходим перед обновлениями.<br>
+Множественные отчёты о потере ADB после OTA без переключалки. После версии 6.5 без предустановленного zSupport установка невозможна.</p>
+<p><strong>Лагерь B:</strong> Можно обойтись без zSupport.<br>
+Некоторые владельцы успешно обновлялись без потери ADB, если изначально был открыт через Info Hub или дилеров.</p>
+<h3>Безопасно ли использовать ADB App Control?</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Удобный GUI-инструмент для быстрого управления пакетами.<br>
+Некоторые владельцы рекомендуют для блокировки системных приложений типа EVA.</p>
+<p><strong>Лагерь B:</strong> Опасно — может удалить нужные системные пакеты.<br>
+Опытные пользователи категорически против: приложение грохает нужные пакеты, система умирает, приходится восстанавливать. Лучше использовать команды ADB вручную.</p>
+<h3>Обновление по воздуху vs по проводу</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> OTA бесплатно и штатно — достаточно настроить китайский DNS.<br>
+Многие успешно обновлялись сами. Специалисты берут деньги за простую операцию.</p>
+<p><strong>Лагерь B:</strong> Самостоятельное обновление рискованно.<br>
+OTA может привести к циклическому ребуту, зависанию, закрытию инженерки. Обновление по проводу (ZDS) безопаснее, но при проблемах ремонт стоит от 150 тыс. руб.</p>
+<h3>Блокировка ADB русификаторами</h3>
+<p><span class="badge badge-debated">🔥 ОБСУЖДАЕТСЯ</span></p>
+<p><strong>Лагерь A:</strong> Блокировка оправдана для защиты интеллектуальной собственности.<br>
+Разработчики вкладывают ресурсы; блокировка предотвращает кражу решений и проблемы с поддержкой.</p>
+<p><strong>Лагерь B:</strong> Блокировка вредит пользователю.<br>
+Невозможность самостоятельно устанавливать приложения, чинить баги, обновлять софт. Создаёт зависимость от установщика.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li class="warning">⚠️ <strong>Factory reset закрывает ADB и инженерку.</strong> Без сохранённого пароля восстановить доступ самостоятельно невозможно — придётся платить 10–60 тыс. руб. повторно.</li>
+<li class="warning">⚠️ <strong>zSupport не ставится после 6.5,</strong> если не был установлен ранее. Критически важно поставить до первого OTA.</li>
+<li class="warning">⚠️ <strong>Некоторые русификаторы блокируют инженерное меню.</strong> Уточняйте у установщика до русификации.</li>
+<li class="warning">⚠️ <strong>Верификатор пакетов сбрасывается после перезагрузки.</strong> Команды <code>pm disable</code> и <code>settings put global</code> нужно выполнять повторно. На 6.1+ не работают без открытой инженерки.</li>
+<li class="warning">⚠️ <strong>Root на рестайле полностью закрыт (6.0.2+).</strong> Попытка получить root может окирпичить головной блок. Magisk/su невозможны.</li>
+<li class="warning">⚠️ <strong>Удаление системных APK через ADB App Control</strong> может привести к вечному ребуту с закрытым ADB. Используйте команды ADB вручную.</li>
+<li class="warning">⚠️ <strong>Обновление прошивки стирает русификацию и настройки.</strong> Major update закрывает ADB, удаляет приложения, возвращает заводские настройки. Сохраняйте APK инженерки заранее.</li>
+<li class="warning">⚠️ <strong>Type-C → Type-C кабели часто не работают для ADB.</strong> Нужен Type-A → Type-C с поддержкой передачи данных.</li>
+<li class="warning">⚠️ <strong>MacBook на M-чипах может не видеть машину по ADB.</strong> Помогает другой компьютер или смена USB-порта.</li>
+<li class="warning">⚠️ <strong>Флешка не определяется, если порт в режиме Peripheral (ADB).</strong> Для флешки нужен режим Host. Только FAT32, exFAT не поддерживается.</li>
+<li class="warning">⚠️ <strong>Разрешения VPN для DNS Changer слетают после перезагрузки</strong> — нужно выдавать заново через ADB.</li>
+<li class="warning">⚠️ <strong>Обновление по проводу (ZDS) может привести к блокировке блоков.</strong> Ремонт — от 150 тыс. руб.</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 2755 сообщений тем «001 Дорест | 001 Рест (+FR) | ПО/МА — 001 Рест | ПО/МА — 001 Дорест | Техничка / ПО и МА (X, 001, 007, 009, 7x)» за период август 2024 — май 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/1145126">t.me/zeekrclub/1145126</a></em></p>
+</main>
+</body>
+</html>
