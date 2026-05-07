@@ -475,3 +475,139 @@ topics:
       - "Common scams and pitfalls (cleared error codes, resold blocks, repainted panels)"
       - "Software version negotiation (below 6.2 = discount lever)"
     min_messages: 50
+
+  recuperation:
+    ru_title: "Рекуперация — уровни, прикипающие диски"
+    en_title: "Regenerative braking — levels, stuck brake discs"
+    category: driving
+    topic_ids: [489048, 129577, 129581, 730610, 240522, 129579]
+    keywords:
+      - "рекупер"
+      - "торможен"
+      - "колодк"
+      - "диски тормоз"
+      - "однопедал"
+      - "brake"
+      - "regenerat"
+      - "закис"
+      - "ржав"
+    expected_themes:
+      - "Regenerative braking levels — setting, feel, how they differ across modes"
+      - "One-pedal driving — how it works, tips"
+      - "Brake disc corrosion / sticking — reduced mechanical braking causes rust buildup"
+      - "Brake pad and disc service life with regen — when to replace"
+      - "Rear brake caliper sticking — known issue, prevention"
+      - "Regen in winter — reduced effectiveness on cold battery"
+    min_messages: 50
+
+  maintenance-schedule:
+    ru_title: "Регламент ТО — официальный vs клубный"
+    en_title: "Maintenance schedule — official vs community"
+    category: maintenance
+    topic_ids: [489048, 129577, 730610, 129581, 129579]
+    keywords:
+      - "регламент"
+      - " ТО "
+      - "обслуживан"
+      - "сервис"
+      - "масло"
+      - "фильтр"
+      - "замена"
+      - "тысяч км"
+      - "интервал"
+      - "тормозн"
+      - "жидкост"
+    expected_themes:
+      - "Official Zeekr maintenance schedule — intervals, what is checked"
+      - "Community-recommended schedule — deviations from official"
+      - "Oil change — type, interval, lab analysis results"
+      - "Cabin filter replacement — specifics for pre-2023 models"
+      - "Brake fluid — interval, regen effect on brake wear"
+      - "Coolant — replacement interval and type (see antifreeze article)"
+      - "Where to service in Russia — trusted shops, dealer alternatives"
+    min_messages: 50
+
+  internet-car:
+    ru_title: "Интернет в машине — YouTube, VK Video, Telegram без VPN"
+    en_title: "In-car internet — YouTube, streaming, Telegram without VPN"
+    category: russification
+    topic_ids: [489048, 730610, 129581, 129577]
+    keywords:
+      - "youtube"
+      - "ютуб"
+      - "VK Video"
+      - "интернет"
+      - "VPN"
+      - "телеграм"
+      - "telegram"
+      - "стрим"
+      - "видео"
+      - "браузер"
+      - "Wi-Fi"
+      - "точка доступа"
+      - "hotspot"
+    expected_themes:
+      - "YouTube access — methods (VPN, russificator browser, Android Auto workaround)"
+      - "VK Video, RuTube as alternatives"
+      - "Telegram — native app vs browser vs phone mirroring"
+      - "Wi-Fi hotspot from the car — setup and limitations"
+      - "Phone hotspot to car — tethering for internet"
+      - "Streaming music and video — latency, buffering"
+      - "VPN options — which work, speed, always-on setup"
+    min_messages: 50
+
+  tire-sizes:
+    ru_title: "Штатные размеры шин (дорест vs рест)"
+    en_title: "Stock tire sizes — pre-facelift vs facelift"
+    category: tires
+    topic_ids: [129577, 489048, 129581, 730610]
+    keywords:
+      - "размер"
+      - "шин"
+      - "колес"
+      - "255"
+      - "265"
+      - "R20"
+      - "R21"
+      - "R22"
+      - "диск"
+      - "ET"
+      - "PCD"
+      - "разноширок"
+      - "runflat"
+      - "зимн"
+    expected_themes:
+      - "Stock tire sizes — pre-facelift (dorestyling) wheel/tire specs"
+      - "Stock tire sizes — facelift (restyling) wheel/tire specs"
+      - "Aftermarket wheel fitment — ET, PCD, hub bore"
+      - "Staggered setup (разноширокие) — pros, cons, rotation"
+      - "Winter tire options — studded, friction, sizes, runflat"
+      - "TPMS sensor replacement and programming"
+    min_messages: 50
+
+  dorest-vs-rest:
+    ru_title: "Дорест vs Рест — ключевые отличия"
+    en_title: "Pre-facelift vs Facelift — key differences"
+    category: comparison
+    topic_ids: [489048, 129577, 129581, 730610, 11454]
+    keywords:
+      - "дорест"
+      - "рест"
+      - "рестайл"
+      - "фейслифт"
+      - "отлич"
+      - "разниц"
+      - "2024"
+      - "2025"
+      - "MY24"
+      - "MY25"
+      - "facelift"
+    expected_themes:
+      - "Hardware differences — motor, battery options, suspension, brakes"
+      - "Software differences — firmware branches 5.x vs 6.x"
+      - "Exterior and interior changes"
+      - "Charging speed differences — DC power curve"
+      - "Parts compatibility between pre-facelift and facelift"
+      - "Price and market — which to buy, pros/cons of each"
+      - "Performance — acceleration, range, efficiency differences"
+    min_messages: 50

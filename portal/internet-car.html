@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Интернет в машине — YouTube, VK Video, Telegram без VPN — Zeekr 001</title>
+<style>
+:root {
+  --bg: #fafaf8;
+  --fg: #1a1a1a;
+  --muted: #6b6b6b;
+  --line: #e5e5e3;
+  --accent: #c8390f;
+  --link: #2c5282;
+  --code-bg: #f0f0ed;
+  --planned: #b0b0ab;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--fg);
+  background: var(--bg);
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 32px 20px 80px; }
+header.site { padding: 16px 20px; border-bottom: 1px solid var(--line); background: #fff; }
+header.site .inner { max-width: 760px; margin: 0 auto; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header.site a { color: var(--fg); text-decoration: none; font-weight: 600; font-size: 18px; }
+header.site .sub { color: var(--muted); font-size: 14px; }
+nav.crumb { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+nav.crumb a { color: var(--link); text-decoration: none; }
+nav.crumb a:hover { text-decoration: underline; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+h2 { font-size: 22px; line-height: 1.3; margin: 40px 0 12px; font-weight: 600; border-top: 1px solid var(--line); padding-top: 32px; }
+h2:first-of-type { border-top: none; padding-top: 0; }
+h3 { font-size: 18px; margin: 24px 0 8px; font-weight: 600; }
+p { margin: 0 0 16px; }
+em { color: var(--muted); font-style: italic; }
+.lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+ul, ol { padding-left: 24px; margin: 0 0 16px; }
+li { margin: 6px 0; }
+strong { font-weight: 600; }
+hr { border: none; border-top: 1px solid var(--line); margin: 40px 0 24px; }
+a { color: var(--link); }
+table { border-collapse: collapse; margin: 16px 0; font-size: 15px; }
+th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+th { background: #f0f0ed; font-weight: 600; }
+code { background: var(--code-bg); padding: 1px 6px; border-radius: 3px; font-size: 14px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+blockquote { border-left: 3px solid var(--line); padding-left: 16px; margin: 16px 0; color: var(--muted); }
+footer.src { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 13px; font-weight: 500; margin-right: 6px; }
+.badge-official { background: #e0f2fe; color: #075985; }
+.badge-consensus { background: #ecfdf5; color: #065f46; }
+.badge-debated { background: #fff7ed; color: #9a3412; }
+.badge-stale { background: #fef9c3; color: #854d0e; }
+.badge-recent { background: #fae8ff; color: #6b21a8; }
+.warning { color: var(--accent); }
+
+/* Index page */
+.intro { color: var(--muted); margin: 16px 0 24px; }
+.progress {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 24px 0 32px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.progress .num { font-size: 28px; font-weight: 700; color: var(--fg); }
+.progress .lbl { color: var(--muted); font-size: 14px; }
+.progress .bar {
+  flex: 1; min-width: 200px; height: 8px; background: var(--line); border-radius: 4px; overflow: hidden;
+}
+.progress .bar-fill { height: 100%; background: #16a34a; border-radius: 4px; }
+
+.section {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.section header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 12px; margin-bottom: 12px; flex-wrap: wrap;
+}
+.section header h2 {
+  border: none; padding: 0; margin: 0; font-size: 18px;
+}
+.sec-num { color: var(--muted); font-weight: 500; font-size: 15px; margin-right: 8px; }
+.pri { font-size: 12px; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+.pri-HIGH { background: #fee2e2; color: #991b1b; }
+.pri-MEDIUM { background: #fef3c7; color: #92400e; }
+.pri-LOW { background: #f3f4f6; color: #4b5563; }
+.section ul { padding-left: 0; margin: 0; list-style: none; }
+.section li { padding: 6px 0; border-top: 1px solid var(--line); }
+.section li:first-child { border-top: none; }
+.item { display: flex; align-items: baseline; gap: 8px; }
+.item-id { color: var(--muted); font-size: 13px; min-width: 32px; font-variant-numeric: tabular-nums; }
+.item-title { flex: 1; }
+.item a { text-decoration: none; }
+.item a:hover { text-decoration: underline; }
+.item.planned .item-title { color: var(--planned); font-style: italic; }
+.status { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.status.published { background: #dcfce7; color: #166534; }
+.status.planned { background: transparent; color: var(--planned); }
+.extras { margin-top: 4px; padding-left: 40px; font-size: 14px; color: var(--muted); }
+.extras a { color: var(--link); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="inner">
+    <a href="index.html">Zeekr 001 — справочник владельца</a>
+    <span class="sub">prototype</span>
+  </div>
+</header>
+<main class="wrap">
+<nav class="crumb"><a href="index.html">Главная</a> / Русификация и связь</nav>
+<h1>Интернет в машине — YouTube, VK Video, Telegram без VPN</h1>
+<p class="lead">Обзор практики владельцев Zeekr 001 за сентябрь 2024 — май 2026: как смотреть YouTube, устанавливать приложения и обходить блокировки без VPN — на основе 2635 сообщений из четырёх основных тем форума.</p>
+<h2>Как смотреть YouTube в машине без VPN</h2>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span> Основной способ для Zeekr 001 — <strong>SmartTube</strong> или <strong>YouTube ReVanced</strong> через магазин APK Pure. Оба приложения работают без рекламы, но требуют дополнительной настройки.</p>
+<p>Для SmartTube необходимо установить прокси-сервер <strong>ByeDPI</strong> в режиме прокси (НЕ VPN). Режим VPN на Zeekr X вызывает перезагрузку планшета через минуту. YouTube ReVanced требует установки <strong>MicroG</strong> для входа в Google-аккаунт — это позволяет синхронизировать подписки и историю.</p>
+<p><span class="badge badge-official">📌 OFFICIAL</span> Альтернативный путь — приложение <strong>Change DNS</strong> (com.andevstudioth.changedns) с китайскими серверами <strong>188.166.226.78</strong> и <strong>202.46.34.75</strong>. Для работы нужно выдать права через ADB: <code>adb shell appops set --user 0 "com.andevstudioth.changedns" ACTIVATE_VPN allow</code>, переключить язык машины на китайский, запустить Change DNS и перезагрузить телематику (зажать SOS &gt;10 сек), затем планшет (двумя кнопками на руле).</p>
+<p>У некоторых операторов YouTube работает напрямую без VPN. <strong>МТС</strong> и <strong>Экомобайл</strong> показывают стабильный доступ к YouTube без дополнительных настроек. Скорость интернета в машине составляет <strong>3-8 Мбит/с</strong> — достаточно для потокового видео в среднем качестве.</p>
+<p>Если технические решения не подходят, можно использовать зеркалирование экрана телефона через <strong>Android Auto</strong> или Bluetooth. Альтернативы YouTube — <strong>VK Video</strong> и <strong>RuTube</strong>, которые работают без блокировок.</p>
+<h2>Почему интернет в машине медленный</h2>
+<p><span class="badge badge-debated">🔥 DEBATED</span> Основная жалоба владельцев после прошивки <strong>6.7.2</strong> — постоянное переключение между 4G и Edge. Где раньше стабильно работал 4G, теперь соединение скачет, а иконка 4G не гарантирует реальную скорость.</p>
+<p><span class="badge badge-stale">⚠️ STALE</span> Причина номер один — <strong>региональное глушение интернета государством</strong>. Особенно сильно возле аэропортов, военных объектов, в Краснодаре (работает только днём, вечером/ночью нет связи), Тульской и Нижегородской областях. За пределами населённых пунктов (~15 км) глушение снимается.</p>
+<p>Вторая частая причина — <strong>тариф не поддерживает раздачу интернета</strong> (режим модема). В машине SIM работает в режиме постоянной раздачи, и если тариф чисто модемный (без голосовой связи), связь с приложением Zeekr пропадает.</p>
+<p><span class="badge badge-recent">🆕 RECENT</span> С 10 ноября 2025 года SIM-карта блокируется <strong>после 72 часов неактивности</strong>. Доступ восстанавливается через 24 часа, но если не пользоваться картой дольше, договор расторгается и номер теряется. Важно регулярно проверять баланс и статус SIM.</p>
+<p>Помогает <strong>отключение 5G</strong> в настройках связи — после этого перестают быть разрывы. Перезагрузка телематики через SOS или смена оператора иногда решают проблему временно.</p>
+<h2>Какой оператор выбрать для машины</h2>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span> <strong>МТС</strong> — наиболее стабильный для Москвы и большинства регионов. Связь с серверами Zeekr и интернет работают без сбоев. Рекомендуемый минимум трафика — <strong>20 ГБ/месяц</strong> при активном использовании Яндекс.Музыки, навигации и видео.</p>
+<p><strong>Билайн</strong> работает в Краснодарском крае и других регионах, где МТС нестабилен. Билайн предлагает раздачу интернета на <strong>до 5 номеров за 100 руб/мес</strong> из пакета основного номера — дополнительная SIM для машины без абонентской платы.</p>
+<p><strong>Теле2</strong> работает год без проблем у некоторых владельцев за <strong>200 руб/месяц</strong>. <strong>Мегафон</strong> в Москве не работает, в других регионах — смешанные отзывы. <strong>Тинькофф</strong> не работает в Ставропольском крае.</p>
+<p>⚠️ WARNING Тариф должен поддерживать <strong>раздачу интернета</strong> (режим модема) и иметь <strong>голосовую связь</strong>. Чисто модемные тарифы не дают связи с серверами Zeekr для удалённого управления машиной.</p>
+<p>Расход трафика машины может достигать <strong>60 ГБ в месяц</strong> даже при отключенных автообновлениях. Машина самостоятельно качает 2-25 МБ регулярно в покое, 50-200 МБ в начале поездки.</p>
+<h2>Как раздать интернет с телефона</h2>
+<p>Машина подключается к Wi-Fi hotspot телефона стандартно. <strong>iPhone</strong> раздаёт на частотах 2,4 и 5 ГГц (по умолчанию 5 ГГц, для старых устройств включить «Максимальная совместимость» → 2,4 ГГц).</p>
+<p>⚠️ CRITICAL В настройках машины нужно <strong>выключить пункт «Подключаться к SIM при плохом Wi-Fi»</strong>. Иначе машина считает стабильное Wi-Fi соединение плохим и постоянно переключается на симку, разрывая интернет.</p>
+<p><span class="badge badge-official">📌 OFFICIAL</span> Раздача с телефона решает проблему интернета для карт, музыки и приложений, но <strong>НЕ восстанавливает связь с серверами Zeekr</strong> для удалённого управления. Для этого нужна активная SIM в телематике — планшет может подключиться к Wi-Fi легко, но телематика требует собственную SIM-карту.</p>
+<p>Побочный эффект — <strong>Bluetooth-ключ телефона может отвязаться</strong> после 15 минут раздачи интернета. Связь с сервером становится нестабильной.</p>
+<p>⚠️ WARNING <strong>VPN на телефоне нужно выключать</strong> перед скачиванием видео с регистратора через QR-код. Иначе телефон не сможет подключиться к точке доступа машины.</p>
+<h2>Как установить приложения на планшет</h2>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span> При русификации нужно попросить установить магазины: <strong>APK Pure</strong>, <strong>4PDA</strong>, <strong>RuStore</strong>, <strong>Telegram</strong> — с выданными правами на установку. Это избавляет от необходимости возиться с ADB позже.</p>
+<p>Если магазины не установлены, можно скачать APK через браузер или Telegram, затем выдать права через ADB: <code>adb shell appops set &lt;package_name&gt; REQUEST_INSTALL_PACKAGES allow</code>. Для Telegram Web: <code>adb shell appops set org.telegram.messenger.web REQUEST_INSTALL_PACKAGES allow</code>.</p>
+<p><strong>Яндекс Браузер НЕ даёт прав на установку</strong> — нужен старый Chrome или встроенный браузер. <strong>YouTube</strong> и <strong>Spotify</strong> часто не запускаются из-за китайского фильтра эмулятора Android — проверенное решение SmartTube или ReVanced.</p>
+<p><span class="badge badge-recent">🆕 RECENT</span> <strong>Telegram</strong> устанавливается через браузер, Rustore или 4PDA. Работает стабильно, но может тормозить при использовании через мобильный интернет машины. Веб-версия Telegram в браузере работает стабильнее, но если открыто несколько вкладок — планшет может виснуть.</p>
+<p>⚠️ WARNING Голосовые сообщения в Telegram блокируют автоматическое воспроизведение музыки. Важно выходить из аккаунта Telegram перед сдачей машины в сервис.</p>
+<h2>VPN и прокси — что работает</h2>
+<p><span class="badge badge-debated">🔥 DEBATED</span> <strong>Amnezia VPN premium</strong> (платная версия с раздельным туннелированием) — стабильно работает на доресте для YouTube, Spotify, Deezer, Tidal, APKPure. Важно использовать <strong>ТОЛЬКО раздельное туннелирование</strong> — выбрать конкретные приложения, иначе планшет будет постоянно перезагружаться.</p>
+<p><span class="badge badge-official">📌 OFFICIAL</span> На <strong>Zeekr X</strong> запуск ByeDPI в режиме VPN вызывает ребут планшета через <strong>1 минуту</strong>. Режим прокси работает стабильно. Настройка прокси в приложениях (SmartTube) безопаснее VPN на уровне системы.</p>
+<p>Telegram-боты для VPN: <strong>vpn_dvizh1</strong>, <strong>lotvpn_bot</strong>, <strong>rkt_vpn_bot</strong>. Для работы VPN нужно выдать права через ADB: <code>adb shell appops set &lt;package&gt; ACTIVATE_VPN allow</code>.</p>
+<p>⚠️ WARNING <strong>OpenVPN</strong> может не заработать даже с правами — Zeekr 001 не любит VPN, срабатывает watchdog телематики. VPN без раздельного туннелирования вызовет постоянную перезагрузку планшета, так как системные приложения машины обнаруживают VPN на всей системе и инициируют ребут.</p>
+<h2>Точка доступа Wi-Fi от машины</h2>
+<p><span class="badge badge-consensus">👥 CONSENSUS</span> Машина может раздавать Wi-Fi как точка доступа через встроенную SIM-карту. Работает стабильно, если SIM поддерживает раздачу интернета. Включение занимает <strong>2-3 минуты</strong> после перезагрузки телематики — до появления значка 4G с полным сигналом.</p>
+<p>⚠️ WARNING Раздача работает <strong>не более 2 часов подряд</strong> — возможен перегрев модема. При закрытии машины Wi-Fi отключается, если не включена комфортная парковка.</p>
+<p>После прошивки TCAM у некоторых владельцев точка доступа перестала работать. Раздача нужна для скачивания видео с регистратора через QR-код, работы ноутбука или планшета пассажиров.</p>
+<p><span class="badge badge-recent">🆕 RECENT</span> Скачивание видео с регистратора: в штатной галерее нажать «поделиться» → QR-код, сканировать в приложении Zeekr (удержание кнопки запускает сканер). Телефон подключается к точке доступа машины, видео скачивается. <strong>VPN на телефоне нужно выключить</strong>.</p>
+<p>⚠️ WARNING После русификации часто ставится старая версия галереи <strong>без поддержки передачи по воздуху</strong> — QR не появляется или сбрасывает в начало галереи. Альтернатива — флешка Type-C.</p>
+<h2>Спорные моменты</h2>
+<h3>Стоит ли обновляться на прошивку 6.7.2?</h3>
+<p><span class="badge badge-debated">🔥 DEBATED</span></p>
+<p><strong>Лагерь A:</strong> Обновляться стоит, связь с серверами работает нормально. Некоторые владельцы (Москва, МТС, Хмета) сообщают, что на 6.7.2 связь стабильна, скорость 3-8 Мбит/с достаточно для Яндекс Карт и Музыки.</p>
+<p><strong>Лагерь B:</strong> После 6.7.2 интернет стал нестабильным — постоянно переключается 4G↔Edge, где раньше всё работало. Билайн стабильнее МТС после обновления. Перезагрузка через SOS помогает временно, но проблема возвращается.</p>
+<h3>VPN vs прокси для YouTube — что безопаснее и стабильнее?</h3>
+<p><span class="badge badge-debated">🔥 DEBATED</span></p>
+<p><strong>Лагерь A:</strong> Использовать VPN с раздельным туннелированием (только YouTube). VPN с раздельным туннелированием работает стабильно — только YouTube и YouTube Music идут через VPN, остальное напрямую. Не перегружает систему, не вызывает ребут.</p>
+<p><strong>Лагерь B:</strong> Использовать прокси (ByeDPI) вместо VPN. На Zeekr X запуск ByeDPI в режиме VPN вызывает ребут планшета через минуту. Режим прокси работает нормально. Настройка прокси в приложениях (SmartTube) безопаснее VPN на уровне системы — не затрагивает системные процессы телематики.</p>
+<h3>Можно ли обновиться только через Wi-Fi без связи с сервером через SIM?</h3>
+<p><span class="badge badge-debated">🔥 DEBATED</span></p>
+<p><strong>Лагерь A:</strong> Достаточно домашнего Wi-Fi с китайским DNS, если мобильный интернет глушится. Есть видео успешного обновления, инструкции с китайским DNS 188.166.226.78 и 202.46.34.75, некоторые владельцы сообщают об успехе.</p>
+<p><strong>Лагерь B:</strong> Нужна связь по SIM на ранних этапах для идентификации авто, потом можно через Wi-Fi. Связь через SIM необходима на ранних этапах, сама закачка (10+ ГБ трафика) может идти через Wi-Fi. Телематика связывается с сервером через SMS, китайский DNS не обманывает блок телематики.</p>
+<h2>Предупреждения</h2>
+<ul>
+<li>
+<p>⚠️ <strong>SIM-карта блокируется после 72 часов неактивности</strong> (с 10.11.2025). Если карта не использовалась 72 часа, доступ блокируется на 24 часа, затем договор расторгается и номер теряется. Регулярно проверяйте баланс и активность SIM в машине.</p>
+</li>
+<li>
+<p>⚠️ <strong>Замена SIM-карты убивает связь с серверами Zeekr</strong>. Если заменить SIM на новую (даже на несколько минут в сервисе), связь с серверами для управления через приложение не восстановится. Телематика привязана к конкретной SIM по ICCID. После 15 апреля/марта 2024 новые российские SIM не прописываются на сервере Zeekr.</p>
+</li>
+<li>
+<p>⚠️ <strong>Интернет через Wi-Fi не даёт связи с серверами Zeekr</strong>. Раздача с телефона решает доступ к картам/музыке, но НЕ восстанавливает удалённое управление машиной. Для этого нужна активная SIM в телематике.</p>
+</li>
+<li>
+<p>⚠️ <strong>Глушение интернета возле аэропортов и военных объектов</strong> — Wi-Fi от телефона будет вылетать постоянно. Алгоритмы глушения работают географически. В центре города лучше, за городом (~15 км) глушение снимается. В Краснодаре интернет работает только днём, вечером/ночью/выходные — нет связи.</p>
+</li>
+<li>
+<p>⚠️ <strong>Не включайте «Подключаться к SIM при плохом Wi-Fi»</strong> — машина будет постоянно отключаться от модема/телефона, считая стабильное Wi-Fi соединение плохим.</p>
+</li>
+<li>
+<p>⚠️ <strong>Отключение 5G помогает стабилизировать соединение</strong>. После отключения 5G в настройках связи перестают быть проблемы с постоянными разрывами.</p>
+</li>
+<li>
+<p>⚠️ <strong>Если машина в Казахстане получает IP от местного оператора — может «закирпичиться»</strong>. Официальный дилер Zeekr в Казахстане блокирует серый импорт через телематику. Если телематика получает казахский IP (впаянная симка или раздача), машина блокируется.</p>
+</li>
+<li>
+<p>⚠️ <strong>DNS Changer может остановиться после перезагрузки планшета</strong>. После перезагрузки нужно снова открыть DNS Changer и нажать Start.</p>
+</li>
+<li>
+<p>⚠️ <strong>Если открыто несколько вкладок в браузере и одна из них — Telegram Web, планшет может виснуть</strong>. Telegram Web в фоне нагружает систему. Оставьте только 1 активную вкладку.</p>
+</li>
+<li>
+<p>⚠️ <strong>Spotify вываливается из памяти при долгой стоянке (&gt;10 минут)</strong>. Не показывает обложки и не даёт управления с руля. Временное решение — запустить сначала другое музыкальное приложение (Deezer, ЯМ), затем Spotify.</p>
+</li>
+</ul>
+<hr>
+<p><em>Статья собрана из 2635 сообщений тем «001 Рест (+FR) | ПО/МА — 001 Рест | ПО/МА — 001 Дорест | 001 Дорест» за период сентябрь 2024 — май 2026.</em></p>
+<p><em>Якорный пост: <a href="https://t.me/zeekrclub/1094464">t.me/zeekrclub/1094464</a></em></p>
+</main>
+</body>
+</html>

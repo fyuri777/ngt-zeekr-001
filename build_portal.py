@@ -86,7 +86,7 @@ TAXONOMY = [
             {"id": "5.1", "title": "Зачем нужна русификация", "slug": None},
             {"id": "5.2", "title": "Сравнение русификаторов — Infohub, GMC, XMETA, ZeeAppStore", "slug": "rusifikators"},
             {"id": "5.3", "title": "Баги русификации и восстановление лаунчера", "slug": None},
-            {"id": "5.4", "title": "Интернет в машине — YouTube, VK Video, Telegram без VPN", "slug": None},
+            {"id": "5.4", "title": "Интернет в машине — YouTube, VK Video, Telegram без VPN", "slug": "internet-car"},
             {"id": "5.5", "title": "Яндекс Музыка и Карты — настройка, авторизация", "slug": "yandex-apps"},
             {"id": "5.6", "title": "Мобильное приложение МА", "slug": "mobile-app"},
             {"id": "5.7", "title": "ADB-доступ для продвинутых", "slug": "adb-access"},
@@ -110,7 +110,7 @@ TAXONOMY = [
         "items": [
             {"id": "7.1", "title": "Режимы вождения — ECO/Comfort/Sport/Snow, AWD", "slug": "drive-modes"},
             {"id": "7.2", "title": "Пневмоподвеска — режимы, перегрев, город vs трасса", "slug": "air-suspension"},
-            {"id": "7.3", "title": "Рекуперация — уровни, прикипающие диски", "slug": None},
+            {"id": "7.3", "title": "Рекуперация — уровни, прикипающие диски", "slug": "recuperation"},
             {"id": "7.4", "title": "ADAS / Автопилот — что работает в России", "slug": None},
             {"id": "7.5", "title": "Видеорегистратор (DVR) — запись и хранение", "slug": None},
             {"id": "7.6", "title": "Парковочные функции — авто-парковка", "slug": None},
@@ -121,7 +121,7 @@ TAXONOMY = [
         "title": "Обслуживание",
         "priority": "MEDIUM",
         "items": [
-            {"id": "8.1", "title": "Регламент ТО — официальный vs клубный", "slug": None},
+            {"id": "8.1", "title": "Регламент ТО — официальный vs клубный", "slug": "maintenance-schedule"},
             {"id": "8.2", "title": "Масло — тип, интервал, лабораторный анализ", "slug": None},
             {"id": "8.3", "title": "Антифриз — практика замены (см. 3.1)", "slug": "antifreeze"},
             {"id": "8.4", "title": "Тормозная жидкость и эффект рекуперации на колодки", "slug": None},
@@ -135,7 +135,7 @@ TAXONOMY = [
         "title": "Шины и диски",
         "priority": "MEDIUM",
         "items": [
-            {"id": "9.1", "title": "Штатные размеры шин (дорест vs рест)", "slug": None},
+            {"id": "9.1", "title": "Штатные размеры шин (дорест vs рест)", "slug": "tire-sizes"},
             {"id": "9.2", "title": "Давление в шинах — миф 2.0 бар, рекомендации", "slug": "tire-pressure"},
             {"id": "9.3", "title": "Зимние шины — варианты, runflat", "slug": None},
             {"id": "9.4", "title": "Датчики TPMS — замена, программирование", "slug": None},
@@ -147,7 +147,7 @@ TAXONOMY = [
         "title": "Дорест vs Рест",
         "priority": "MEDIUM",
         "items": [
-            {"id": "10.1", "title": "Ключевые отличия — железо, ПО, динамика", "slug": None},
+            {"id": "10.1", "title": "Ключевые отличия — железо, ПО, динамика", "slug": "dorest-vs-rest"},
             {"id": "10.2", "title": "Прошивки — почему несовместимы (см. 4.1, 4.2)", "slug": "ota-versions"},
             {"id": "10.3", "title": "Совместимость запчастей", "slug": None},
             {"id": "10.4", "title": "Различия зарядки — DC мощность (см. 2.4)", "slug": "dc-charging"},
@@ -315,6 +315,8 @@ CATEGORY_TITLES = {
     "software": "ПО и прошивки",
     "russification": "Русификация и связь",
     "driving": "Вождение и фичи",
+    "maintenance": "Обслуживание",
+    "comparison": "Дорест vs Рест",
 }
 
 # Map known article slugs → category names from topics.yaml
@@ -350,6 +352,11 @@ SLUG_CATEGORY = {
     "frozen-doors": "doors-access",
     "drive-modes": "driving",
     "air-suspension": "driving",
+    "recuperation": "driving",
+    "maintenance-schedule": "maintenance",
+    "internet-car": "russification",
+    "tire-sizes": "tires-wheels",
+    "dorest-vs-rest": "comparison",
 }
 
 
