@@ -111,9 +111,9 @@ TAXONOMY = [
             {"id": "7.1", "title": "Режимы вождения — ECO/Comfort/Sport/Snow, AWD", "slug": "drive-modes"},
             {"id": "7.2", "title": "Пневмоподвеска — режимы, перегрев, город vs трасса", "slug": "air-suspension"},
             {"id": "7.3", "title": "Рекуперация — уровни, прикипающие диски", "slug": "recuperation"},
-            {"id": "7.4", "title": "ADAS / Автопилот — что работает в России", "slug": None},
-            {"id": "7.5", "title": "Видеорегистратор (DVR) — запись и хранение", "slug": None},
-            {"id": "7.6", "title": "Парковочные функции — авто-парковка", "slug": None},
+            {"id": "7.4", "title": "ADAS / Автопилот — что работает в России", "slug": "adas-autopilot"},
+            {"id": "7.5", "title": "Видеорегистратор (DVR) — запись и хранение", "slug": "dvr"},
+            {"id": "7.6", "title": "Парковочные функции — авто-парковка", "slug": "parking"},
         ],
     },
     {
@@ -126,7 +126,7 @@ TAXONOMY = [
             {"id": "8.3", "title": "Антифриз — практика замены (см. 3.1)", "slug": "antifreeze"},
             {"id": "8.4", "title": "Тормозная жидкость и эффект рекуперации на колодки", "slug": None},
             {"id": "8.5", "title": "Салонный фильтр — замена на pre-2023 моделях", "slug": None},
-            {"id": "8.6", "title": "Обесточивание (сервисный режим)", "slug": None},
+            {"id": "8.6", "title": "Обесточивание (сервисный режим)", "slug": "service-mode"},
             {"id": "8.7", "title": "Где обслуживать в России — проверенные сервисы", "slug": None},
         ],
     },
@@ -139,7 +139,7 @@ TAXONOMY = [
             {"id": "9.2", "title": "Давление в шинах — миф 2.0 бар, рекомендации", "slug": "tire-pressure"},
             {"id": "9.3", "title": "Зимние шины — варианты, runflat", "slug": None},
             {"id": "9.4", "title": "Датчики TPMS — замена, программирование", "slug": None},
-            {"id": "9.5", "title": "Развал-схождение — когда нужно, специфика 001", "slug": None},
+            {"id": "9.5", "title": "Развал-схождение — когда нужно, специфика 001", "slug": "wheel-alignment"},
         ],
     },
     {
@@ -357,6 +357,11 @@ SLUG_CATEGORY = {
     "internet-car": "russification",
     "tire-sizes": "tires-wheels",
     "dorest-vs-rest": "comparison",
+    "adas-autopilot": "driving",
+    "dvr": "driving",
+    "parking": "driving",
+    "service-mode": "maintenance",
+    "wheel-alignment": "tires-wheels",
 }
 
 

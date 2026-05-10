@@ -611,3 +611,158 @@ topics:
       - "Price and market — which to buy, pros/cons of each"
       - "Performance — acceleration, range, efficiency differences"
     min_messages: 50
+
+  adas-autopilot:
+    ru_title: "ADAS / Автопилот — что работает в России"
+    en_title: "ADAS / Autopilot — what works in Russia"
+    category: driving
+    topic_ids: [489048, 129577, 129581, 730610, 240522]
+    keywords:
+      - "ADAS"
+      - "автопилот"
+      - "круиз"
+      - "ACC"
+      - "LCC"
+      - "LKA"
+      - "AEB"
+      - "TJA"
+      - "TSI"
+      - "NZP"
+      - "ZAD"
+      - "лидар"
+      - "удержан%полос%"
+      - "адаптивн%круиз%"
+      - "помощник%полос%"
+      - "автоматическ%вожден%"
+    expected_themes:
+      - "ACC (adaptive cruise) — what works, how to enable, feel"
+      - "LCC (lane centering) — quality of lane keeping, rysk-rysk"
+      - "AEB (auto emergency braking) — how often triggers"
+      - "TSI (traffic sign recognition) — accuracy in RU vs CN"
+      - "NZP / NOP (navigation pilot) — blocked outside China"
+      - "ZAD (Zeekr Autonomous Driving) — activation status"
+      - "Lidar role — what features depend on it"
+      - "Winter restrictions — ACC unavailable below +7C"
+      - "Practical tips — when to trust, when not"
+    min_messages: 50
+
+  dvr:
+    ru_title: "Видеорегистратор (DVR) — запись и хранение"
+    en_title: "Dashcam (DVR) — recording and storage"
+    category: driving
+    topic_ids: [489048, 129577, 129581, 730610]
+    keywords:
+      - "видеорегистратор"
+      - "регистратор"
+      - "DVR"
+      - "запис%камер%"
+      - "запис%видео%"
+      - "USB накопит%"
+      - "флешк%"
+      - "карт%памят%"
+      - "SD карт%"
+      - "часов%запис%"
+      - "просмотр%видео%машин%"
+      - "сторож%режим%"
+      - "sentry"
+    expected_themes:
+      - "Built-in DVR — how it records by default"
+      - "Storage location — internal vs external USB"
+      - "Sentry mode (sentry / sentinel) — what triggers it, battery drain"
+      - "Reviewing footage — on tablet vs export"
+      - "Recommended USB drives — speed, capacity, format"
+      - "Quality settings — resolution and frame rate"
+      - "Common bugs — random stops, file corruption"
+      - "Russian DVR alternatives that some install"
+    min_messages: 50
+
+  parking:
+    ru_title: "Парковочные функции — авто-парковка"
+    en_title: "Parking features — auto-park"
+    category: driving
+    topic_ids: [489048, 129577, 129581, 730610]
+    keywords:
+      - "парков%"
+      - "автопарков%"
+      - "APA"
+      - "PA"
+      - "автоматич%парков%"
+      - "перпендикуляр%"
+      - "параллел%парков%"
+      - "360"
+      - "панорам%камер%"
+      - "ультразвук%"
+      - "датчик%парков%"
+      - "помощник%парков%"
+      - "выезд%парков%"
+    expected_themes:
+      - "APA — automatic parking assist activation"
+      - "Parking types supported — perpendicular, parallel, angled"
+      - "360 surround view — quality, modes"
+      - "Auto-park reliability — when it fails"
+      - "NZP relation — autopark works without NZP, but link to ZAD"
+      - "Drive-out from parking — feature availability"
+      - "Activation — does it need training session"
+      - "Ultrasonic sensors — false alerts, calibration"
+    min_messages: 50
+
+  service-mode:
+    ru_title: "Обесточивание (сервисный режим)"
+    en_title: "Power-off / service mode"
+    category: maintenance
+    topic_ids: [489048, 129577, 129581, 730610, 129579]
+    keywords:
+      - "обесточ%"
+      - "сервисн%режим%"
+      - "service mode"
+      - "транспортн%режим%"
+      - "режим%хранен%"
+      - "shipping mode"
+      - "12В%отключ%"
+      - "минусов%клемм%"
+      - "минусовая клемма"
+      - "разрядк%долг%"
+      - "хранен%машин%долг%"
+      - "законсерв%"
+    expected_themes:
+      - "Service / shipping mode — purpose, how to enable"
+      - "Difference between car wash mode, service mode, shipping mode"
+      - "Long-term storage — preparing the car for weeks/months idle"
+      - "12V battery disconnect — when to pull negative terminal"
+      - "HV battery storage SOC — recommended percentage"
+      - "Pneumatic suspension behavior in service mode"
+      - "Exiting service mode — what to check after"
+      - "Risks — what gets disabled, what stays alive"
+    min_messages: 30
+
+  wheel-alignment:
+    ru_title: "Развал-схождение — специфика Zeekr 001"
+    en_title: "Wheel alignment — Zeekr 001 specifics"
+    category: tires
+    topic_ids: [129577, 489048, 129581, 730610]
+    keywords:
+      - "развал"
+      - "схождение"
+      - "развал-схожд"
+      - "развал%схожд%"
+      - "alignment"
+      - "сход-развал"
+      - "увод%руля%"
+      - "увод%вправ%"
+      - "увод%лев%"
+      - "тянет%сторон%"
+      - "руль%ровн%"
+      - "руль%прям%"
+      - "колодк%неравно%"
+      - "шин%неравно%"
+      - "пневм%развал%"
+    expected_themes:
+      - "When to check alignment — symptoms, mileage"
+      - "Zeekr 001 specifics — weight, AWD, air suspension affecting alignment"
+      - "Recommended shops in Russia — proven services"
+      - "Cost — typical price range"
+      - "After service — what to expect, common readjustments"
+      - "Self-diagnostic — steering pull, uneven tire wear"
+      - "Air suspension impact — calibration after ride height change"
+      - "Camber/toe/caster specs if mentioned"
+    min_messages: 30
